@@ -1,0 +1,7 @@
+importFrom("rlang", "on_load")
+
+export(
+    "element_uplatex",
+    "grid.uplatex",
+    "up_font_file"
+)
