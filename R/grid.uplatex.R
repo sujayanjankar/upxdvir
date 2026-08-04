@@ -1,3 +1,6 @@
+require(grid)
+require(xdvir)
+
 grid.uplatex <- function(text) {
-    cat(text)
+    grid.draw(xdvir::latexGrob(text))
 }

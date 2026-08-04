@@ -1,23 +1,72 @@
-up_font_file <- function(font_name) {
-    font_name_with_extn <- paste0(font_name, ".vf")
+init_fonts <- function() {
+    pdftex_map_path <- lookup_kpathsea("pdftex.map")
+    kanjix_map_path <- lookup_kpathsea("kanjix.map")
+    if (length(pdftex_map_path) > 0) {
+        set("pdftex.map.path", pdftex_map_path)
+    }
+    if (length(kanjix_map_path) > 0) {
+        set("kanjix.map.path", kanjix_map_path)
+    }
+}
+
+lookup_fonts <- function(lookup_str, lookup_path) {
+    font_mapping_row <- grepv(lookup_str,
+        readLines(lookup_path),
+        ignore.case = TRUE
+    )
+    if (length(font_mapping_row) > 0) {
+        font_file_name <- strsplit(font_mapping_row, "\\s")[[1]][3]
+        # Remove any characters that shouldn't be in filenames.
+        font_file_name <- gsub("[^a-zA-Z0-9 ._-]", "", font_file_name)
+        if (length(strsplit(font_file_name, "\\.")[[1]]) == 2) {
+            file_lookup_res <- lookup_kpathsea(font_file_name)
+            if (
+                length(file_lookup_res) <= 0 &&
+                    attr(file_lookup_res, "status") > 0
+            ) {
+                warning(paste("File", font_file_name, "not found!"))
+            } else {
+                return(file_lookup_res)
+            }
+        } else {
+            warning(
+                "Font file name: ",
+                font_file_name,
+                "not found in",
+                lookup_path
+            )
+        }
+    }
+}
+
+up_font_file <- function(font_name_wo_extn) {
+    font_name_with_extn <- paste0(font_name_wo_extn, ".vf")
     file_path <- lookup_kpathsea(font_name_with_extn)
     exit_status <- attr(file_path, "status")
+    roman_font <- cjk_font <- NULL
+    # If the `.vf` file was not found, try the lookup in the roman font map.
     if (length(file_path) <= 0 && exit_status > 0) {
-        warning("Font ", font_name_with_extn, " not found.")
-        return(NULL)
-    }
-    str_content_file <- read_string_from_binary(file_path)
-    kanjix_map_path <- lookup_kpathsea("pdftex.map")
-    exit_status <- attr(kanjix_map_path, "status")
-    if (length(kanjix_map_path) <= 0 && exit_status > 0) {
-        warning(paste("kanjix.map not found!"))
-        return(NULL)
-    }
-    font_mapping_row <- grepv(str_content_file, readLines(kanjix_map_path))
-    font_file_name <- strsplit(font_mapping_row, "\\s")[[1]][3]
-    if (length(strsplit(font_file_name, "\\.")[[1]]) == 2) {
-        lookup_kpathsea(font_file_name)
+        roman_font <- lookup_fonts(font_name_wo_extn, get("pdftex.map.path"))
     } else {
-        warning("Bad font file name: ", font_file_name)
+        str_content_file <- read_string_from_binary(file_path)
+        cjk_font <- lookup_fonts(str_content_file, get("kanjix.map.path"))
     }
+    ifelse(length(cjk_font) > 0, cjk_font, roman_font)
+}
+
+extract_font_defs <- function(file) {
+    dvi <- xdvir::readDVI(file)
+    codes <- xdvir:::opCodes(dvi)
+    params <- xdvir:::opParams(dvi)
+    # Standard DVI font definitions (opcodes 243–246)
+    fnt_idx <- which(codes %in% 243:246)
+    sapply(fnt_idx, function(i) {
+        paste0(params[[i]]$fontname.name, collapse = "")
+    })
+
+    # sapply(unique(font_defs), up_font_file)
+}
+
+uptex_glyph_index <- function(raw, fontname, fontLib) {
+    glyphIndex(raw, fontname, fontLib)
 }
