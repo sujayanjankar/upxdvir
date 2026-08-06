@@ -45,11 +45,3 @@ isUpTeX <- function(dvi) {
     commentStr <- commentString(dvi)
     grepl(uptexVersion(), commentStr)
 }
-
-
-tinytex::latexmk(
-    "/Users/sujay/Documents/Workspace/upxdvir/inst/tex/minimal-uptex.tex",
-    engine = "latex",
-    engine_args = "-latex=uplatex",
-    emulation = FALSE
-)
