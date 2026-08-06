@@ -54,17 +54,18 @@ up_font_file <- function(font_name_wo_extn) {
     ifelse(length(cjk_font) > 0, cjk_font, roman_font)
 }
 
-extract_font_defs <- function(file) {
-    dvi <- xdvir::readDVI(file)
+extract_font_defs <- function(dvi_file) {
+    dvi <- xdvir::readDVI(dvi_file)
     codes <- xdvir:::opCodes(dvi)
     params <- xdvir:::opParams(dvi)
     # Standard DVI font definitions (opcodes 243–246)
     fnt_idx <- which(codes %in% 243:246)
-    sapply(fnt_idx, function(i) {
+    font_defs <- sapply(fnt_idx, function(i) {
         paste0(params[[i]]$fontname.name, collapse = "")
     })
 
-    # sapply(unique(font_defs), up_font_file)
+    init_fonts()
+    sapply(unique(font_defs), up_font_file)
 }
 
 uptex_glyph_index <- function(raw, fontname, fontLib) {
