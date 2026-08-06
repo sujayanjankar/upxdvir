@@ -4,6 +4,7 @@ lookup_kpathsea <- function(file_name) {
 }
 
 read_string_from_binary <- function(file_path) {
-    message("Reading strings from: ", file_path)
-    system2("strings", args = file_path, stdout = TRUE, stderr = TRUE)
+    message("Resolving: ", file_path)
+    res <- readVF(file_path)
+    rawToChar(res[[2]]$blocks[["op.opparams.fontname.name"]]$fileRaw)
 }
