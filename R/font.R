@@ -55,29 +55,32 @@ up_font_file <- function(font_name_wo_extn) {
 }
 
 extract_font_defs <- function(dvi_file, verbose = FALSE) {
+    if (!file.exists(dvi_file)) {
+        stop("DVI file ", dvi_file, " does not exist!")
+    }
     dvi <- xdvir::readDVI(dvi_file)
     codes <- xdvir:::opCodes(dvi)
     params <- xdvir:::opParams(dvi)
     # Standard DVI font definitions (opcodes 243–246)
     fnt_idx <- which(codes %in% 243:246)
-    font_defs <- sapply(fnt_idx, function(i) {
+
+    sapply(fnt_idx, function(i) {
         paste0(params[[i]]$fontname.name, collapse = "")
     })
+}
 
-    f2 <- if (verbose) {
+norun <- function(dvi_path = "inst/tex/minimal-uptex.dvi", verbose = FALSE) {
+    f1 <- if (verbose) {
         init_fonts
     } else {
         \(...) suppressMessages(suppressWarnings(init_fonts(...)))
     }
-
+    f1()
+    font_defs <- extract_font_defs(dvi_path)
     f2 <- if (verbose) {
         up_font_file
     } else {
         \(...) suppressMessages(suppressWarnings(up_font_file(...)))
     }
     sapply(unique(font_defs), f2)
-}
-
-uptex_glyph_index <- function(raw, fontname, fontLib) {
-    glyphIndex(raw, fontname, fontLib)
 }

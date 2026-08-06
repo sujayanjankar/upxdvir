@@ -4,11 +4,12 @@
 
 # TODOs
 
-- [ ] Should upxdvir driver process DVIs generated from XeTeX/LuaTeX?
-- [ ] Are .pfb fonts okay?
-- [ ] Unusual font structures:
+- [x] Should upxdvir driver process DVIs generated from XeTeX/LuaTeX?
+- [x] Are .pfb fonts okay?
+- [x] Unusual font structures:
     - `test-luatex.dvi`: `fontname=[lmroman10-regular]:+tlig;`
     - `minimal-lualatexja-ltjt.dvi` - `fontname=file:HaranoAjiMincho-Regular.otf:-kern;jfm=ujisv`
-- [ ] Keep engines separate?
-- [ ] Bypass `tinytex::latexmk`?
-- [ ] Can fontspec be gotten rid of for upLaTeX?
+- [x] Keep engines separate?
+- [x] Bypass `tinytex::latexmk`?
+- [x] Can fontspec be gotten rid of for upLaTeX?
+- [ ] `tinytex` and `knitr` both have `kpsewhich` functions, but do not export them.
