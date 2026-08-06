@@ -54,7 +54,7 @@ up_font_file <- function(font_name_wo_extn) {
     ifelse(length(cjk_font) > 0, cjk_font, roman_font)
 }
 
-extract_font_defs <- function(dvi_file) {
+extract_font_defs <- function(dvi_file, verbose = FALSE) {
     dvi <- xdvir::readDVI(dvi_file)
     codes <- xdvir:::opCodes(dvi)
     params <- xdvir:::opParams(dvi)
@@ -64,8 +64,18 @@ extract_font_defs <- function(dvi_file) {
         paste0(params[[i]]$fontname.name, collapse = "")
     })
 
-    init_fonts()
-    sapply(unique(font_defs), up_font_file)
+    f2 <- if (verbose) {
+        init_fonts
+    } else {
+        \(...) suppressMessages(suppressWarnings(init_fonts(...)))
+    }
+
+    f2 <- if (verbose) {
+        up_font_file
+    } else {
+        \(...) suppressMessages(suppressWarnings(up_font_file(...)))
+    }
+    sapply(unique(font_defs), f2)
 }
 
 uptex_glyph_index <- function(raw, fontname, fontLib) {

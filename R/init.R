@@ -15,7 +15,7 @@ require(xdvir)
         )
         xdvir::registerEngine(UpTeXengine)
         options(xdvir.engine = UpTeXengine)
-        print("Registered upTeX!")
+        message("Registered upTeX!")
     }
 }
 
