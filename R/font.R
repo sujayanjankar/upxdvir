@@ -7,6 +7,7 @@ init_fonts <- function() {
     if (length(kanjix_map_path) > 0) {
         set("kanjix.map.path", kanjix_map_path)
     }
+    set("fonts.initialised", TRUE)
 }
 
 lookup_fonts <- function(lookup_str, lookup_path) {
@@ -40,6 +41,9 @@ lookup_fonts <- function(lookup_str, lookup_path) {
 }
 
 up_font_file <- function(font_name_wo_extn) {
+    if (!isTRUE(get("font.initialised"))) {
+        init_fonts()
+    }
     font_name_with_extn <- paste0(font_name_wo_extn, ".vf")
     file_path <- lookup_kpathsea(font_name_with_extn)
     exit_status <- attr(file_path, "status")
