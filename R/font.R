@@ -68,12 +68,15 @@ extract_font_defs <- function(dvi_file, verbose = FALSE) {
     # Standard DVI font definitions (opcodes 243–246)
     fnt_idx <- which(codes %in% 243:246)
 
-    sapply(fnt_idx, function(i) {
+    unique(sapply(fnt_idx, function(i) {
         paste0(params[[i]]$fontname.name, collapse = "")
-    })
+    }))
 }
 
-norun <- function(dvi_path = "inst/tex/minimal-uptex.dvi", verbose = FALSE) {
+norun <- function(
+  dvi_path = "inst/dvi/multi-section-uptex.dvi",
+  verbose = FALSE
+) {
     f1 <- if (verbose) {
         init_fonts
     } else {

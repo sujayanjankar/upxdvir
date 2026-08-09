@@ -11,7 +11,8 @@ require(xdvir)
             isEngine = isUpTeX,
             fontFile = up_font_file,
             glyphIndex = uptex_glyph_index,
-            options = "-latex=uplatex -pdfdvi"
+            options = "-latex=uplatex -pdfdvi",
+            emulation = TRUE
         )
         xdvir::registerEngine(UpTeXengine)
         options(xdvir.engine = UpTeXengine)
@@ -44,4 +45,33 @@ uptexAvailable <- function() {
 isUpTeX <- function(dvi) {
     commentStr <- commentString(dvi)
     grepl(uptexVersion(), commentStr)
+}
+
+refresh_local_installation <- function() {
+    devtools::install("/Users/sujay/Documents/Workspace/xdvir")
+    library("xdvir")
+    source(
+        "/Users/sujay/Documents/Workspace/upxdvir/R/state.R",
+        encoding = "UTF-8"
+    )
+    source(
+        "/Users/sujay/Documents/Workspace/upxdvir/R/helpers.R",
+        encoding = "UTF-8"
+    )
+    source(
+        "/Users/sujay/Documents/Workspace/upxdvir/R/vf.R",
+        encoding = "UTF-8"
+    )
+    source(
+        "/Users/sujay/Documents/Workspace/upxdvir/R/font.R",
+        encoding = "UTF-8"
+    )
+    source(
+        "/Users/sujay/Documents/Workspace/upxdvir/R/glyph.R",
+        encoding = "UTF-8"
+    )
+    source(
+        "/Users/sujay/Documents/Workspace/upxdvir/R/init.R",
+        encoding = "UTF-8"
+    )
 }

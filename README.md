@@ -13,3 +13,4 @@
 - [x] Bypass `tinytex::latexmk`?
 - [x] Can fontspec be gotten rid of for upLaTeX?
 - [ ] `tinytex` and `knitr` both have `kpsewhich` functions, but do not export them.
+- [ ] How do link glyphs to their specific fonts?

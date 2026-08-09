@@ -3,7 +3,7 @@ uptex_glyph_index <- function(raw, fontname, fontLib) {
     font_lib$glyphIndex(raw, fontname, fontLib)
 }
 
-glyph_mapping <- function(dvi_file = "inst/tex/minimal-uptex.dvi") {
+glyph_mapping <- function(dvi_file = "inst/dvi/minimal-uptex.dvi") {
     if (!file.exists(dvi_file)) {
         stop("DVI file ", dvi_file, " does not exist!")
     }
