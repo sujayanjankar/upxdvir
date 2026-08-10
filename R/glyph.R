@@ -1,6 +1,6 @@
 uptex_glyph_index <- function(raw, fontname, fontLib) {
     font_lib <- options("xdvir.fontLib")$xdvir.fontLib
-    font_lib$glyphIndex(raw, fontname, fontLib)
+    font_lib$glyphIndex(raw, fontname)
 }
 
 glyph_mapping <- function(dvi_file = "inst/dvi/minimal-uptex.dvi") {

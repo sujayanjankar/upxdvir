@@ -1,6 +1,10 @@
 require(xdvir)
 
 .onLoad <- function(libname, pkgname) {
+    initialise_engine()
+}
+
+initialise_engine <- function() {
     ## Define and register the upTeX engine.
     initUpTeX()
     if (uptexAvailable()) {
@@ -11,8 +15,8 @@ require(xdvir)
             isEngine = isUpTeX,
             fontFile = up_font_file,
             glyphIndex = uptex_glyph_index,
-            options = "-latex=uplatex -pdfdvi",
-            emulation = TRUE
+            options = "-latex=uplatex",
+            emulation = FALSE
         )
         xdvir::registerEngine(UpTeXengine)
         options(xdvir.engine = UpTeXengine)
@@ -47,9 +51,10 @@ isUpTeX <- function(dvi) {
     grepl(uptexVersion(), commentStr)
 }
 
-refresh_local_installation <- function() {
-    devtools::install("/Users/sujay/Documents/Workspace/xdvir")
-    library("xdvir")
+refresh_local_installation <- function(install_xdvir = FALSE) {
+    if (install_xdvir) {
+        devtools::install("/Users/sujay/Documents/Workspace/xdvir")
+    }
     source(
         "/Users/sujay/Documents/Workspace/upxdvir/R/state.R",
         encoding = "UTF-8"
@@ -72,6 +77,10 @@ refresh_local_installation <- function() {
     )
     source(
         "/Users/sujay/Documents/Workspace/upxdvir/R/init.R",
+        encoding = "UTF-8"
+    )
+    source(
+        "/Users/sujay/Documents/Workspace/upxdvir/R/grid.uplatex.R",
         encoding = "UTF-8"
     )
 }
