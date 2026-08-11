@@ -11,9 +11,11 @@ init_fonts <- function() {
 }
 
 lookup_fonts <- function(lookup_str, lookup_path) {
-    font_mapping_row <- grepv(lookup_str,
+    font_mapping_row <- grep(
+        lookup_str,
         readLines(lookup_path),
-        ignore.case = TRUE
+        ignore.case = TRUE,
+        value = TRUE
     )
     if (length(font_mapping_row) > 0) {
         font_file_name <- strsplit(font_mapping_row, "\\s")[[1]][3]
@@ -74,9 +76,8 @@ extract_font_defs <- function(dvi_file, verbose = FALSE) {
 }
 
 norun <- function(
-  dvi_path = "inst/dvi/multi-section-uptex.dvi",
-  verbose = FALSE
-) {
+    dvi_path = "inst/dvi/multi-section-uptex.dvi",
+    verbose = FALSE) {
     f1 <- if (verbose) {
         init_fonts
     } else {

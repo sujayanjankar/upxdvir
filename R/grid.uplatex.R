@@ -3,14 +3,17 @@ require(xdvir)
 
 xcolorPreamble <- "\\usepackage{xcolor}"
 
-grid.uplatex <- function(text) {
+grid.uplatex <- function(text, verbose = FALSE) {
     doc <- doc_from_fragment(text)
     tex_file_name <- write_tex_file(doc)
     dvi_file <- generate_dvi(tex_file_name)
-    gr <- dviGrob(dvi_file, packages = c("xcolor"))
-    grid.draw(gr,
-        engine = options("xdvir.engine")
-    )
+    dvi_grob_wrapper <- if (verbose) {
+        dviGrob
+    } else {
+        \(...) suppressMessages(suppressWarnings(dviGrob(...)))
+    }
+    dvi_grob <- dvi_grob_wrapper(dvi_file, packages = c("xcolor"))
+    grid.draw(dvi_grob)
 }
 
 doc_from_fragment <- function(fragment) {
@@ -41,6 +44,7 @@ generate_dvi <- function(tex_file_name) {
         "engine version: e-upTeX 3.141592653-p4.1.2-u2.02-251130-2.6; ",
         "packages: xcolor"
     )
+    # TODO: Add -output-dir here. May also need the tinytex option to be set.
     options <- paste0('-latex="uplatex -output-comment=\'', package_sig, '\'"')
     message("Options: ", paste(options, collapse = " "))
     tinytex::latexmk(
@@ -49,6 +53,6 @@ generate_dvi <- function(tex_file_name) {
         engine_args = options,
         emulation = FALSE
     )
-    message("DVI output: ", dvi_file_name)
+    message("DVI output written to: ", dvi_file_name)
     readDVI(dvi_file_name)
 }
