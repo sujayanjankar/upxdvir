@@ -1,9 +1,19 @@
-uptex_glyph_index <- function(raw, fontname, fontLib) {
-    font_lib <- options("xdvir.fontLib")$xdvir.fontLib
-    font_lib$glyphIndex(raw, fontname)
+up_glyph_index <- function(raw, fontname, fontLib) {
+    # font_lib <- options("xdvir.fontLib")$xdvir.fontLib
+    # print("~~~")
+    # print(class(raw))
+    # print(sum(as.integer(raw) * c(256, 1)))
+    value <- 0
+    if (length(raw) == 1) {
+        value <- as.integer(raw)
+    } else if (length(raw) == 2) {
+        value <- sum(as.integer(raw) * c(256, 1))
+    }
+    message(raw, " mapped to ", value)
+    fontLib$glyphIndex(value, fontname)
 }
 
-glyph_mapping <- function(dvi_file = "inst/dvi/minimal-uptex.dvi") {
+norun <- function(dvi_file = "inst/dvi/minimal-uptex.dvi") {
     if (!file.exists(dvi_file)) {
         stop("DVI file ", dvi_file, " does not exist!")
     }
@@ -21,4 +31,10 @@ glyph_mapping <- function(dvi_file = "inst/dvi/minimal-uptex.dvi") {
         \(x) font_lib$glyphIndex(as.integer(x), font_path)
     )
     sapply(indices, \(x) font_lib$glyphBounds(as.integer(x), font_path))
+}
+
+norun2 <- function(font_name_wo_extn, i) {
+    font_path <- up_font_file(font_name_wo_extn)
+    font_lib <- options("xdvir.fontLib")$xdvir.fontLib
+    font_lib$glyphHeight(i, font_path)
 }

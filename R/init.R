@@ -14,13 +14,15 @@ initialise_engine <- function() {
             command = "latex",
             isEngine = isUpTeX,
             fontFile = up_font_file,
-            glyphIndex = uptex_glyph_index,
+            glyphIndex = up_glyph_index,
             options = "-latex=uplatex",
             emulation = FALSE
         )
         xdvir::registerEngine(UpTeXengine)
         options(xdvir.engine = UpTeXengine)
         message("Registered upTeX!")
+    } else {
+        stop("No upTeX installation found!")
     }
 }
 
