@@ -20,6 +20,7 @@ doc_from_fragment <- function(fragment) {
     tex <- paste(
         "\\documentclass{utarticle}",
         xcolorPreamble,
+        "\\pagestyle{empty}",
         "\\begin{document}",
         fragment,
         "\\end{document}",

@@ -14,4 +14,6 @@
 - [x] Can fontspec be gotten rid of for upLaTeX?
 - [ ] `tinytex` and `knitr` both have `kpsewhich` functions, but do not export them.
 - [ ] How independent can upxdvir rendering be from xdvir?
-- [ ] Bounding box formation?
+- [ ] Mixed fonts
+- [ ] GSUB based glyph rotation
+- [ ] PUT operations in DVI

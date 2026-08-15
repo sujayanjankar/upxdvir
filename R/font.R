@@ -27,12 +27,12 @@ lookup_fonts <- function(lookup_str, lookup_path) {
                 length(file_lookup_res) <= 0 &&
                     attr(file_lookup_res, "status") > 0
             ) {
-                warning(paste("File", font_file_name, "not found!"))
+                message(paste("File", font_file_name, "not found!"))
             } else {
                 return(file_lookup_res)
             }
         } else {
-            warning(
+            message(
                 "Font file name: ",
                 font_file_name,
                 "not found in",
@@ -43,7 +43,7 @@ lookup_fonts <- function(lookup_str, lookup_path) {
 }
 
 up_font_file <- function(font_name_wo_extn) {
-    if (!isTRUE(get("font.initialised"))) {
+    if (!isTRUE(get("fonts.initialised"))) {
         init_fonts()
     }
     font_name_with_extn <- paste0(font_name_wo_extn, ".vf")
@@ -53,9 +53,11 @@ up_font_file <- function(font_name_wo_extn) {
     # If the `.vf` file was not found, try the lookup in the roman font map.
     if (length(file_path) <= 0 && exit_status > 0) {
         roman_font <- lookup_fonts(font_name_wo_extn, get("pdftex.map.path"))
+        message("Found: ", roman_font)
     } else {
         str_content_file <- read_string_from_binary(file_path)
         cjk_font <- lookup_fonts(str_content_file, get("kanjix.map.path"))
+        message("Found: ", cjk_font)
     }
     ifelse(length(cjk_font) > 0, cjk_font, roman_font)
 }
