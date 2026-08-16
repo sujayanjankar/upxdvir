@@ -13,7 +13,7 @@ library("upxdvir")
 
 ```{r, fig.height = 4, fig.width = 1, fig.align = "center"}
 grid.rect(gp = gpar(lwd = 10, col = 2))
-grid.uplatex("ページレイアウトの設定とし", verbose = TRUE)
+grid.uplatex("ページレイアウトの設定とし", verbose = FALSE)
 ```
 
 TODO: This chunks needs to go away soon.

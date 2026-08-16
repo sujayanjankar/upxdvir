@@ -1,3 +1,6 @@
+require(grid)
+require(xdvir)
+
 grid.uplatex <- function(text, ..., verbose = FALSE) {
     wrapper <- if (verbose) {
         \(...) actual_execution(...)
@@ -45,29 +48,27 @@ author_uptex <- function(text) {
 }
 
 typeset_uptex <- function(tex_file_name) {
-    dvi_file_name <- paste0(gsub("[.]tex", "", tex_file_name), ".dvi")
     package_sig <- paste0(
         "R package xdvir_0.2.0; ",
         "engine name: upTeX; ",
         "engine version: e-upTeX 3.141592653-p4.1.2-u2.02-251130-2.6; ",
         "packages: xcolor"
     )
-    dir_name <- dirname(dvi_file_name)
+    dir_name <- dirname(tex_file_name)
     options(tinytex.output_dir = dir_name)
     options <- paste0(
         '-latex="uplatex -output-comment=\'',
         package_sig,
-        "' \'-output-directory=",
+        "' '-output-directory=",
         dir_name,
-        '\'"'
+        '\' %S"'
     )
     message("Options: ", paste(options, collapse = " "))
-    tinytex::latexmk(
+    dvi_file_name <- tinytex::latexmk(
         tex_file_name,
         engine = "latex",
         engine_args = options,
-        emulation = FALSE,
-        max_times = 1
+        emulation = FALSE
     )
     message("DVI output written to: ", dvi_file_name)
     readDVI(dvi_file_name)
