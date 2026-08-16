@@ -1,13 +1,9 @@
-require(hexView)
-
 ## Code for reading virtual font (.vf) files
 
 ## These files are binary, but there is a 'vftopl' tool to convert
 ## them to human-readable form, BUT there are .vf file variations,
 ## e.g., for upTeX, that use a variation of the .vf format so
 ## 'vftopl' does not work
-
-## library(hexView)
 
 ## 'opcode', 'int1', etc defined in read.R
 

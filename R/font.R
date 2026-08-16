@@ -49,17 +49,20 @@ up_font_file <- function(font_name_wo_extn) {
     font_name_with_extn <- paste0(font_name_wo_extn, ".vf")
     file_path <- lookup_kpathsea(font_name_with_extn)
     exit_status <- attr(file_path, "status")
-    roman_font <- cjk_font <- NULL
-    # If the `.vf` file was not found, try the lookup in the roman font map.
+    latin_font <- cjk_font <- NULL
+    # If the `.vf` file was not found, try the lookup in the latin font map.
     if (length(file_path) <= 0 && exit_status > 0) {
-        roman_font <- lookup_fonts(font_name_wo_extn, get("pdftex.map.path"))
-        message("Found: ", roman_font)
+        latin_font <- lookup_fonts(font_name_wo_extn, get("pdftex.map.path"))
+        message("Found: ", latin_font)
     } else {
         str_content_file <- read_string_from_binary(file_path)
         cjk_font <- lookup_fonts(str_content_file, get("kanjix.map.path"))
         message("Found: ", cjk_font)
     }
-    ifelse(length(cjk_font) > 0, cjk_font, roman_font)
+    if (isFALSE(length(cjk_font) > 0 || length(latin_font) > 0)) {
+        stop("No font could be resolved.")
+    }
+    ifelse(length(cjk_font) > 0, cjk_font, latin_font)
 }
 
 extract_font_defs <- function(dvi_file, verbose = FALSE) {
@@ -78,8 +81,9 @@ extract_font_defs <- function(dvi_file, verbose = FALSE) {
 }
 
 norun <- function(
-    dvi_path = "inst/dvi/multi-section-uptex.dvi",
-    verbose = FALSE) {
+  dvi_path = "inst/dvi/multi-section-uptex.dvi",
+  verbose = FALSE
+) {
     f1 <- if (verbose) {
         init_fonts
     } else {

@@ -1,5 +1,3 @@
-require(xdvir)
-
 .onLoad <- function(libname, pkgname) {
     initialise_engine()
 }
