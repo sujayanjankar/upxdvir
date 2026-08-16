@@ -1,0 +1,24 @@
+# `{upxdvir}` Demo
+
+## Libraries
+
+```{r}
+library("grid")
+library("upxdvir")
+# options(warn = 2)
+# knitr::opts_chunk$set(error = TRUE)
+```
+
+## Draw UpTeX Content
+
+```{r, fig.height = 4, fig.width = 1, fig.align = "center"}
+grid.rect(gp = gpar(lwd = 10, col = 2))
+grid.uplatex("ページレイアウトの設定とし", verbose = TRUE)
+```
+
+TODO: This chunks needs to go away soon.
+
+```{r, eval = FALSE}
+system2("rm", "/Users/Sujay/Documents/Workspace/upxdvir/**/file*")
+system2("rm", "/Users/Sujay/Documents/Workspace/upxdvir/file*")
+```
