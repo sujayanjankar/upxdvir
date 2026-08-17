@@ -12,8 +12,15 @@
 - [x] Keep engines separate?
 - [x] Bypass `tinytex::latexmk`?
 - [x] Can fontspec be gotten rid of for upLaTeX?
-- [ ] `tinytex` and `knitr` both have `kpsewhich` functions, but do not export them.
-- [ ] How independent can upxdvir rendering be from xdvir?
+- [x] `tinytex` and `knitr` both have `kpsewhich` functions, but do not export them.
+- [x] How independent can upxdvir rendering be from xdvir?
 - [ ] Mixed fonts
 - [ ] GSUB based glyph rotation
 - [ ] PUT operations in DVI
+
+
+What further changes are required to:
+
+1. typeset()
+    - Engine args: output directory has a different quoting structure, and a different flag name
+2. render()

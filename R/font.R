@@ -20,7 +20,7 @@ lookup_fonts <- function(lookup_str, lookup_path) {
     if (length(font_mapping_row) > 0) {
         font_file_name <- strsplit(font_mapping_row, "\\s")[[1]][3]
         # Remove any characters that shouldn't be in filenames.
-        font_file_name <- gsub("[^a-zA-Z0-9 ._-]", "", font_file_name)
+        font_file_name <- fs::path_sanitize(font_file_name)
         if (length(strsplit(font_file_name, "\\.")[[1]]) == 2) {
             file_lookup_res <- lookup_kpathsea(font_file_name)
             if (
@@ -65,6 +65,7 @@ up_font_file <- function(font_name_wo_extn) {
     ifelse(length(cjk_font) > 0, cjk_font, latin_font)
 }
 
+# TODO: This function needs to go away some time in the future.
 extract_font_defs <- function(dvi_file, verbose = FALSE) {
     if (!file.exists(dvi_file)) {
         stop("DVI file ", dvi_file, " does not exist!")
@@ -80,6 +81,7 @@ extract_font_defs <- function(dvi_file, verbose = FALSE) {
     }))
 }
 
+# TODO: This function needs to go away some time in the future.
 norun <- function(
   dvi_path = "inst/dvi/multi-section-uptex.dvi",
   verbose = FALSE

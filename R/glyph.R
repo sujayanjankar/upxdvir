@@ -13,6 +13,7 @@ up_glyph_index <- function(raw, fontname, fontLib) {
     fontLib$glyphIndex(value, fontname)
 }
 
+# TODO: This function needs to go away some time in the future.
 norun <- function(dvi_file = "inst/dvi/minimal-uptex.dvi") {
     if (!file.exists(dvi_file)) {
         stop("DVI file ", dvi_file, " does not exist!")
@@ -33,6 +34,7 @@ norun <- function(dvi_file = "inst/dvi/minimal-uptex.dvi") {
     sapply(indices, \(x) font_lib$glyphBounds(as.integer(x), font_path))
 }
 
+# TODO: This function needs to go away some time in the future.
 norun2 <- function(font_name_wo_extn, i) {
     font_path <- up_font_file(font_name_wo_extn)
     font_lib <- options("xdvir.fontLib")$xdvir.fontLib
