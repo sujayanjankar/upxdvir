@@ -17,10 +17,10 @@
 - [ ] Mixed fonts
 - [ ] GSUB based glyph rotation
 - [ ] PUT operations in DVI
-
+- [ ] Text wrapping?
 
 What further changes are required to:
 
 1. typeset()
-    - Engine args: output directory has a different quoting structure, and a different flag name
+   - Engine args: output directory has a different quoting structure, and a different flag name. For example, `luatex` needs `--output-directory`, whereas `uptex` needs `-output-directory`.
 2. render()
