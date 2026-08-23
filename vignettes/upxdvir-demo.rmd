@@ -11,9 +11,13 @@ knitr::opts_chunk$set(error = TRUE)
 
 ## Draw UpTeX Content
 
-```{r, fig.height = 4, fig.width = 1, fig.align = "center"}
+```{r, fig.align = "center"}
 grid.rect(gp = gpar(lwd = 10, col = 2))
+grid.segments(0, .5, 1, .5, gp = gpar(lty = 2, col = "gray"))
+grid.segments(.5, 0, .5, 1, gp = gpar(lty = 2, col = "gray"))
 grid.uplatex("ページレイアウトの設定とし", verbose = FALSE)
+grid.uplatex("ページレイアウトの設定とし", vjust = 1, x = .2, verbose = FALSE)
+grid.uplatex("ページレイアウトの設定とし", vjust = 0, x = .8, verbose = FALSE)
 ```
 
 ## Cleanup
@@ -22,23 +26,4 @@ grid.uplatex("ページレイアウトの設定とし", verbose = FALSE)
 # TODO: This chunk needs to go away some time in the future.
 system2("rm", paste0(Sys.getenv("WORKSPACE"), "/upxdvir/**/file*"))
 system2("rm", paste0(Sys.getenv("WORKSPACE"), "/upxdvir/file*"))
-```
-
-```{r}
-doc <- xdvir::author(
-    "ページレイアウトの設定とし",
-    document_class = "utarticle"
-)
-dvi_obj <- xdvir::typeset(doc)
-```
-
-What works:
-
-```
-## Options: -latex="uplatex -output-comment='R package xdvir_0.2.0; engine name: upTeX; engine version: e-upTeX 3.141592653-p4.1.2-u2.02-251130-2.6 (utf8.uptex) (TeX Live 2026); packages: ' '-output-directory=/var/folders/22/gfrffpq13pn5_6bym06gmwgr0000gn/T//RtmpM7w7VD'"
-```
-
-What `xdvir::typeset` produces:
-```
-## -latex=uplatex--output-comment="R package xdvir_0.2.0; engine name: upTeX; engine version: e-upTeX 3.141592653-p4.1.2-u2.02-251130-2.6 (utf8.uptex) (TeX Live 2026); packages: "'-output-directory=/var/folders/22/gfrffpq13pn5_6bym06gmwgr0000gn/T//RtmpXjRDC5'
 ```
