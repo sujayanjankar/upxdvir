@@ -1,3 +1,5 @@
+useDynLib(upxdvir, .registration=TRUE, .fixes="C_")
+
 importFrom("rlang", "on_load")
 
 import("grid")

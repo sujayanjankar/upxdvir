@@ -10,7 +10,8 @@ up_glyph_index <- function(raw, fontname, fontLib) {
         value <- sum(as.integer(raw) * c(256, 1))
     }
     message(raw, " mapped to ", value)
-    fontLib$glyphIndex(value, fontname)
+    HBverticalGlyphIndex(value, fontname)
+    # fontLib$glyphIndex(value, fontname)
 }
 
 # TODO: This function needs to go away some time in the future.
