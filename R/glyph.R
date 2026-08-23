@@ -9,7 +9,10 @@ up_glyph_index <- function(raw, fontname, fontLib) {
     } else if (length(raw) == 2) {
         value <- sum(as.integer(raw) * c(256, 1))
     }
-    message(raw, " mapped to ", value)
+    # message(raw, " mapped to ", value)
+    # TODO: This can be made conditional.
+    # HBVerticlaGlyphIndex if document class = utarticle
+    # fontLib$glyphIndex otherwise.
     HBverticalGlyphIndex(value, fontname)
     # fontLib$glyphIndex(value, fontname)
 }

@@ -42,11 +42,6 @@ SEXP verticalGlyphIndex(SEXP code, SEXP font)
         error("Undefined character code");
     }
     INTEGER(result)[0] = index;
-
-    printf("Horizontal glyph id would be: %u\n",
-           FT_Get_Char_Index(face, INTEGER(code)[0]));
-    printf("Vertical (shaped) glyph id: %u\n", INTEGER(result)[0]);
-
     hb_buffer_destroy(buf);
     hb_font_destroy(hb_font);
     err = FT_Done_Face(face);
