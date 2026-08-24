@@ -31,7 +31,6 @@ SEXP verticalGlyphIndex(SEXP code, SEXP font)
     hb_buffer_add_utf32(buf, &cp, 1, 0, 1);
     hb_buffer_set_direction(buf, HB_DIRECTION_TTB);
     hb_buffer_guess_segment_properties(buf);
-
     hb_shape(hb_font, buf, NULL, 0);
 
     unsigned int count;
@@ -54,7 +53,5 @@ SEXP verticalGlyphIndex(SEXP code, SEXP font)
     }
 
     UNPROTECT(1);
-
-
     return result;
 }

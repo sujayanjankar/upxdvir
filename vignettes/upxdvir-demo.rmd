@@ -5,7 +5,7 @@
 ```{r}
 library("grid")
 library("upxdvir")
-# options(warn = 2)
+options(warn = 2)
 knitr::opts_chunk$set(error = TRUE)
 ```
 
@@ -13,11 +13,16 @@ knitr::opts_chunk$set(error = TRUE)
 
 ```{r, fig.align = "center"}
 grid.rect(gp = gpar(lwd = 10, col = 2))
-grid.segments(0, .5, 1, .5, gp = gpar(lty = 2, col = "gray"))
-grid.segments(.5, 0, .5, 1, gp = gpar(lty = 2, col = "gray"))
-grid.uplatex("ページレイアウトの設定とし", verbose = FALSE)
-grid.uplatex("ページレイアウトの設定とし", vjust = 1, x = .2, verbose = FALSE)
-grid.uplatex("ページレイアウトの設定とし", vjust = 0, x = .8, verbose = FALSE)
+grid.segments(
+    c(0, .5, .25, .75),
+    c(.5, 0, 0, 0),
+    c(1, .5, .25, .75),
+    c(.5, 1, 1, 1),
+    gp = gpar(lty = 3, col = "gray", alpha = .5)
+)
+grid.uplatex("ページレイアウトの\\textcolor{red}{設定とし}A", verbose = TRUE)
+grid.uplatex("ページレイアウトの設定とし", vjust = 1, x = .25)
+grid.uplatex("ページレイアウトの設定とし", vjust = 0, x = .75)
 ```
 
 ## Cleanup

@@ -1,3 +1,20 @@
+lm_family <- c(
+    cmr = "LMRoman",
+    cmbx = "LMRoman",
+    cmti = "LMRoman",
+    cmsl = "LMRoman",
+    cmss = "LMSans",
+    cmssbx = "LMSans",
+    cmtt = "LMMono",
+    cmcsc = "LMRomanCaps"
+)
+
+lm_style <- c(
+    cmr = "Regular", cmbx = "Bold", cmti = "Italic",
+    cmsl = "Oblique", cmss = "Regular", cmssbx = "Bold",
+    cmtt = "Regular", cmcsc = "Regular"
+)
+
 init_fonts <- function() {
     pdftex_map_path <- lookup_kpathsea("pdftex.map")
     kanjix_map_path <- lookup_kpathsea("kanjix.map")
@@ -10,7 +27,7 @@ init_fonts <- function() {
     set("fonts.initialised", TRUE)
 }
 
-lookup_fonts <- function(lookup_str, lookup_path) {
+lookup_font <- function(lookup_str, lookup_path) {
     font_mapping_row <- grep(
         lookup_str,
         readLines(lookup_path),
@@ -42,9 +59,23 @@ lookup_fonts <- function(lookup_str, lookup_path) {
     }
 }
 
+latin_font <- function(cm_name) {
+    prefix <- sub("[0-9]+$", "", cm_name)
+    size <- sub("^[a-z]+", "", cm_name)
+    fam <- lm_family[[prefix]]
+    sty <- lm_style[[prefix]]
+    if (is.null(fam)) stop("unmapped CM prefix: ", prefix)
+    tolower(sprintf("%s%s-%s.otf", fam, size, sty))
+}
+
 up_font_file <- function(font_name_wo_extn) {
     if (!isTRUE(get("fonts.initialised"))) {
         init_fonts()
+    }
+    font_cache_key <- paste0("up-font-def-", font_name_wo_extn)
+    cached_font_path <- get(font_cache_key)
+    if (length(cached_font_path) > 0) {
+        return(cached_font_path)
     }
     font_name_with_extn <- paste0(font_name_wo_extn, ".vf")
     file_path <- lookup_kpathsea(font_name_with_extn)
@@ -52,51 +83,17 @@ up_font_file <- function(font_name_wo_extn) {
     latin_font <- cjk_font <- NULL
     # If the `.vf` file was not found, try the lookup in the latin font map.
     if (length(file_path) <= 0 && exit_status > 0) {
-        latin_font <- lookup_fonts(font_name_wo_extn, get("pdftex.map.path"))
+        latin_font <- lookup_kpathsea(latin_font(font_name_wo_extn))
         message("Found: ", latin_font)
     } else {
         str_content_file <- read_string_from_binary(file_path)
-        cjk_font <- lookup_fonts(str_content_file, get("kanjix.map.path"))
+        cjk_font <- lookup_font(str_content_file, get("kanjix.map.path"))
         message("Found: ", cjk_font)
     }
     if (isFALSE(length(cjk_font) > 0 || length(latin_font) > 0)) {
         stop("No font could be resolved.")
     }
-    ifelse(length(cjk_font) > 0, cjk_font, latin_font)
-}
-
-# TODO: This function needs to go away some time in the future.
-extract_font_defs <- function(dvi_file, verbose = FALSE) {
-    if (!file.exists(dvi_file)) {
-        stop("DVI file ", dvi_file, " does not exist!")
-    }
-    dvi <- xdvir::readDVI(dvi_file)
-    codes <- xdvir:::opCodes(dvi)
-    params <- xdvir:::opParams(dvi)
-    # Standard DVI font definitions (opcodes 243–246)
-    fnt_idx <- which(codes %in% 243:246)
-
-    unique(sapply(fnt_idx, function(i) {
-        paste0(params[[i]]$fontname.name, collapse = "")
-    }))
-}
-
-# TODO: This function needs to go away some time in the future.
-norun <- function(
-  dvi_path = "inst/dvi/multi-section-uptex.dvi",
-  verbose = FALSE
-) {
-    f1 <- if (verbose) {
-        init_fonts
-    } else {
-        \(...) suppressMessages(suppressWarnings(init_fonts(...)))
-    }
-    f1()
-    font_defs <- extract_font_defs(dvi_path)
-    f2 <- if (verbose) {
-        up_font_file
-    } else {
-        \(...) suppressMessages(suppressWarnings(up_font_file(...)))
-    }
-    sapply(unique(font_defs), f2)
+    res <- ifelse(length(cjk_font) > 0, cjk_font, latin_font)
+    set(font_cache_key, res)
+    res
 }

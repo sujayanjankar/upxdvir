@@ -14,7 +14,6 @@
 - [x] Can fontspec be gotten rid of for upLaTeX?
 - [x] `tinytex` and `knitr` both have `kpsewhich` functions, but do not export them.
 - [x] How independent can upxdvir rendering be from xdvir?
-- [ ] Mixed fonts
 - [x] GSUB based glyph rotation
 - [x] PUT operations in DVI
 - [ ] Text wrapping?
@@ -22,7 +21,7 @@
 - [ ] Exposed API will likely need cleanup, eventually, there will be no need to export `grid.uplatex` or `element_uplatex`. The same API is `{xdvir}` should be usable with just the `upLaTeX` engine.
 - [ ] Fix the bounding box to make sure `vjust` works as expected. Currently, the glyphs are drawn slightly higher up on the viewport than they should be.
 - [ ] Fix `tinytex::latexmk` args so that the `.fdb_latexmk` and `.aux` files are not created in the user's working directory.
-- [ ] `cmr10.pfb` type fonts cause a segmentation fault. Potential reason is the font can't be found, seems to work on Paul's desktop, but with weird broken positioning for text from a different font. Observed traceback:
+- [ ] Mixed fonts: `cmr10.pfb` type fonts cause a segmentation fault. Potential reason is the font can't be found, seems to work on Paul's desktop, but with weird broken positioning for text from a different font. Observed traceback:
     ```
     *** caught segfault ***
     address 0x0, cause 'invalid permissions'
@@ -44,6 +43,7 @@
     14: grid.draw.gTree(dviGrob(...))
     15: grid.draw(dviGrob(...))
     ```
+- [ ] Conditionally rotate glyphs for latin text.
 
 ## Integration
 
