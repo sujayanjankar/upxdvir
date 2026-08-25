@@ -14,7 +14,10 @@ initialise_engine <- function() {
             fontFile = up_font_file,
             glyphIndex = up_glyph_index,
             options = "-latex=uplatex",
-            preamble = "\\pagestyle{empty}",
+            preamble = c(
+                "\\usepackage{lmodern}",
+                "\\pagestyle{empty}"
+            ),
             emulation = FALSE
         )
         xdvir::registerEngine(UpTeXengine)

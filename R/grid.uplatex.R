@@ -28,8 +28,8 @@ actual_execution <- function(text, ..., verbose = FALSE) {
 
 typeset_uptex <- function(doc, packages = NULL) {
     tex_file_name <- tempfile(fileext = ".tex")
-    message("TeX content written to: ", tex_file_name)
     writeLines(doc, tex_file_name)
+    message("TeX content written to: ", tex_file_name)
     package_sig <- buildSignature(getOption("xdvir.engine"), packages)
     dir_name <- dirname(tex_file_name)
     options(tinytex.output_dir = dir_name)

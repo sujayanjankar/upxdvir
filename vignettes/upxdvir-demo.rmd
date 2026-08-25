@@ -20,7 +20,7 @@ grid.segments(
     c(.5, 1, 1, 1),
     gp = gpar(lty = 3, col = "gray", alpha = .5)
 )
-grid.uplatex("ページレイアウトの\\textcolor{red}{設定とし}A", verbose = TRUE)
+grid.uplatex("ページレイアウトの\\textcolor{red}{設定とし}A")
 grid.uplatex("ページレイアウトの設定とし", vjust = 1, x = .25)
 grid.uplatex("ページレイアウトの設定とし", vjust = 0, x = .75)
 ```

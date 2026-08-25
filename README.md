@@ -16,7 +16,11 @@
 - [x] How independent can upxdvir rendering be from xdvir?
 - [x] GSUB based glyph rotation
 - [x] PUT operations in DVI
-- [ ] Text wrapping?
+- [x] Text wrapping?
+    ```
+    \setlength{\textheight}{40zw}
+    \setlength{\textwidth}{1.5in}
+    ```
 - [ ] Fill out documentation files and DESCRIPTION file.
 - [ ] Exposed API will likely need cleanup, eventually, there will be no need to export `grid.uplatex` or `element_uplatex`. The same API is `{xdvir}` should be usable with just the `upLaTeX` engine.
 - [ ] Fix the bounding box to make sure `vjust` works as expected. Currently, the glyphs are drawn slightly higher up on the viewport than they should be.

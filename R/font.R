@@ -1,20 +1,3 @@
-lm_family <- c(
-    cmr = "LMRoman",
-    cmbx = "LMRoman",
-    cmti = "LMRoman",
-    cmsl = "LMRoman",
-    cmss = "LMSans",
-    cmssbx = "LMSans",
-    cmtt = "LMMono",
-    cmcsc = "LMRomanCaps"
-)
-
-lm_style <- c(
-    cmr = "Regular", cmbx = "Bold", cmti = "Italic",
-    cmsl = "Oblique", cmss = "Regular", cmssbx = "Bold",
-    cmtt = "Regular", cmcsc = "Regular"
-)
-
 init_fonts <- function() {
     pdftex_map_path <- lookup_kpathsea("pdftex.map")
     kanjix_map_path <- lookup_kpathsea("kanjix.map")
@@ -27,7 +10,7 @@ init_fonts <- function() {
     set("fonts.initialised", TRUE)
 }
 
-lookup_font <- function(lookup_str, lookup_path) {
+lookup_font <- function(lookup_str, lookup_path, font_name_idx = 3) {
     font_mapping_row <- grep(
         lookup_str,
         readLines(lookup_path),
@@ -35,37 +18,26 @@ lookup_font <- function(lookup_str, lookup_path) {
         value = TRUE
     )
     if (length(font_mapping_row) > 0) {
-        font_file_name <- strsplit(font_mapping_row, "\\s")[[1]][3]
+        font_file_name <- strsplit(font_mapping_row, "\\s")[[1]][font_name_idx]
         # Remove any characters that shouldn't be in filenames.
         font_file_name <- fs::path_sanitize(font_file_name)
-        if (length(strsplit(font_file_name, "\\.")[[1]]) == 2) {
-            file_lookup_res <- lookup_kpathsea(font_file_name)
-            if (
-                length(file_lookup_res) <= 0 &&
-                    attr(file_lookup_res, "status") > 0
-            ) {
-                message(paste("File", font_file_name, "not found!"))
-            } else {
-                return(file_lookup_res)
-            }
+        has_extn <- grepl("\\.[^/.]+$", font_file_name)
+        # Assume otf, if no extension.
+        filename_to_search <- paste0(font_file_name, ifelse(has_extn, "", ".otf"))
+        file_lookup_res <- lookup_kpathsea(filename_to_search)
+        if (length(file_lookup_res) <= 0) {
+            # Lookup lowercase if the as-is lookup returns nothing.
+            file_lookup_res <- lookup_kpathsea(tolower(filename_to_search))
+        }
+        if (
+            length(file_lookup_res) <= 0 &&
+                attr(file_lookup_res, "status") > 0
+        ) {
+            message("File", font_file_name, "not found!")
         } else {
-            message(
-                "Font file name: ",
-                font_file_name,
-                "not found in",
-                lookup_path
-            )
+            return(file_lookup_res)
         }
     }
-}
-
-latin_font <- function(cm_name) {
-    prefix <- sub("[0-9]+$", "", cm_name)
-    size <- sub("^[a-z]+", "", cm_name)
-    fam <- lm_family[[prefix]]
-    sty <- lm_style[[prefix]]
-    if (is.null(fam)) stop("unmapped CM prefix: ", prefix)
-    tolower(sprintf("%s%s-%s.otf", fam, size, sty))
 }
 
 up_font_file <- function(font_name_wo_extn) {
@@ -83,10 +55,17 @@ up_font_file <- function(font_name_wo_extn) {
     latin_font <- cjk_font <- NULL
     # If the `.vf` file was not found, try the lookup in the latin font map.
     if (length(file_path) <= 0 && exit_status > 0) {
-        latin_font <- lookup_kpathsea(latin_font(font_name_wo_extn))
+        # Modern roman fonts have their OTF font name as the second column
+        # in the font map.
+        latin_font <- lookup_font(font_name_wo_extn,
+            get("pdftex.map.path"),
+            font_name_idx = 2
+        )
         message("Found: ", latin_font)
     } else {
         str_content_file <- read_string_from_binary(file_path)
+        # Kanji fonts have their OTF font name as the final column
+        # in the font map.
         cjk_font <- lookup_font(str_content_file, get("kanjix.map.path"))
         message("Found: ", cjk_font)
     }
