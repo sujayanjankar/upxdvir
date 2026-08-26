@@ -12,7 +12,7 @@ initialise_engine <- function() {
             command = "latex",
             isEngine = isUpTeX,
             fontFile = up_font_file,
-            glyphIndex = hbGlyphIndex,
+            glyphIndex = upGlyphIndex,
             options = "-latex=uplatex",
             preamble = c(
                 "\\usepackage{lmodern}",

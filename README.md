@@ -23,9 +23,9 @@
     ```
 - [ ] Fill out documentation files and DESCRIPTION file.
 - [ ] Exposed API will likely need cleanup, eventually, there will be no need to export `grid.uplatex` or `element_uplatex`. The same API is `{xdvir}` should be usable with just the `upLaTeX` engine.
-- [ ] Fix the bounding box to make sure `vjust` works as expected. Currently, the glyphs are drawn slightly higher up on the viewport than they should be.
+- [x] Fix the bounding box to make sure `vjust` works as expected. Currently, the glyphs are drawn slightly higher up on the viewport than they should be.
 - [ ] Fix `tinytex::latexmk` args so that the `.fdb_latexmk` and `.aux` files are not created in the user's working directory.
-- [ ] Mixed fonts: `cmr10.pfb` type fonts cause a segmentation fault. Potential reason is the font can't be found, seems to work on Paul's desktop, but with weird broken positioning for text from a different font. Observed traceback:
+- [x] Mixed fonts: `cmr10.pfb` type fonts cause a segmentation fault. Potential reason is the font can't be found, seems to work on Paul's desktop, but with weird broken positioning for text from a different font. Observed traceback:
     ```
     *** caught segfault ***
     address 0x0, cause 'invalid permissions'

@@ -2,7 +2,7 @@ set("hb-fontlib-cache", list())
 
 # Most of this is copied from xdvir::freetype.R.
 # TODO: Consider a refactor.
-addFont <- function(fontName) {
+.addFont <- function(fontName) {
     font <- .Call(C_hbGlyphMetrics, as.character(fontName)[1])
     names(font) <- c("unitsPerEm", "metrics")
     font$metrics <- lapply(
@@ -22,18 +22,18 @@ addFont <- function(fontName) {
     font
 }
 
-getFont <- function(fontName) {
+.getFont <- function(fontName) {
     cache <- get("hb-fontlib-cache")
     font <- cache[[fontName]]
     if (is.null(font)) {
-        addFont(fontName)
+        .addFont(fontName)
     } else {
         font
     }
 }
 
 hbGlyphMetrics <- function(index, subset, fontName) {
-    font <- getFont(fontName)
+    font <- .getFont(fontName)
     ## +1 because glyph indices are zero-based, but
     ## we are accessing a one-based R vector
     metrics <- font$metrics[[index + 1]][subset]
@@ -59,13 +59,7 @@ hbGlyphBounds <- function(index, fontName) {
     )
 }
 
-upGlyphIndex <- function(raw, fontName, fontLib) {
-    value <- 0
-    if (length(raw) == 1) {
-        value <- as.integer(raw)
-    } else if (length(raw) == 2) {
-        value <- sum(as.integer(raw) * c(256, 1))
-    }
+.hbGlyphIndex <- function(value, fontName) {
     .Call(
         C_hbGlyphIndex,
         as.integer(value),
@@ -73,9 +67,19 @@ upGlyphIndex <- function(raw, fontName, fontLib) {
     )
 }
 
+upGlyphIndex <- function(raw, fontName, fontLib) {
+    value <- 0
+    if (length(raw) == 1) {
+        value <- as.integer(raw)
+    } else if (length(raw) == 2) {
+        value <- sum(as.integer(raw) * c(256, 1))
+    }
+    .hbGlyphIndex(value, fontName)
+}
+
 upFontLibrary <- xdvir::FontLibrary(
     glyphWidth = hbGlyphWidth,
     glyphHeight = hbGlyphHeight,
     glyphBounds = hbGlyphBounds,
-    glyphIndex = hbGlyphIndex
+    glyphIndex = upGlyphIndex
 )
