@@ -61,13 +61,13 @@ up_font_file <- function(font_name_wo_extn) {
             get("pdftex.map.path"),
             font_name_idx = 2
         )
-        message("Found: ", latin_font)
+        # message("Found: ", latin_font)
     } else {
         str_content_file <- read_string_from_binary(file_path)
         # Kanji fonts have their OTF font name as the final column
         # in the font map.
         cjk_font <- lookup_font(str_content_file, get("kanjix.map.path"))
-        message("Found: ", cjk_font)
+        # message("Found: ", cjk_font)
     }
     if (isFALSE(length(cjk_font) > 0 || length(latin_font) > 0)) {
         stop("No font could be resolved.")

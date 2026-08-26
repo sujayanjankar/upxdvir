@@ -1,7 +1,6 @@
 #include "harfbuzz.h"
 
-SEXP verticalGlyphIndex(SEXP code, SEXP font)
-{
+SEXP hbGlyphIndex(SEXP code, SEXP font) {
     FT_Library ft_library;
     FT_Face face;
     int index, err;
@@ -50,6 +49,104 @@ SEXP verticalGlyphIndex(SEXP code, SEXP font)
     err = FT_Done_FreeType(ft_library);
     if (err) {
         error("FreeType shut down failed");
+    }
+
+    UNPROTECT(1);
+    return result;
+}
+
+SEXP hbGlyphMetrics(SEXP font) {
+    FT_Library  ft_library;
+    FT_Face     face;
+    hb_font_t  *hb_font;
+    long        numGlyphs;
+    int         i, glyphErr, err;
+
+    SEXP unitsPerEm, glyphInfo, metrics, result;
+    PROTECT(result = allocVector(VECSXP, 2));
+
+    err = FT_Init_FreeType(&ft_library);
+    if (err) {
+        error("FreeType initialisation failed");
+    }
+
+    err = FT_New_Face(ft_library,
+                      CHAR(STRING_ELT(font, 0)),
+                      0,
+                      &face);
+    if (err == FT_Err_Unknown_File_Format) {
+        error("Font read failed: Unknown font format");
+    } else if (err) {
+        error("Font read failed (%s)", CHAR(STRING_ELT(font, 0)));
+    }
+
+    err = FT_Set_Char_Size(face, 0, 12*64, 96, 0);
+    if (err) {
+        error("Set char size failed");
+    }
+
+    hb_font = hb_ft_font_create_referenced(face);
+    if (!hb_font) {
+        error("HarfBuzz font creation failed");
+    }
+
+    hb_font_set_scale(hb_font,
+                      face->units_per_EM,
+                      face->units_per_EM);
+
+    PROTECT(unitsPerEm = allocVector(INTSXP, 1));
+    INTEGER(unitsPerEm)[0] = face->units_per_EM;
+    SET_VECTOR_ELT(result, 0, unitsPerEm);
+    UNPROTECT(1);
+
+    numGlyphs = hb_face_get_glyph_count(hb_font_get_face(hb_font));
+
+    PROTECT(metrics = allocVector(VECSXP, numGlyphs));
+    glyphErr = 0;
+
+    for (i = 0; i < numGlyphs; i++) {
+        hb_codepoint_t glyph = (hb_codepoint_t)i;
+        hb_glyph_extents_t extents;
+
+        PROTECT(glyphInfo = allocVector(INTSXP, 6));
+
+        if (!hb_font_get_glyph_extents(hb_font, glyph, &extents)) {
+            glyphErr = 1;
+            INTEGER(glyphInfo)[0] = NA_INTEGER;
+            INTEGER(glyphInfo)[1] = NA_INTEGER;
+            INTEGER(glyphInfo)[2] = NA_INTEGER;
+            INTEGER(glyphInfo)[3] = NA_INTEGER;
+            INTEGER(glyphInfo)[4] = NA_INTEGER;
+            INTEGER(glyphInfo)[5] = NA_INTEGER;
+        } else {
+            INTEGER(glyphInfo)[0] = hb_font_get_glyph_h_advance(hb_font, glyph); // horizontal advance
+            INTEGER(glyphInfo)[1] = extents.x_bearing; // left
+            INTEGER(glyphInfo)[2] = extents.x_bearing + extents.width; // right
+            INTEGER(glyphInfo)[3] = extents.y_bearing; // top
+            INTEGER(glyphInfo)[4] = extents.y_bearing + extents.height; // bottom
+            INTEGER(glyphInfo)[5] = hb_font_get_glyph_v_advance(hb_font, glyph); // vertical advance
+        }
+        SET_VECTOR_ELT(metrics, i, glyphInfo);
+        UNPROTECT(1);
+    }
+
+    SET_VECTOR_ELT(result, 1, metrics);
+    UNPROTECT(1);
+
+    if (glyphErr) {
+        warning("HB: Some glyph metrics could not be extracted.");
+    }
+
+    hb_font_destroy(hb_font);
+
+    err = FT_Done_Face(face);
+    if (err) {
+        error("HB: Face clean up failed");
+    }
+
+    err = FT_Done_FreeType(ft_library);
+    if (err) {
+        error("HB: FreeType shut down failed");
     }
 
     UNPROTECT(1);

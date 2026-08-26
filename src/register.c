@@ -4,9 +4,9 @@
 #include "harfbuzz.h"
 
 static const R_CallMethodDef callMethods[] = {
-    {"verticalGlyphIndex", (DL_FUNC) &verticalGlyphIndex, 1},
-    { NULL, NULL, 0 }
-};
+    {"hbGlyphIndex", (DL_FUNC)&hbGlyphIndex, 1},
+    {"hbGlyphMetrics", (DL_FUNC)&hbGlyphMetrics, 2},
+    {NULL, NULL, 0}};
 
 void R_init_upxdvir(DllInfo *dll)
 {

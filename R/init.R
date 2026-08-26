@@ -22,6 +22,7 @@ initialise_engine <- function() {
         )
         xdvir::registerEngine(UpTeXengine)
         options(xdvir.engine = UpTeXengine)
+        options(xdvir.fontLib=hbFontLibrary)
         message("Registered upTeX!")
     } else {
         stop("No upTeX installation found!")
