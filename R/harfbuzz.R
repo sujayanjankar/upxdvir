@@ -59,15 +59,21 @@ hbGlyphBounds <- function(index, fontName) {
     )
 }
 
-hbGlyphIndex <- function(code, fontName) {
+upGlyphIndex <- function(raw, fontName, fontLib) {
+    value <- 0
+    if (length(raw) == 1) {
+        value <- as.integer(raw)
+    } else if (length(raw) == 2) {
+        value <- sum(as.integer(raw) * c(256, 1))
+    }
     .Call(
         C_hbGlyphIndex,
-        as.integer(code),
+        as.integer(value),
         as.character(fontName)[1]
     )
 }
 
-hbFontLibrary <- xdvir::FontLibrary(
+upFontLibrary <- xdvir::FontLibrary(
     glyphWidth = hbGlyphWidth,
     glyphHeight = hbGlyphHeight,
     glyphBounds = hbGlyphBounds,

@@ -48,6 +48,7 @@
     15: grid.draw(dviGrob(...))
     ```
 - [ ] Conditionally rotate glyphs for latin text.
+- [ ] Naming convention? - [Google R Style Guide](https://google.github.io/styleguide/Rguide.html)
 
 ## Integration
 
