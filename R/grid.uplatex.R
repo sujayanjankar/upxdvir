@@ -14,7 +14,7 @@ actual_execution <- function(text, ..., verbose = FALSE) {
     other_args <- list(...)
     pkgs <- c("xcolor")
     tex_file_content <- xdvir::author(text,
-        document_class = "utarticle",
+        documentClass = "utarticle",
         packages = pkgs
     )
     dvi_file <- typeset_uptex(tex_file_content, pkgs)
