@@ -13,7 +13,8 @@ initialise_engine <- function() {
             isEngine = isUpTeX,
             fontFile = up_font_file,
             glyphIndex = upGlyphIndex,
-            options = "-latex=uplatex",
+            options = "",
+            buildArgs = buildUpTeXargs,
             preamble = c(
                 "\\usepackage{lmodern}",
                 "\\pagestyle{empty}"
@@ -27,6 +28,16 @@ initialise_engine <- function() {
     } else {
         stop("No upTeX installation found!")
     }
+}
+
+buildUpTeXargs <- function(signature, dir) {
+    paste0(
+        '-latex="uplatex -output-comment=\'',
+        signature,
+        "' '-output-directory=",
+        dir,
+        '\'"'
+    )
 }
 
 initUpTeX <- function() {

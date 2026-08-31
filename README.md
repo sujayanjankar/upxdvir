@@ -50,6 +50,7 @@
 - [ ] Conditionally rotate glyphs for latin text.
 - [ ] Naming convention? - [Google R Style Guide](https://google.github.io/styleguide/Rguide.html)
 - [ ] Honour `gp = gpar(fontsize = 20)` and other `gpar`s.
+- [ ] Include `documentClass` in engine options?
 
 ## Integration
 
