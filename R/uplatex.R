@@ -10,6 +10,11 @@ grid.uplatex <- function(text, ..., verbose = FALSE) {
     wrapper(text, ..., verbose = FALSE)
 }
 
+element_uplatex <- function(text) {
+    # Placeholder.
+    text
+}
+
 actual_execution <- function(text, ..., verbose = FALSE) {
     other_args <- list(...)
     pkgs <- c("xcolor")

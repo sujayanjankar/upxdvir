@@ -1,4 +1,6 @@
-init_fonts <- function() {
+FONT_CACHE_PREFIX <- "up-font-def-"
+
+.initFonts <- function() {
     pdftex_map_path <- lookup_kpathsea("pdftex.map")
     kanjix_map_path <- lookup_kpathsea("kanjix.map")
     if (length(pdftex_map_path) > 0) {
@@ -10,7 +12,7 @@ init_fonts <- function() {
     set("fonts.initialised", TRUE)
 }
 
-lookup_font <- function(lookup_str, lookup_path, font_name_idx = 3) {
+.lookupFont <- function(lookup_str, lookup_path, font_name_idx = 3) {
     font_mapping_row <- grep(
         lookup_str,
         readLines(lookup_path),
@@ -40,11 +42,11 @@ lookup_font <- function(lookup_str, lookup_path, font_name_idx = 3) {
     }
 }
 
-up_font_file <- function(font_name_wo_extn) {
+upFontFile <- function(font_name_wo_extn) {
     if (!isTRUE(get("fonts.initialised"))) {
-        init_fonts()
+        .initFonts()
     }
-    font_cache_key <- paste0("up-font-def-", font_name_wo_extn)
+    font_cache_key <- paste0(FONT_CACHE_PREFIX, font_name_wo_extn)
     cached_font_path <- get(font_cache_key)
     if (length(cached_font_path) > 0) {
         return(cached_font_path)
@@ -57,7 +59,7 @@ up_font_file <- function(font_name_wo_extn) {
     if (length(file_path) <= 0 && exit_status > 0) {
         # Modern roman fonts have their OTF font name as the second column
         # in the font map.
-        latin_font <- lookup_font(font_name_wo_extn,
+        latin_font <- .lookupFont(font_name_wo_extn,
             get("pdftex.map.path"),
             font_name_idx = 2
         )
@@ -66,7 +68,7 @@ up_font_file <- function(font_name_wo_extn) {
         str_content_file <- read_string_from_binary(file_path)
         # Kanji fonts have their OTF font name as the final column
         # in the font map.
-        cjk_font <- lookup_font(str_content_file, get("kanjix.map.path"))
+        cjk_font <- .lookupFont(str_content_file, get("kanjix.map.path"))
         # message("Found: ", cjk_font)
     }
     if (isFALSE(length(cjk_font) > 0 || length(latin_font) > 0)) {

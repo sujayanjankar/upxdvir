@@ -11,7 +11,7 @@ initialise_engine <- function() {
             version = uptexVersion(),
             command = "latex",
             isEngine = isUpTeX,
-            fontFile = up_font_file,
+            fontFile = upFontFile,
             glyphIndex = upGlyphIndex,
             options = "",
             buildArgs = buildUpTeXargs,
@@ -23,7 +23,7 @@ initialise_engine <- function() {
         )
         xdvir::registerEngine(UpTeXengine)
         options(xdvir.engine = UpTeXengine)
-        options(xdvir.fontLib=upFontLibrary)
+        options(xdvir.fontLib = upFontLibrary)
         message("Registered upTeX!")
     } else {
         stop("No upTeX installation found!")
