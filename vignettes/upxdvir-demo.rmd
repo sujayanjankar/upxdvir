@@ -4,6 +4,7 @@
 
 ```{r}
 library("grid")
+library("xdvir")
 library("upxdvir")
 options(warn = 2)
 knitr::opts_chunk$set(error = TRUE)
@@ -20,9 +21,17 @@ grid.segments(
     c(.5, 1, 1, 1),
     gp = gpar(lty = 3, col = "gray", alpha = .5)
 )
-grid.uplatex("ページレイアウトの\\textcolor{red}{ABCD}設定とし")
-grid.uplatex("ページレイアウトの設定とし", vjust = 1, x = .25)
-grid.uplatex("ページレイアウトの設定とし", vjust = 0, x = .75)
+grid.latex("ページレイアウトのABCD設定とし",
+    documentClass = "utarticle"
+)
+grid.uplatex("ページレイアウトの設定とし",
+    vjust = 1, x = .25,
+    documentClass = "utarticle"
+)
+grid.uplatex("ページレイアウトの設定とし",
+    vjust = 0, x = .75,
+    documentClass = "utarticle"
+)
 ```
 
 ## Cleanup
