@@ -1,6 +1,10 @@
 FONT_CACHE_PREFIX <- "up-font-def-"
+FONT_CACHE_CJK <- "cjk-"
+FONT_CACHE_LATIN <- "ltn-"
 
 .initFonts <- function() {
+    # This may potentially be expanded in the future
+    # considering other maps.
     pdftex_map_path <- lookup_kpathsea("pdftex.map")
     kanjix_map_path <- lookup_kpathsea("kanjix.map")
     if (length(pdftex_map_path) > 0) {
@@ -64,12 +68,22 @@ upFontFile <- function(font_name_wo_extn) {
             font_name_idx = 2
         )
         # message("Found: ", latin_font)
+        # Cache font names from the DVI output against their type.
+         if(length(latin_font) > 0) {
+            latin_fonts <- get(FONT_CACHE_LATIN)
+            set(FONT_CACHE_LATIN, c(latin_fonts, font_name_wo_extn))
+        }
     } else {
         str_content_file <- read_string_from_binary(file_path)
         # Kanji fonts have their OTF font name as the final column
         # in the font map.
         cjk_font <- .lookupFont(str_content_file, get("kanjix.map.path"))
         # message("Found: ", cjk_font)
+        # Cache font names from the DVI output against their type.
+        if(length(cjk_font) > 0) {
+            cjk_fonts <- get(FONT_CACHE_CJK)
+            set(FONT_CACHE_CJK, c(cjk_fonts, font_name_wo_extn))
+        }
     }
     if (isFALSE(length(cjk_font) > 0 || length(latin_font) > 0)) {
         stop("No font could be resolved.")

@@ -77,9 +77,21 @@ upGlyphIndex <- function(raw, fontName, fontLib) {
     .hbGlyphIndex(value, fontName)
 }
 
+resolveScriptType <- function(fontName) {
+    # message("Resolve script type for: ", fontName)
+    if (fontName %in% get(FONT_CACHE_CJK)) {
+        xdvir::SCRIPT_TYPE_CJK
+    } else if (fontName %in% get(FONT_CACHE_LATIN)) {
+        xdvir::SCRIPT_TYPE_LATIN
+    } else {
+        NULL
+    }
+}
+
 upFontLibrary <- xdvir::FontLibrary(
     glyphWidth = hbGlyphWidth,
     glyphHeight = hbGlyphHeight,
     glyphBounds = hbGlyphBounds,
-    glyphIndex = upGlyphIndex
+    glyphIndex = upGlyphIndex,
+    resolveScriptType = resolveScriptType
 )

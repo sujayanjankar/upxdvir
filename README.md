@@ -47,10 +47,13 @@
     14: grid.draw.gTree(dviGrob(...))
     15: grid.draw(dviGrob(...))
     ```
-- [ ] Conditionally rotate glyphs for latin text.
-- [ ] Naming convention? - [Google R Style Guide](https://google.github.io/styleguide/Rguide.html)
+- [x] Conditionally rotate glyphs for latin text.
+- [ ] Fine tune position of the rotated glyphs for latin text.
+- [x] Naming convention? - [Google R Style Guide](https://google.github.io/styleguide/Rguide.html) - Camel-casing everywhere.
 - [ ] Honour `gp = gpar(fontsize = 20)` and other `gpar`s.
 - [ ] Include `documentClass` in engine options?
+- [ ] Extend `{xdvir}` documentation to include the supported script types.
+- [ ] Fix: `grid.uplatex("$\\frac{1}{2}$")`
 
 ## Integration
 
