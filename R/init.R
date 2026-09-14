@@ -34,9 +34,9 @@ buildUpTeXargs <- function(signature, dir) {
     paste0(
         '-latex="uplatex -output-comment=\'',
         signature,
-        "' '-output-directory=",
-        dir,
-        '\'"'
+        "' '-output-directory=", dir, '\'"',
+        " -auxdir=", dir,
+        " -outdir=", dir
     )
 }
 
@@ -63,6 +63,6 @@ uptexAvailable <- function() {
 }
 
 isUpTeX <- function(dvi) {
-    commentStr <- commentString(dvi)
+    commentStr <- xdvir::commentString(dvi)
     grepl(uptexVersion(), commentStr)
 }

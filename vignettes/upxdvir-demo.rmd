@@ -24,7 +24,7 @@ grid.segments(
 grid.latex("ページレイアウトのABCD設定とし",
     documentClass = "utarticle"
 )
-grid.uplatex("ページレイアウトの設定とし",
+grid.latex("ページレイアウトの設定とし",
     vjust = 1, x = .25,
     documentClass = "utarticle"
 )
@@ -32,12 +32,4 @@ grid.uplatex("ページレイアウトの設定とし",
     vjust = 0, x = .75,
     documentClass = "utarticle"
 )
-```
-
-## Cleanup
-
-```{r, eval = FALSE}
-# TODO: This chunk needs to go away some time in the future.
-system2("rm", paste0(Sys.getenv("WORKSPACE"), "/upxdvir/**/file*"))
-system2("rm", paste0(Sys.getenv("WORKSPACE"), "/upxdvir/file*"))
 ```
