@@ -24,7 +24,7 @@
 - [ ] Fill out documentation files and DESCRIPTION file.
 - [ ] Exposed API will likely need cleanup, eventually, there will be no need to export `grid.uplatex` or `element_uplatex`. The same API is `{xdvir}` should be usable with just the `upLaTeX` engine.
 - [x] Fix the bounding box to make sure `vjust` works as expected. Currently, the glyphs are drawn slightly higher up on the viewport than they should be.
-- [ ] Fix `tinytex::latexmk` args so that the `.fdb_latexmk` and `.aux` files are not created in the user's working directory.
+- [x] Fix `tinytex::latexmk` args so that the `.fdb_latexmk` and `.aux` files are not created in the user's working directory.
 - [x] Mixed fonts: `cmr10.pfb` type fonts cause a segmentation fault. Potential reason is the font can't be found, seems to work on Paul's desktop, but with weird broken positioning for text from a different font. Observed traceback:
     ```
     *** caught segfault ***
@@ -51,9 +51,10 @@
 - [ ] Fine tune position of the rotated glyphs for latin text.
 - [x] Naming convention? - [Google R Style Guide](https://google.github.io/styleguide/Rguide.html) - Camel-casing everywhere.
 - [ ] Honour `gp = gpar(fontsize = 20)` and other `gpar`s.
-- [ ] Include `documentClass` in engine options?
+- [x] Include `documentClass` in engine options? - No, should be with `grid.??latex`.
 - [ ] Extend `{xdvir}` documentation to include the supported script types.
-- [ ] Fix: `grid.uplatex("$\\frac{1}{2}$")`
+- [ ] Support: `grid.uplatex("$\\frac{1}{2}$")`
+- [ ] Glyph indexer should be direction aware.
 
 ## Integration
 

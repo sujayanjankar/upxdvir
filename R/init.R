@@ -1,8 +1,8 @@
 .onLoad <- function(libname, pkgname) {
-    initialise_engine()
+    initialiseEngine()
 }
 
-initialise_engine <- function() {
+initialiseEngine <- function() {
     ## Define and register the upTeX engine.
     initUpTeX()
     if (uptexAvailable()) {

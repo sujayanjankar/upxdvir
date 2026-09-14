@@ -59,22 +59,24 @@ hbGlyphBounds <- function(index, fontName) {
     )
 }
 
-.hbGlyphIndex <- function(value, fontName) {
+.hbGlyphIndex <- function(value, fontName, direction) {
     .Call(
         C_hbGlyphIndex,
         as.integer(value),
-        as.character(fontName)[1]
+        as.character(fontName)[1],
+        as.integer(direction)
     )
 }
 
-upGlyphIndex <- function(raw, fontName, fontLib) {
+upGlyphIndex <- function(raw, fontName, fontLib, direction = 1) {
+    # TODO: Wire the direction in.
     value <- 0
     if (length(raw) == 1) {
         value <- as.integer(raw)
     } else if (length(raw) == 2) {
         value <- sum(as.integer(raw) * c(256, 1))
     }
-    .hbGlyphIndex(value, fontName)
+    .hbGlyphIndex(value, fontName, direction)
 }
 
 resolveScriptType <- function(fontName) {
