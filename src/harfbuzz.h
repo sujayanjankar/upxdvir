@@ -6,6 +6,6 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-SEXP hbGlyphIndex(SEXP code, SEXP font);
+SEXP hbGlyphIndex(SEXP code, SEXP font, SEXP dir);
 
 SEXP hbGlyphMetrics(SEXP font);

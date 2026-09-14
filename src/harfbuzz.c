@@ -1,6 +1,6 @@
 #include "harfbuzz.h"
 
-SEXP hbGlyphIndex(SEXP code, SEXP font) {
+SEXP hbGlyphIndex(SEXP code, SEXP font, SEXP direction) {
     FT_Library ft_library;
     FT_Face face;
     int index, err;
@@ -28,7 +28,9 @@ SEXP hbGlyphIndex(SEXP code, SEXP font) {
     hb_buffer_t *buf = hb_buffer_create();
     uint32_t cp = (uint32_t) INTEGER(code)[0];
     hb_buffer_add_utf32(buf, &cp, 1, 0, 1);
-    hb_buffer_set_direction(buf, HB_DIRECTION_TTB);
+    if (INTEGER(direction)[0] == 1) {
+        hb_buffer_set_direction(buf, HB_DIRECTION_TTB);
+    }
     hb_buffer_guess_segment_properties(buf);
     hb_shape(hb_font, buf, NULL, 0);
 
