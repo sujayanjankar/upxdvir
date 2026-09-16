@@ -51,3 +51,9 @@ grid.latex(
 )
 grid.latex("ページABCアウトの", y = .4, documentClass = "utarticle")
 ```
+
+### Math Mode
+
+```{r, fig.align = "center", fig.height = 3, fig.width = 3}
+grid.uplatex("$\\frac{1}{2}$", verbose = TRUE)
+```
