@@ -54,7 +54,8 @@
 - [x] Include `documentClass` in engine options? - No, should be with `grid.??latex`.
 - [ ] Extend `{xdvir}` documentation to include the supported script types.
 - [ ] Support: `grid.uplatex("$\\frac{1}{2}$")`
-- [ ] Glyph indexer should be direction aware.
+- [x] Glyph indexer should be direction aware.
+- [ ] Investigate `LuaHBTeX` failure.
 
 ## Integration
 

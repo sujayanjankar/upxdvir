@@ -1,9 +1,19 @@
-Package: upxdvir
 Type: Package
-Title: What the Package Does (Short Line)
+Package: upxdvir
+Title: Extends the `{xdvir}` package with support for the upLaTeX typesetting
+    engine.
 Version: 1.0
 Date: 2026-08-01
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line).
-License: What license is it under?
+Author: Sujay Anjankar
+Maintainer: Sujay Anjankar <sanj402@aucklanduni.ac.nz>
+Description: Extends the `{xdvir}` package with support for the upLaTeX typesetting
+    engine.
+License: GPL-3
+Depends:
+    xdvir (>= 0.3-0)
+Imports:
+    hexView
+Suggests:
+    grid
+Encoding: UTF-8
+SystemRequirements: freetype2, harfbuzz

@@ -6,30 +6,48 @@
 library("grid")
 library("xdvir")
 library("upxdvir")
-options(warn = 2)
-knitr::opts_chunk$set(error = TRUE)
 ```
 
-## Draw UpTeX Content
+```{r, echo = FALSE}
+options(warn = 2)
+knitr::opts_chunk$set(error = TRUE)
 
-```{r, fig.align = "center"}
-grid.rect(gp = gpar(lwd = 10, col = 2))
+```
+
+## Examples
+
+```{r, echo = FALSE}
+drawGrid <- function(border = TRUE) {
+    if (border) {
+        grid.rect(gp = gpar(lwd = 10, col = 2))
+    }
+
 grid.segments(
-    c(0, .5, .25, .75),
-    c(.5, 0, 0, 0),
-    c(1, .5, .25, .75),
-    c(.5, 1, 1, 1),
+    c(0, .5),
+    c(.5, 0),
+    c(1, .5),
+    c(.5, 1),
     gp = gpar(lty = 3, col = "gray", alpha = .5)
 )
-grid.latex("ページレイアウトのABCD設定とし",
-    documentClass = "utarticle"
+}
+```
+
+### Horizontal Typesetting
+
+```{r, fig.align = "center", fig.height = 3, fig.width = 3}
+drawGrid()
+grid.latex("The text is rendered horizontally by default.", y = .7)
+grid.latex("ページレイアウトのABCD設定とし")
+```
+
+### Vertical Typesetting
+
+```{r, fig.align = "center", fig.height = 3, fig.width = 3}
+drawGrid()
+grid.latex(
+    "The \\texttt{documentClass = 'utarticle'} parameter typesets text vertically.",
+    width = unit(2.5, "in"),
+    y = .8
 )
-grid.latex("ページレイアウトの設定とし",
-    vjust = 1, x = .25,
-    documentClass = "utarticle"
-)
-grid.uplatex("ページレイアウトの設定とし",
-    vjust = 0, x = .75,
-    documentClass = "utarticle"
-)
+grid.latex("ページABCアウトの", y = .4, documentClass = "utarticle")
 ```
