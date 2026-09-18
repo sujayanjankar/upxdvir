@@ -17,7 +17,8 @@ initialiseEngine <- function() {
             buildArgs = buildUpTeXargs,
             preamble = c(
                 "\\usepackage{lmodern}",
-                "\\pagestyle{empty}"
+                "\\pagestyle{empty}",
+                "\\usepackage[noto]{pxchfon}"
             ),
             emulation = FALSE
         )

@@ -3,41 +3,35 @@
 ## Libraries
 
 ```{r}
-library("grid")
-library("xdvir")
-library("upxdvir")
+library(grid)
+library(upxdvir)
 ```
 
 ```{r, echo = FALSE}
 options(warn = 2)
 knitr::opts_chunk$set(error = TRUE)
-
-```
-
-## Examples
-
-```{r, echo = FALSE}
 drawGrid <- function(border = TRUE) {
     if (border) {
         grid.rect(gp = gpar(lwd = 10, col = 2))
     }
-
-grid.segments(
-    c(0, .5),
-    c(.5, 0),
-    c(1, .5),
-    c(.5, 1),
-    gp = gpar(lty = 3, col = "gray", alpha = .5)
-)
+    grid.segments(
+        c(0, .5),
+        c(.5, 0),
+        c(1, .5),
+        c(.5, 1),
+        gp = gpar(lty = 3, col = "gray", alpha = .5)
+    )
 }
 ```
+
+## Examples
 
 ### Horizontal Typesetting
 
 ```{r, fig.align = "center", fig.height = 3, fig.width = 3}
 drawGrid()
 grid.latex("The text is rendered horizontally by default.", y = .7)
-grid.latex("ページレイアウトのABCD設定とし")
+grid.latex("「JRまで 0.5 km」と聞いた。")
 ```
 
 ### Vertical Typesetting
@@ -47,13 +41,7 @@ drawGrid()
 grid.latex(
     "The \\texttt{documentClass = 'utarticle'} parameter typesets text vertically.",
     width = unit(2.5, "in"),
-    y = .8
+    y = .9
 )
-grid.latex("ページABCアウトの", y = .4, documentClass = "utarticle")
-```
-
-### Math Mode
-
-```{r, fig.align = "center", fig.height = 3, fig.width = 3}
-grid.uplatex("$\\frac{1}{2}$", verbose = TRUE)
+grid.latex("「JRまで 0.5 km」と聞いた。", documentClass = "utarticle")
 ```
