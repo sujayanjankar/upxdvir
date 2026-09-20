@@ -69,7 +69,6 @@ hbGlyphBounds <- function(index, fontName) {
 }
 
 upGlyphIndex <- function(raw, fontName, fontLib, direction = 1) {
-    # TODO: Wire the direction in.
     value <- 0
     if (length(raw) == 1) {
         value <- as.integer(raw)
@@ -86,7 +85,8 @@ resolveScriptType <- function(fontName) {
     } else if (fontName %in% get(FONT_CACHE_LATIN)) {
         xdvir::SCRIPT_TYPE_LATIN
     } else {
-        NULL
+        # TODO: Document this fallback.
+        xdvir::SCRIPT_TYPE_LATIN
     }
 }
 

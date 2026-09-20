@@ -48,7 +48,7 @@
     15: grid.draw(dviGrob(...))
     ```
 - [x] Conditionally rotate glyphs for latin text.
-- [ ] Fine tune position of the rotated glyphs for latin text.
+- [x] Fine tune position of the rotated glyphs for latin text.
 - [x] Naming convention? - [Google R Style Guide](https://google.github.io/styleguide/Rguide.html) - Camel-casing everywhere.
 - [ ] Honour `gp = gpar(fontsize = 20)` and other `gpar`s.
 - [x] Include `documentClass` in engine options? - No, should be with `grid.??latex`.
@@ -56,6 +56,9 @@
 - [ ] Support: `grid.uplatex("$\\frac{1}{2}$")`
 - [x] Glyph indexer should be direction aware.
 - [ ] Investigate `LuaHBTeX` failure.
+- [ ] Font face support in 0.2 `xdvir`?
+- [ ] Independent font library specification?
+- [ ] Font family changes with/without `gpar`s.
 
 ## Integration
 
