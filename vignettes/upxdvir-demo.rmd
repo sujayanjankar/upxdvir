@@ -45,3 +45,11 @@ grid.latex(
 )
 grid.latex("「JRまで 0.5 km」と聞いた。", documentClass = "utarticle")
 ```
+
+## Regression Checks
+
+```{r, fig.align = "center", fig.height = 3, fig.width = 3}
+drawGrid()
+grid.latex("LuaTeX", engine = "LuaTeX", y = .7)
+grid.latex("XeTeX", engine = "XeTeX", y = .3)
+```
