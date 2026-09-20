@@ -1,6 +1,7 @@
 FONT_CACHE_PREFIX <- "up-font-def-"
 FONT_CACHE_CJK <- "cjk-"
 FONT_CACHE_LATIN <- "ltn-"
+SUPPORTED_FONT_FAMILIES <- c("noto", "haranoaji", "ipa", "ipaex")
 
 .initFonts <- function() {
     # This may potentially be expanded in the future
@@ -91,4 +92,29 @@ upFontFile <- function(fontNameWithoutExtension) {
     res <- ifelse(length(cjkFont) > 0, cjkFont, latinFont)
     set(fontCacheKey, res)
     res
+}
+
+upFontPreset <- function(family, fontface, size, lineheight, colour) {
+    packages <- c()
+    # Process font size.
+    fontsize <- paste0(
+        "\\fontsize{", size, "}{", size * lineheight, "}\n",
+        "\\selectfont{}\n"
+    )
+    # Process font colour.
+    if (is.null(colour))
+        stop("No colour specified")
+    rgb <- col2rgb(colour)
+    col <- paste0("\\definecolor{upxdvir}{RGB}{",
+                  rgb[1,], ",", rgb[2,], ",", rgb[3,], "}\n",
+                  "\\color{upxdvir}\n")
+    black <- apply(rgb, 2, function(x) all(x == 0))
+    col[black] <- ""
+    if (any(!black)) {
+        packages <- c(packages, list("xcolor"))
+    }
+    # Bring them all together.
+    tex <- paste(fontFamily, fontsize, col, sep="")
+    attr(tex, "packages") <- packages
+    tex
 }

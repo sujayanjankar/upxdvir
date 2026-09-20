@@ -18,9 +18,10 @@ initialiseEngine <- function() {
             preamble = c(
                 "\\usepackage{lmodern}",
                 "\\pagestyle{empty}",
-                "\\usepackage[noto]{pxchfon}"
+                "\\usepackage{pxchfon}"
             ),
-            emulation = FALSE
+            emulation = FALSE,
+            fontPreset = upFontPreset
         )
         xdvir::registerEngine(UpTeXengine)
         options(xdvir.engine = UpTeXengine)
