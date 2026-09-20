@@ -114,7 +114,7 @@ upFontPreset <- function(family, fontface, size, lineheight, colour) {
         packages <- c(packages, list("xcolor"))
     }
     # Bring them all together.
-    tex <- paste(fontFamily, fontsize, col, sep="")
+    tex <- paste(fontsize, col, sep="")
     attr(tex, "packages") <- packages
     tex
 }
