@@ -38,7 +38,8 @@ buildUpTeXargs <- function(signature, dir) {
         signature,
         "' '-output-directory=", dir, '\'"',
         " -auxdir=", dir,
-        " -outdir=", dir
+        " -outdir=", dir,
+        " -dvi"
     )
 }
 
