@@ -46,6 +46,29 @@ grid.latex(
 grid.latex("「JRまで 0.5 km」と聞いた。", documentClass = "utarticle")
 ```
 
+### Other Fonts
+
+```{r, fig.align = "center", fig.height = 3, fig.width = 3}
+drawGrid()
+grid.latex("これはIPAフォントです。",
+    documentClass = "utarticle", x = .1,
+    gp = gpar(fontfamily = "ipa")
+)
+grid.latex("これはIPAexフォントです。",
+    documentClass = "utarticle", x = .3,
+    gp = gpar(fontfamily = "ipaex")
+)
+grid.latex("これはHaranoAjiフォントです。",
+    documentClass = "utarticle", x = .5,
+    gp = gpar(fontfamily = "haranoaji")
+)
+grid.latex("これはSourceHanフォントです。",
+    documentClass = "utarticle", x = .7,
+    gp = gpar(fontfamily = "sourcehan")
+)
+grid.latex("デフォルトのフォント。", documentClass = "utarticle", x = .9)
+```
+
 ## Regression Checks
 
 ```{r, fig.align = "center", fig.height = 3, fig.width = 3}

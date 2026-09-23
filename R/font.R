@@ -1,7 +1,6 @@
 FONT_CACHE_PREFIX <- "up-font-def-"
 FONT_CACHE_CJK <- "cjk-"
 FONT_CACHE_LATIN <- "ltn-"
-SUPPORTED_FONT_FAMILIES <- c("noto", "haranoaji", "ipa", "ipaex")
 
 .initFonts <- function() {
     # This may potentially be expanded in the future
@@ -40,7 +39,7 @@ SUPPORTED_FONT_FAMILIES <- c("noto", "haranoaji", "ipa", "ipaex")
             length(lookupResult) <= 0 &&
                 attr(lookupResult, "status") > 0
         ) {
-            message("File", fontFileName, "not found!")
+            message("File ", fontFileName, " not found!")
         } else {
             return(lookupResult)
         }
@@ -53,7 +52,10 @@ upFontFile <- function(fontNameWithoutExtension) {
     }
     fontCacheKey <- paste0(FONT_CACHE_PREFIX, fontNameWithoutExtension)
     cachedFontPath <- get(fontCacheKey)
-    if (length(cachedFontPath) > 0) {
+    pxchFonts <- get(pxchFontCacheKey)
+    # If a pxchfon family has been set, skip the cache.
+    skipCache <- length(pxchFonts) > 0
+    if (!skipCache && length(cachedFontPath) > 0) {
         return(cachedFontPath)
     }
     fontNameWithExtn <- paste0(fontNameWithoutExtension, ".vf")
@@ -70,7 +72,7 @@ upFontFile <- function(fontNameWithoutExtension) {
         )
         # message("Found: ", latinFont)
         # Cache font names from the DVI output against their type.
-         if(length(latinFont) > 0) {
+        if (nchar(latinFont) > 0) {
             latinFonts <- get(FONT_CACHE_LATIN)
             set(FONT_CACHE_LATIN, c(latinFonts, fontNameWithoutExtension))
         }
@@ -78,15 +80,29 @@ upFontFile <- function(fontNameWithoutExtension) {
         strContentFile <- readVirtualFontName(filePath)
         # Kanji fonts have their OTF font name as the final column
         # in the font map.
-        cjkFont <- .lookupFont(strContentFile, get("kanjix.map.path"))
+        cjkFont <- ""
+        if (skipCache) {
+            cjkFont <- lookupKpathsea(pxchFonts[strContentFile])
+        }
+        if (!nchar(cjkFont) > 0) {
+            if (skipCache) {
+                warning(
+                    "Physical font for the specified font family (",
+                    pxchFonts[strContentFile],
+                    ") could not be located. Using system default."
+                )
+            }
+            # Lookup the old way if the pxchfon specification does not return anything.
+            cjkFont <- .lookupFont(strContentFile, get("kanjix.map.path"))
+        }
         # message("Found: ", cjkFont)
         # Cache font names from the DVI output against their type.
-        if(length(cjkFont) > 0) {
+        if (nchar(cjkFont) > 0) {
             cjkFonts <- get(FONT_CACHE_CJK)
             set(FONT_CACHE_CJK, c(cjkFonts, fontNameWithoutExtension))
         }
     }
-    if (isFALSE(length(cjkFont) > 0 || length(latinFont) > 0)) {
+    if (isFALSE(nchar(cjkFont) > 0 || nchar(latinFont) > 0)) {
         stop("No font could be resolved.")
     }
     res <- ifelse(length(cjkFont) > 0, cjkFont, latinFont)
@@ -94,27 +110,33 @@ upFontFile <- function(fontNameWithoutExtension) {
     res
 }
 
-upFontPreset <- function(family, fontface, size, lineheight, colour) {
-    packages <- c()
+upFontPreset <- function(family = "alphabet", face, size, lineheight, colour) {
+    packages <- list(upFontPackage(family))
+
     # Process font size.
     fontsize <- paste0(
         "\\fontsize{", size, "}{", size * lineheight, "}\n",
         "\\selectfont{}\n"
     )
+
     # Process font colour.
-    if (is.null(colour))
+    if (is.null(colour)) {
         stop("No colour specified")
+    }
     rgb <- col2rgb(colour)
-    col <- paste0("\\definecolor{upxdvir}{RGB}{",
-                  rgb[1,], ",", rgb[2,], ",", rgb[3,], "}\n",
-                  "\\color{upxdvir}\n")
+    col <- paste0(
+        "\\definecolor{upxdvir}{RGB}{",
+        rgb[1, ], ",", rgb[2, ], ",", rgb[3, ], "}\n",
+        "\\color{upxdvir}\n"
+    )
     black <- apply(rgb, 2, function(x) all(x == 0))
     col[black] <- ""
     if (any(!black)) {
         packages <- c(packages, list("xcolor"))
     }
+
     # Bring them all together.
-    tex <- paste(fontsize, col, sep="")
+    tex <- paste(fontsize, col, sep = "")
     attr(tex, "packages") <- packages
     tex
 }

@@ -17,8 +17,7 @@ initialiseEngine <- function() {
             buildArgs = buildUpTeXargs,
             preamble = c(
                 "\\usepackage{lmodern}",
-                "\\pagestyle{empty}",
-                "\\usepackage{pxchfon}"
+                "\\pagestyle{empty}"
             ),
             emulation = FALSE,
             fontPreset = upFontPreset
@@ -26,6 +25,7 @@ initialiseEngine <- function() {
         xdvir::registerEngine(UpTeXengine)
         options(xdvir.engine = UpTeXengine)
         options(xdvir.fontLib = upFontLibrary)
+        xdvir::registerPackage(upFontPackage())
         # message("Registered upTeX!")
     } else {
         stop("No upTeX installation found!")
