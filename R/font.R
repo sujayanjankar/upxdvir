@@ -55,7 +55,7 @@ upFontFile <- function(fontNameWithoutExtension) {
     pxchFonts <- get(pxchFontCacheKey)
     # If a pxchfon family has been set, skip the cache.
     skipCache <- length(pxchFonts) > 0
-    if (!skipCache && length(cachedFontPath) > 0) {
+    if (isTRUE(!skipCache && (nchar(cachedFontPath) > 0))) {
         return(cachedFontPath)
     }
     fontNameWithExtn <- paste0(fontNameWithoutExtension, ".vf")
@@ -72,7 +72,7 @@ upFontFile <- function(fontNameWithoutExtension) {
         )
         # message("Found: ", latinFont)
         # Cache font names from the DVI output against their type.
-        if (nchar(latinFont) > 0) {
+        if (length(latinFont) > 0 && nchar(latinFont) > 0) {
             latinFonts <- get(FONT_CACHE_LATIN)
             set(FONT_CACHE_LATIN, c(latinFonts, fontNameWithoutExtension))
         }
@@ -102,7 +102,7 @@ upFontFile <- function(fontNameWithoutExtension) {
             set(FONT_CACHE_CJK, c(cjkFonts, fontNameWithoutExtension))
         }
     }
-    if (isFALSE(nchar(cjkFont) > 0 || nchar(latinFont) > 0)) {
+    if (is.null(cjkFont) && is.null(latinFont)) {
         stop("No font could be resolved.")
     }
     res <- ifelse(length(cjkFont) > 0, cjkFont, latinFont)
