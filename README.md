@@ -59,6 +59,7 @@
 - [ ] Font face support in 0.2 `xdvir`?
 - [ ] Independent font library specification?
 - [ ] Font family changes with/without `gpar`s.
+- [ ] Math fonts? `newtxmath`/`newpxmath` etc.
 
 ## Integration
 
