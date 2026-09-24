@@ -2,7 +2,16 @@ pxchfonSpecialPrefix <- "^pdf:mapline "
 pxchFontCacheKey <- "upxdvir::pxchfon"
 
 upFontPreamble <- function(fontFamily = "alphabet") {
-    paste0("\\usepackage[", fontFamily, "]{pxchfon}")
+    preamble <- paste0("\\usepackage[", fontFamily, "]{pxchfon}")
+    if (fontFamily == "alphabet") {
+        # No font family specified, apply sans-serif default.
+        preamble <- paste(
+            preamble,
+            "\\renewcommand{\\kanjifamilydefault}{\\gtdefault}",
+            "\\renewcommand{\\familydefault}{\\sfdefault}"
+        )
+    }
+    preamble
 }
 
 upFontSpecial <- function(specialString, state) {

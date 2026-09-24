@@ -10,7 +10,6 @@ library(upxdvir)
 ```{r, echo = FALSE}
 options(warn = 2)
 knitr::opts_chunk$set(error = TRUE)
-knitr::opts_chunk$set(cache = TRUE)
 drawGrid <- function(border = TRUE) {
     if (border) {
         grid.rect(gp = gpar(lwd = 10, col = 2))
@@ -56,7 +55,8 @@ ggplot(mtcars) +
     labs(
         x = "エンジン排気量 (Engine Displacement)",
         y = "燃費 (Miles per gallon)",
-        title = "エンジン排気量と燃費の関係 (Engine Displacement vs Fuel Economy)"
+        title = "エンジン排気量と燃費の関係",
+        subtitle = "Engine Displacement vs Fuel Economy"
     ) +
     theme_classic() +
     theme(
@@ -65,8 +65,7 @@ ggplot(mtcars) +
             documentClass = "utarticle",
             angle = -0, vjust = 0.5
         ),
-        plot.title = element_latex(),
-        plot.margin = unit(c(1, 1, 1, 1), "cm")
+        plot.title = element_latex()
     )
 ```
 
