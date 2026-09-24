@@ -57,22 +57,7 @@
 - [x] Glyph indexer should be direction aware.
 - [ ] Investigate `LuaHBTeX` failure.
 - [ ] Font face support in 0.2 `xdvir`?
-- [ ] Independent font library specification?
-- [ ] Font family changes with/without `gpar`s.
+- [x] Independent font library specification?
+- [x] Font family changes with/without `gpar`s.
 - [ ] Math fonts? `newtxmath`/`newpxmath` etc.
-
-## Integration
-
-Currently, a custom implementation is only needed for `xdvir::typeset`. `xdvir::author` and `xdvir::render` are used as-is in `grid.uplatex`.
-`xdvir::typeset` needs to be different because engine args for `tinytex::latexmk` slightly differ when with `uplatex`. Output directory has a different quoting structure, and a different flag name. For example, `luatex` needs `--output-directory`, whereas `uptex` needs `-output-directory`.
-
-What works:
-
-```
-## Options: -latex="uplatex -output-comment='R package xdvir_0.2.0; engine name: upTeX; engine version: e-upTeX 3.141592653-p4.1.2-u2.02-251130-2.6 (utf8.uptex) (TeX Live 2026); packages: ' '-output-directory=/var/folders/22/gfrffpq13pn5_6bym06gmwgr0000gn/T//RtmpM7w7VD'"
-```
-
-What `xdvir::typeset` produces:
-```
-## -latex=uplatex--output-comment="R package xdvir_0.2.0; engine name: upTeX; engine version: e-upTeX 3.141592653-p4.1.2-u2.02-251130-2.6 (utf8.uptex) (TeX Live 2026); packages: "'-output-directory=/var/folders/22/gfrffpq13pn5_6bym06gmwgr0000gn/T//RtmpXjRDC5'
-```
+- [ ] Should the Kanji default also control Latin font?

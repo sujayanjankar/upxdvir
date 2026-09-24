@@ -5,8 +5,3 @@ importFrom("rlang", "on_load")
 import("grid")
 import("hexView")
 import("xdvir")
-
-export(
-    "element_uplatex",
-    "grid.uplatex"
-)
