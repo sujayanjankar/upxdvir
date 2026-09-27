@@ -111,10 +111,10 @@ upFontFile <- function(fontNameWithoutExtension) {
 }
 
 upFontPreset <- function(family, face, size, lineheight, colour) {
-    if(!nchar(family)) {
-        family <- "alphabet"
+    if (!nchar(family)) {
+        family <- "noalphabet"
     }
-    packages <- list(upFontPackage(family))
+    packages <- list(upFontPackage(family, face))
 
     # Process font size.
     fontsize <- paste0(

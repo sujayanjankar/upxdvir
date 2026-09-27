@@ -2,12 +2,12 @@
 
 ## Libraries
 
-```{r}
+```{r imports}
 library(grid)
 library(upxdvir)
 ```
 
-```{r, echo = FALSE}
+```{r setup, echo = FALSE}
 options(warn = 2)
 knitr::opts_chunk$set(error = TRUE)
 drawGrid <- function(border = TRUE) {
@@ -19,7 +19,7 @@ drawGrid <- function(border = TRUE) {
         c(.5, 0),
         c(1, .5),
         c(.5, 1),
-        gp = gpar(lty = 3, col = "gray", alpha = .5)
+        gp = gpar(lty = 4, col = "gray", alpha = .5)
     )
 }
 ```
@@ -28,7 +28,7 @@ drawGrid <- function(border = TRUE) {
 
 ### Horizontal Typesetting
 
-```{r, fig.align = "center", fig.height = 3, fig.width = 3}
+```{r horiz, fig.align = "center", fig.height = 4, fig.width = 4}
 drawGrid()
 grid.latex("The text is rendered horizontally by default.", y = .7)
 grid.latex("「JRまで 0.5 km」と聞いた。")
@@ -36,11 +36,11 @@ grid.latex("「JRまで 0.5 km」と聞いた。")
 
 ### Vertical Typesetting
 
-```{r, fig.align = "center", fig.height = 3, fig.width = 3}
+```{r vert, fig.align = "center", fig.height = 4, fig.width = 4}
 drawGrid()
 grid.latex(
     "The \\texttt{documentClass = 'utarticle'} parameter typesets text vertically.",
-    width = unit(2.5, "in"),
+    width = unit(3, "in"),
     y = .9
 )
 grid.latex("「JRまで 0.5 km」と聞いた。", documentClass = "utarticle")
@@ -48,17 +48,19 @@ grid.latex("「JRまで 0.5 km」と聞いた。", documentClass = "utarticle")
 
 ### `ggplot` Labels
 
-```{r}
+```{r ggp}
 library(ggplot2)
-ggplot(mtcars) +
+gg <- ggplot(mtcars) +
     geom_point(aes(x = disp, y = mpg)) +
+    theme(
+        axis.title.x = element_latex(engine = "XeTeX"))
+gg +
     labs(
         x = "エンジン排気量 (Engine Displacement)",
         y = "燃費 (Miles per gallon)",
         title = "エンジン排気量と燃費の関係",
         subtitle = "Engine Displacement vs Fuel Economy"
     ) +
-    theme_classic() +
     theme(
         axis.title.x = element_latex(),
         axis.title.y = element_latex(
@@ -71,7 +73,7 @@ ggplot(mtcars) +
 
 ### Other Fonts
 
-```{r, fig.align = "center", fig.height = 3, fig.width = 3}
+```{r fonts, fig.align = "center", fig.height = 4, fig.width = 4}
 drawGrid()
 grid.latex("これはIPAフォントです。",
     documentClass = "utarticle", x = .1,
@@ -94,7 +96,7 @@ grid.latex("デフォルトのフォント。", documentClass = "utarticle", x =
 
 ## Regression Checks
 
-```{r, fig.align = "center", fig.height = 3, fig.width = 3}
+```{r reg, fig.align = "center", fig.height = 4, fig.width = 4}
 drawGrid()
 grid.latex("LuaTeX", engine = "LuaTeX", y = .7)
 grid.latex("XeTeX", engine = "XeTeX", y = .3)

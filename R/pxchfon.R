@@ -1,20 +1,46 @@
 pxchfonSpecialPrefix <- "^pdf:mapline "
 pxchFontCacheKey <- "upxdvir::pxchfon"
+defaultFamilies <- c("sans", "serif", "mono")
 
-upFontPreamble <- function(fontFamily = "alphabet") {
-    preamble <- paste0("\\usepackage[", fontFamily, "]{pxchfon}")
-    if (fontFamily == "alphabet") {
-        # No font family specified, apply sans-serif default.
-        preamble <- paste(
-            preamble,
-            "\\renewcommand{\\kanjifamilydefault}{\\gtdefault}",
-            "\\renewcommand{\\familydefault}{\\sfdefault}"
-        )
+.upFontPreamble <- function(fontFamily) {
+    ff <- "noalphabet"
+    if (nchar(fontFamily) && !(fontFamily %in% defaultFamilies)) {
+        ff <- paste(ff, fontFamily, sep = ",")
     }
-    preamble
+    paste0("\\usepackage[", ff, "]{pxchfon}")
 }
 
-upFontSpecial <- function(specialString, state) {
+.upFontPrefix <- function(fontFamily, fontFace) {
+    fontFace <- match.arg(fontFace, c("plain", "bold"))
+    prefix <- ""
+    # Process font-face, currently only plain and bold work.
+    if (fontFace == "bold") {
+        prefix <- paste(
+            prefix,
+            "\\bfseries"
+        )
+    }
+    # Process font families.
+    if (fontFamily == "mono") {
+        prefix <- paste(
+            prefix,
+            "\\ttfamily"
+        )
+    } else if (fontFamily == "serif") {
+        prefix <- paste(
+            prefix,
+            "\\mcfamily\\rmfamily"
+        )
+    } else {
+        # No oblique faces supported.
+        prefix <- paste(
+            prefix,
+            "\\gtfamily\\sffamily"
+        )
+    }
+}
+
+.upFontSpecial <- function(specialString, state) {
     if (grepl(pxchfonSpecialPrefix, specialString)) {
         splitArr <- unlist(strsplit(specialString, split = " "))
         fontName <- splitArr[2]
@@ -25,10 +51,11 @@ upFontSpecial <- function(specialString, state) {
     }
 }
 
-upFontPackage <- function(fontFamily = "alphabet") {
+upFontPackage <- function(fontFamily = "", fontFace = "plain") {
     xdvir::LaTeXpackage(
         name = "pxchfon",
-        preamble = upFontPreamble(fontFamily),
-        special = upFontSpecial
+        preamble = .upFontPreamble(fontFamily),
+        prefix = .upFontPrefix(fontFamily, fontFace),
+        special = .upFontSpecial
     )
 }
