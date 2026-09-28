@@ -84,7 +84,7 @@ upFontFile <- function(fontNameWithoutExtension) {
         if (skipCache) {
             cjkFont <- lookupKpathsea(pxchFonts[strContentFile])
         }
-        if (!nchar(cjkFont) > 0) {
+        if (length(cjkFont) == 0 || !nchar(cjkFont) > 0) {
             if (skipCache) {
                 warning(
                     "Physical font for the specified font family (",

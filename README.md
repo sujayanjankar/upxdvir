@@ -71,3 +71,4 @@
       theme(text = element_latex(family = "menlo"))
   ```
 - [ ] Should the height gpar be allowed for vertical typesetting only?
+- [ ] For user installed fonts, `OSFONTDIR` should be set so `kpsewhich` can find those fonts.
