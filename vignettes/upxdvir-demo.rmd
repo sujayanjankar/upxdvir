@@ -49,11 +49,19 @@ grid.latex("「JRまで 0.5 km」と聞いた。", documentClass = "utarticle")
 ### `ggplot` Labels
 
 ```{r ggp}
+library(gggrid)
 library(ggplot2)
+label <- function(data, coords) {
+    latexGrob(
+        "このグラフは、自動車の燃費とエンジン排気量との関係を示しています。",
+        documentClass = "utarticle",
+        x = coords$x, y = coords$y, vjust = 1
+    )
+}
+
 gg <- ggplot(mtcars) +
-    geom_point(aes(x = disp, y = mpg)) +
-    theme(
-        axis.title.x = element_latex(engine = "XeTeX"))
+    geom_point(aes(x = disp, y = mpg))
+
 gg +
     labs(
         x = "エンジン排気量 (Engine Displacement)",
@@ -68,7 +76,8 @@ gg +
             angle = -0, vjust = 0.5
         ),
         plot.title = element_latex()
-    )
+    ) +
+    grid_panel(label, data = data.frame(x = 450, y = 30), aes(x, y))
 ```
 
 ### Other Fonts

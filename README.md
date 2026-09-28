@@ -70,3 +70,4 @@
       labs(subtitle = "En") +
       theme(text = element_latex(family = "menlo"))
   ```
+- [ ] Should the height gpar be allowed for vertical typesetting only?
