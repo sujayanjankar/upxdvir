@@ -4,7 +4,7 @@ defaultFamilies <- c("sans", "serif", "mono")
 
 .upFontPreamble <- function(fontFamily) {
     ff <- "noalphabet"
-    if (nchar(fontFamily) && !(fontFamily %in% defaultFamilies)) {
+    if (nchar(fontFamily) && fontFamily != ff && !(fontFamily %in% defaultFamilies)) {
         ff <- paste(ff, fontFamily, sep = ",")
     }
     paste0("\\usepackage[", ff, "]{pxchfon}")
