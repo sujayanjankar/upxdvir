@@ -70,5 +70,7 @@
       labs(subtitle = "En") +
       theme(text = element_latex(family = "menlo"))
   ```
-- [ ] Should the height gpar be allowed for vertical typesetting only?
-- [ ] For user installed fonts, `OSFONTDIR` should be set so `kpsewhich` can find those fonts.
+- [x] Should the height gpar be allowed for vertical typesetting only? - No, get wrappers over uplatex to do that.
+- [x] For user installed fonts, `OSFONTDIR` should be set so `kpsewhich` can find those fonts.
+- [ ] Independent font file support should be provided.
+- [x] Get rid of `minipagePackage` and `height` arg.

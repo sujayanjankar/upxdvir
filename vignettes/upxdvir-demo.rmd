@@ -26,37 +26,36 @@ drawGrid <- function(border = TRUE) {
 
 ## Examples
 
-### Horizontal Typesetting
-
-```{r horiz, fig.align = "center", fig.height = 4, fig.width = 4}
-drawGrid()
-grid.latex("The text is rendered horizontally by default.", y = .7)
-grid.latex("「JRまで 0.5 km」と聞いた。")
-```
-
 ### Vertical Typesetting
 
 ```{r vert, fig.align = "center", fig.height = 4, fig.width = 4}
 drawGrid()
-grid.latex(
-    "The \\texttt{documentClass = 'utarticle'} parameter typesets text vertically.",
+grid.uplatex("The text is rendered vertically by default.", y = .8, direction = 0)
+grid.uplatex("「JRまで 0.5 km」と聞いた。")
+```
+
+### Horizontal Typesetting
+
+```{r horiz, fig.align = "center", fig.height = 4, fig.width = 4}
+drawGrid()
+grid.uplatex(
+    "The \\texttt{direction = 0} parameter typesets text horizontally.",
     width = unit(3, "in"),
-    y = .9
+    y = .75, direction = 0
 )
-grid.latex("「JRまで 0.5 km」と聞いた。", documentClass = "utarticle")
+grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = 0)
 ```
 
 ### `ggplot` Labels
 
 ```{r ggp}
-library(gggrid)
 library(ggplot2)
+library(gggrid)
 label <- function(data, coords) {
-    latexGrob(
+    # TODO: Export this.
+    upxdvir:::uplatexGrob(
         "このグラフは、自動車の燃費とエンジン排気量との関係を示しています。",
-        documentClass = "utarticle",
         x = coords$x, y = coords$y,
-        height = unit(1, "in"),
         hjust = 1, vjust = 1
     )
 }
@@ -72,12 +71,9 @@ gg +
         subtitle = "Engine Displacement vs Fuel Economy"
     ) +
     theme(
-        axis.title.x = element_latex(),
-        axis.title.y = element_latex(
-            documentClass = "utarticle",
-            angle = -0, vjust = 0.5
-        ),
-        plot.title = element_latex()
+        axis.title.x = element_uplatex(direction = 0),
+        axis.title.y = element_uplatex(angle = -0, vjust = 0.5),
+        plot.title = element_uplatex(direction = 0)
     ) +
     grid_panel(
         label,
@@ -90,23 +86,23 @@ gg +
 
 ```{r fonts, fig.align = "center", fig.height = 4, fig.width = 4}
 drawGrid()
-grid.latex("これはIPAフォントです。",
-    documentClass = "utarticle", x = .1,
+grid.uplatex("これはIPAフォントです。",
+    x = .1,
     gp = gpar(fontfamily = "ipa")
 )
-grid.latex("これはIPAexフォントです。",
-    documentClass = "utarticle", x = .3,
+grid.uplatex("これはIPAexフォントです。",
+    x = .3,
     gp = gpar(fontfamily = "ipaex")
 )
-grid.latex("これはHaranoAjiフォントです。",
-    documentClass = "utarticle", x = .5,
+grid.uplatex("これはHaranoAjiフォントです。",
+    x = .5,
     gp = gpar(fontfamily = "haranoaji")
 )
-grid.latex("これはSourceHanフォントです。",
-    documentClass = "utarticle", x = .7,
+grid.uplatex("これはSourceHanフォントです。",
+    x = .7,
     gp = gpar(fontfamily = "sourcehan")
 )
-grid.latex("デフォルトのフォント。", documentClass = "utarticle", x = .9)
+grid.uplatex("デフォルトのフォント。", x = .9)
 ```
 
 ## Regression Checks

@@ -23,9 +23,8 @@ initialiseEngine <- function() {
             fontPreset = upFontPreset
         )
         xdvir::registerEngine(UpTeXengine)
-        options(xdvir.engine = UpTeXengine)
-        options(xdvir.fontLib = upFontLibrary)
         xdvir::registerPackage(upFontPackage())
+        xdvir::registerPackage(minipagePackage())
         # message("Registered upTeX!")
     } else {
         stop("No upTeX installation found!")

@@ -11,6 +11,13 @@ defaultFamilies <- c("sans", "serif", "mono")
 }
 
 .upFontPrefix <- function(fontFamily, fontFace) {
+    if (length(fontFace) > 1) {
+        fontFace <- fontFace[1]
+        # TODO: When does this happen? Log it? Warn it?
+    }
+    if (!nchar(fontFace)) {
+        fontFace <- "plain"
+    }
     fontFace <- match.arg(fontFace, c("plain", "bold"))
     prefix <- ""
     # Process font-face, currently only plain and bold work.

@@ -111,6 +111,10 @@ upFontFile <- function(fontNameWithoutExtension) {
 }
 
 upFontPreset <- function(family, face, size, lineheight, colour) {
+    if (length(family) > 1) {
+        family <- family[1]
+        # TODO: When does this happen? Log it? Warn it?
+    }
     if (!nchar(family)) {
         family <- "noalphabet"
     }
