@@ -59,8 +59,6 @@ element_uplatex <- function(text, ..., height = 0, direction = 1) {
 uplatexGrob <- function(text, ..., height = 0, direction = 1) {
     otherArgs <- list(...)
     # TODO: Wire in height.
-    message(texFileContent)
-    print(pkgs)
     do.call(
         xdvir::latexGrob,
         c(
@@ -68,8 +66,7 @@ uplatexGrob <- function(text, ..., height = 0, direction = 1) {
             list(engine = "upTeX"),
             otherArgs,
             list(fontLib = upFontLibrary),
-            list(documentClass = ifelse(direction == 1, "utarticle", "ujarticle")),
-            list(packages = pkgs)
+            list(documentClass = ifelse(direction == 1, "utarticle", "ujarticle"))
         )
     )
 }
