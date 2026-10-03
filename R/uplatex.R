@@ -1,49 +1,56 @@
 require(grid)
 require(xdvir)
-# TODO: Clean up loggers.
-grid.uplatex <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
-    wrapper <- if (verbose) {
-        \(...) actualExecution(...)
+
+grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
+    if (verbose) {
+        .innerGridUplatex(text, ..., direction = direction)
     } else {
-        \(...) suppressMessages(suppressWarnings(actualExecution(...)))
+        suppressMessages(suppressWarnings(.innerGridUplatex(text, ..., direction = direction)))
     }
-    wrapper(text, ..., height = height, direction = direction)
 }
 
-actualExecution <- function(text, ..., height, direction) {
+.innerGridUplatex <- function(text, ..., direction) {
     otherArgs <- list(...)
-    message(text)
-    message(str(otherArgs))
-    message(height)
-    message(direction)
     pkgs <- c()
-    if (height > 0) {
-        pkgs <- c(pkgs, list(minipagePackage(height)))
+    dimToLimit <- if (direction == 1) otherArgs$gp$height else otherArgs$gp$width
+    dimToLimit <- convertUnitToInches(dimToLimit)
+    if (dimToLimit > 0) {
+        pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
     }
-    texFileContent <- xdvir::author(text,
-        documentClass = ifelse(direction == 1, "utarticle", "ujarticle"),
-        packages = pkgs, engine = "upTeX"
-    )
-    message(texFileContent)
-    dviFile <- xdvir::typeset(texFileContent, engine = "upTeX")
+    message(otherArgs)
+    message(pkgs)
     args <- c(
-        list(dvi = dviFile),
+        list(tex = text),
         list(engine = "upTeX"),
+        list(documentClass = ifelse(direction == 1, "utarticle", "ujarticle")),
         otherArgs,
         list(packages = pkgs),
         list(fontLib = upFontLibrary)
     )
-    do.call(xdvir::render, args)
+    do.call(xdvir::grid.latex, args)
 }
 
-element_uplatex <- function(text, ..., height = 0, direction = 1) {
-    otherArgs <- list(...)
-    print(otherArgs)
-    pkgs <- c()
-    if (height > 0) {
-        pkgs <- c(pkgs, list(minipagePackage(height)))
+element_uplatex <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
+    if (verbose) {
+        .innerElementUplatex(text, ..., height = height, direction = direction)
+    } else {
+        suppressMessages(suppressWarnings(.innerElementUplatex(text, ...,
+            height = height,
+            direction = direction
+        )))
     }
-    print(pkgs)
+}
+
+.innerElementUplatex <- function(text, ..., height, direction) {
+    otherArgs <- list(...)
+    pkgs <- c()
+    dimToLimit <- if (direction == 1) otherArgs$gp$height else otherArgs$gp$width
+    dimToLimit <- convertUnitToInches(dimToLimit)
+    if (dimToLimit > 0) {
+        pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
+    }
+    message(otherArgs)
+    message(pkgs)
     do.call(
         xdvir::element_latex,
         c(
@@ -56,14 +63,33 @@ element_uplatex <- function(text, ..., height = 0, direction = 1) {
     )
 }
 
-uplatexGrob <- function(text, ..., height = 0, direction = 1) {
+uplatexGrob <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
+    if (verbose) {
+        .innerUplatexGrob(text, ..., height = height, direction = direction)
+    } else {
+        suppressMessages(suppressWarnings(.innerUplatexGrob(text, ...,
+            height = height,
+            direction = direction
+        )))
+    }
+}
+
+.innerUplatexGrob <- function(text, ..., height, direction) {
     otherArgs <- list(...)
-    # TODO: Wire in height.
+    pkgs <- c()
+    dimToLimit <- if (direction == 1) height else width
+    dimToLimit <- convertUnitToInches(dimToLimit)
+    if (dimToLimit > 0) {
+        pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
+    }
+    message(otherArgs)
+    message(pkgs)
     do.call(
         xdvir::latexGrob,
         c(
             list(tex = text),
             list(engine = "upTeX"),
+            list(packages = pkgs),
             otherArgs,
             list(fontLib = upFontLibrary),
             list(documentClass = ifelse(direction == 1, "utarticle", "ujarticle"))

@@ -31,7 +31,7 @@ defaultFamilies <- c("sans", "serif", "mono")
     if (fontFamily == "mono") {
         prefix <- paste(
             prefix,
-            "\\ttfamily"
+            "\\gtfamily\\ttfamily"
         )
     } else if (fontFamily == "serif") {
         prefix <- paste(

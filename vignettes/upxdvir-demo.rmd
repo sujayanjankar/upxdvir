@@ -8,7 +8,6 @@ library(upxdvir)
 ```
 
 ```{r setup, echo = FALSE}
-options(warn = 2)
 knitr::opts_chunk$set(error = TRUE)
 drawGrid <- function(border = TRUE) {
     if (border) {
@@ -30,8 +29,12 @@ drawGrid <- function(border = TRUE) {
 
 ```{r vert, fig.align = "center", fig.height = 4, fig.width = 4}
 drawGrid()
-grid.uplatex("The text is rendered vertically by default.", y = .8, direction = 0)
-grid.uplatex("「JRまで 0.5 km」と聞いた。")
+grid.uplatex(
+    "The text is rendered vertically by default.",
+    y = .8,
+    direction = 0
+)
+grid.uplatex("「JRまで 0.5 km」と聞いた。", gp = gpar(height = 1))
 ```
 
 ### Horizontal Typesetting
@@ -40,7 +43,7 @@ grid.uplatex("「JRまで 0.5 km」と聞いた。")
 drawGrid()
 grid.uplatex(
     "The \\texttt{direction = 0} parameter typesets text horizontally.",
-    width = unit(3, "in"),
+    gp = gpar(width = unit(2, "in")),
     y = .75, direction = 0
 )
 grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = 0)
@@ -49,6 +52,8 @@ grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = 0)
 ### `ggplot` Labels
 
 ```{r ggp}
+library(grid)
+library(upxdvir)
 library(ggplot2)
 library(gggrid)
 label <- function(data, coords) {
@@ -56,7 +61,7 @@ label <- function(data, coords) {
     upxdvir:::uplatexGrob(
         "このグラフは、自動車の燃費とエンジン排気量との関係を示しています。",
         x = coords$x, y = coords$y,
-        hjust = 1, vjust = 1
+        hjust = 1, vjust = 1, height = unit(1, "in")
     )
 }
 
