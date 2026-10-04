@@ -49,67 +49,6 @@ grid.uplatex(
 grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = 0)
 ```
 
-### `ggplot` Labels
-
-```{r ggp}
-library(grid)
-library(upxdvir)
-library(ggplot2)
-library(gggrid)
-label <- function(data, coords) {
-    # TODO: Export this.
-    upxdvir:::uplatexGrob(
-        "このグラフは、自動車の燃費とエンジン排気量との関係を示しています。",
-        x = coords$x, y = coords$y,
-        hjust = 1, vjust = 1, height = unit(1, "in")
-    )
-}
-
-gg <- ggplot(mtcars) +
-    geom_point(aes(x = disp, y = mpg))
-
-gg +
-    labs(
-        x = "エンジン排気量 (Engine Displacement)",
-        y = "燃費 (Miles per gallon)",
-        title = "エンジン排気量と燃費の関係",
-        subtitle = "Engine Displacement vs Fuel Economy"
-    ) +
-    theme(
-        axis.title.x = element_uplatex(direction = 0),
-        axis.title.y = element_uplatex(angle = -0, vjust = 0.5),
-        plot.title = element_uplatex(direction = 0)
-    ) +
-    grid_panel(
-        label,
-        data = data.frame(x = max(mtcars$disp), y = max(mtcars$mpg)),
-        aes(x, y)
-    )
-```
-
-### Other Fonts
-
-```{r fonts, fig.align = "center", fig.height = 4, fig.width = 4}
-drawGrid()
-grid.uplatex("これはIPAフォントです。",
-    x = .1,
-    gp = gpar(fontfamily = "ipa")
-)
-grid.uplatex("これはIPAexフォントです。",
-    x = .3,
-    gp = gpar(fontfamily = "ipaex")
-)
-grid.uplatex("これはHaranoAjiフォントです。",
-    x = .5,
-    gp = gpar(fontfamily = "haranoaji")
-)
-grid.uplatex("これはSourceHanフォントです。",
-    x = .7,
-    gp = gpar(fontfamily = "sourcehan")
-)
-grid.uplatex("デフォルトのフォント。", x = .9)
-```
-
 ## Regression Checks
 
 ```{r reg, fig.align = "center", fig.height = 4, fig.width = 4}

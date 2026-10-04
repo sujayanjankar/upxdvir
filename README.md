@@ -63,7 +63,7 @@
 - [x] Font family changes with/without `gpar`s.
 - [ ] Math fonts? `newtxmath`/`newpxmath` etc.
 - [x] Should the Kanji default also control Latin font? - No, because `pxchfon` fonts are half-width, not proportional.
-- [ ] `element_latex(documentClass = "utarticle")` **_OR_** `element_latex(dir = 1)` which internally applies the classes/options?
+- [x] `element_latex(documentClass = "utarticle")` **_OR_** `element_latex(dir = 1)` which internally applies the classes/options?
 - [ ] Is this supposed to work?
   ```
   gg +
@@ -74,3 +74,15 @@
 - [x] For user installed fonts, `OSFONTDIR` should be set so `kpsewhich` can find those fonts.
 - [ ] Independent font file support should be provided.
 - [x] Get rid of `minipagePackage` and `height` arg.
+
+## Challenges
+
+Specifying an absolute font can be done in two ways with `pxchfon`:
+    - Directly set it as `\setminchofont{fontname.otf}` or `\setgothicfont{fontname.ttf}` in the preamble. This requires the file to be searchable by `kpsewhich`.
+    - Use `systemfonts::matchfont`, which requires the font to be "installed", not just present at a path where `kpsewhich` can find it. Upside, can find bold weight fonts, if installed. Downside, if the CJK font could not be found with something like `systemfonts::matchfont('Source Han Sans')`, it returns a Latin font, `Helvetica` for MacOS.
+
+- [ ] Should the upLaTeX (+ grid) API determine whether a given font is serif or sans-serif? If a font file is given as `gp = gpar(fontfamily = "SourceHanSans-Bold.otf")`, how can it be decided whether this is the Gothic font or Mincho font?
+- [ ] Would specifying a font family for latin fonts also be allowed via the `uplatex` API?
+- Two potential font weight specifications:
+    - When Mincho (serif) text is to be emphasised, it is shown as Gothic (sans-serif) instead
+    - `pxchfon` can specify both the Mincho and Gothic fonts, but the `grid`/`uplatex` API allows for only 1.

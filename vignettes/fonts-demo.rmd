@@ -1,0 +1,74 @@
+# `{upxdvir}` - Font Customisation
+
+There are 2 ways to choose the font faces used by the typesetting.
+
+1. Presets from `{pxchfon}`
+1. Locally installed fonts
+
+How is a font chosen?
+
+<!-- TODO: Fill this section out. -->
+
+## Presets from `{pxchfon}`
+
+Presets such as the following are supported:
+
+1. `ipa`
+1. `ipaex`
+1. `haranoaji`
+1. `sourcehan`
+
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(error = TRUE)
+drawGrid <- function(border = TRUE) {
+    if (border) {
+        grid.rect(gp = gpar(lwd = 10, col = 2))
+    }
+    grid.segments(
+        c(0, .5),
+        c(.5, 0),
+        c(1, .5),
+        c(.5, 1),
+        gp = gpar(lty = 4, col = "gray", alpha = .5)
+    )
+}
+```
+
+
+```{r fonts2, fig.align = "center", fig.height = 4, fig.width = 4}
+drawGrid()
+grid.uplatex("これはIPAフォントです。",
+    x = .1,
+    gp = gpar(fontfamily = "ipa")
+)
+grid.uplatex("これはIPAexフォントです。",
+    x = .3,
+    gp = gpar(fontfamily = "ipaex")
+)
+grid.uplatex("これはHaranoAjiフォントです。",
+    x = .5,
+    gp = gpar(fontfamily = "haranoaji")
+)
+grid.uplatex("これはSourceHanフォントです。",
+    x = .7,
+    gp = gpar(fontfamily = "sourcehan")
+)
+grid.uplatex("デフォルトのフォント。", x = .9)
+```
+
+## Locally Installed Fonts
+
+In order to use locally installed fonts, they must be searchable by a `kpsewhich` lookup.
+The specified font face will determine where the font will apply.
+
+For example, specifying `fontfamily = "NotoSansCJKjp-Regular.otf"` with `fontface = "serif"` will apply the font to the Serif face.
+
+```{r}
+grid.uplatex(
+    "これは Noto Sans フォントです。", x = .25)
+grid.uplatex(
+    "これは Noto Sans フォントです。",
+    gp = gpar(fontfamily = "SourceHanSans-Bold.otf", face = "bold")
+)
+```

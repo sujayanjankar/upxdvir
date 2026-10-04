@@ -2,19 +2,31 @@ pxchfonSpecialPrefix <- "^pdf:mapline "
 pxchFontCacheKey <- "upxdvir::pxchfon"
 defaultFamilies <- c("sans", "serif", "mono")
 
-.upFontPreamble <- function(fontFamily) {
+.upFontPreamble <- function(fontFamily, fontFace) {
     ff <- "noalphabet"
-    if (nchar(fontFamily) && fontFamily != ff && !(fontFamily %in% defaultFamilies)) {
-        ff <- paste(ff, fontFamily, sep = ",")
+    localFont <- ""
+    if (grepl("\\.", fontFamily)) {
+        # Local font file.
+        fontPath <- lookupKpathsea(fontFamily)
+        if (length(fontPath) > 0 && file.exists(fontPath)) {
+            if (fontFace == "plain") {
+                localFont <- paste0("\\setminchofont{", fontFamily, "}")
+            } else {
+                localFont <- paste0("\\setgothicfont{", fontFamily, "}")
+            }
+        } else {
+            warning("Font", fontFamily, "could not be found. Falling back to system default.")
+        }
+    } else {
+        # pxchfon font family.
+        if (nchar(fontFamily) > 1 && fontFamily != ff && !(fontFamily %in% defaultFamilies)) {
+            ff <- paste(ff, fontFamily, sep = ",")
+        }
     }
-    paste0("\\usepackage[", ff, "]{pxchfon}")
+    paste0("\\usepackage[dvipdfmx,unicode,", ff, "]{pxchfon}", localFont)
 }
 
 .upFontPrefix <- function(fontFamily, fontFace) {
-    if (length(fontFace) > 1) {
-        fontFace <- fontFace[1]
-        # TODO: When does this happen? Log it? Warn it?
-    }
     if (!nchar(fontFace)) {
         fontFace <- "plain"
     }
@@ -61,7 +73,7 @@ defaultFamilies <- c("sans", "serif", "mono")
 upFontPackage <- function(fontFamily = "", fontFace = "plain") {
     xdvir::LaTeXpackage(
         name = "pxchfon",
-        preamble = .upFontPreamble(fontFamily),
+        preamble = .upFontPreamble(fontFamily, fontFace),
         prefix = .upFontPrefix(fontFamily, fontFace),
         special = .upFontSpecial
     )
