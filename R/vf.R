@@ -67,6 +67,12 @@ vf_op241 <- markedBlock(
     markerLabel = "pl"
 )
 
+vf_op1 <- vf_op6 <- mixedBlock(
+    cc = uint1,
+    tfm = int3,
+    dvi = vectorBlock(uint1, 6)
+)
+
 vf_op242 <- markedBlock(
     marker = int4,
     function(marker) {

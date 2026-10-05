@@ -1,8 +1,17 @@
 lookupKpathsea <- function(fileName) {
-    # message("Looking up: ", fileName)
-    suppressWarnings(system2("kpsewhich", args = fileName, stdout = TRUE, stderr = TRUE))
+    out <- suppressWarnings(
+        system2("kpsewhich", args = shQuote(fileName), stdout = TRUE, stderr = FALSE)
+    )
+    status <- attr(out, "status")
+    if (!is.null(status) && status != 0L) {
+        return(NA_character_)
+    }
+    out <- out[nzchar(out)]
+    if (length(out) == 0L) {
+        return(NA_character_)
+    }
+    out[1L]
 }
-
 readVirtualFontName <- function(filePath) {
     # message("Resolving from VF: ", file_path)
     res <- readVF(filePath)

@@ -3,6 +3,7 @@ require(xdvir)
 
 grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
     if (verbose) {
+        .clearFontCache()
         .innerGridUplatex(text, ..., direction = direction)
     } else {
         suppressMessages(suppressWarnings(.innerGridUplatex(text, ..., direction = direction)))
@@ -32,6 +33,7 @@ grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
 
 element_uplatex <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
     if (verbose) {
+        .clearFontCache()
         .innerElementUplatex(text, ..., height = height, direction = direction)
     } else {
         suppressMessages(suppressWarnings(.innerElementUplatex(text, ...,
@@ -65,6 +67,7 @@ element_uplatex <- function(text, ..., height = 0, direction = 1, verbose = FALS
 
 uplatexGrob <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
     if (verbose) {
+        .clearFontCache()
         .innerUplatexGrob(text, ..., height = height, direction = direction)
     } else {
         suppressMessages(suppressWarnings(.innerUplatexGrob(text, ...,

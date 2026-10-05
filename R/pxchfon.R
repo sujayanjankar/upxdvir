@@ -3,27 +3,17 @@ pxchFontCacheKey <- "upxdvir::pxchfon"
 defaultFamilies <- c("sans", "serif", "mono")
 
 .upFontPreamble <- function(fontFamily, fontFace) {
+    # Clean pxchfon state for every document.
+    set(pxchFontCacheKey, list())
     ff <- "noalphabet"
-    localFont <- ""
-    if (grepl("\\.", fontFamily)) {
-        # Local font file.
-        fontPath <- lookupKpathsea(fontFamily)
-        if (length(fontPath) > 0 && file.exists(fontPath)) {
-            if (fontFace == "plain") {
-                localFont <- paste0("\\setminchofont{", fontFamily, "}")
-            } else {
-                localFont <- paste0("\\setgothicfont{", fontFamily, "}")
-            }
-        } else {
-            warning("Font", fontFamily, "could not be found. Falling back to system default.")
-        }
-    } else {
-        # pxchfon font family.
-        if (nchar(fontFamily) > 1 && fontFamily != ff && !(fontFamily %in% defaultFamilies)) {
-            ff <- paste(ff, fontFamily, sep = ",")
-        }
+    # pxchfon font family.
+    if (nchar(fontFamily) > 1 && fontFamily != ff && !(fontFamily %in% defaultFamilies)) {
+        ff <- paste(ff, fontFamily, sep = ",")
     }
-    paste0("\\usepackage[dvipdfmx,unicode,", ff, "]{pxchfon}", localFont)
+    paste0(
+        "\\usepackage[deluxe]{otf}",
+        "\\usepackage[dvipdfmx,unicode,", ff, "]{pxchfon}"
+    )
 }
 
 .upFontPrefix <- function(fontFamily, fontFace) {
@@ -64,9 +54,11 @@ defaultFamilies <- c("sans", "serif", "mono")
         splitArr <- unlist(strsplit(specialString, split = " "))
         fontName <- splitArr[2]
         fontFile <- splitArr[4]
-        cacheItem <- get(pxchFontCacheKey) %||% list()
-        cacheItem[fontName] <- fontFile
-        set(pxchFontCacheKey, cacheItem)
+        if (isTRUE(nchar(fontName) > 0 && nchar(fontFile) > 0)) {
+            cacheItem <- get(pxchFontCacheKey) %||% list()
+            cacheItem[fontName] <- fontFile
+            set(pxchFontCacheKey, cacheItem)
+        }
     }
 }
 

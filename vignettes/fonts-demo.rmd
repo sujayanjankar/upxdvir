@@ -1,25 +1,18 @@
 # `{upxdvir}` - Font Customisation
 
-There are 2 ways to choose the font faces used by the typesetting.
-
-1. Presets from `{pxchfon}`
-1. Locally installed fonts
-
-How is a font chosen?
-
-<!-- TODO: Fill this section out. -->
-
-## Presets from `{pxchfon}`
-
-Presets such as the following are supported:
+Font customisation is supported from presets offered by `{pxchfon}` such as the following:
 
 1. `ipa`
 1. `ipaex`
 1. `haranoaji`
 1. `sourcehan`
+1. `noto`
 
+Only `plain` and `bold` font faces are supported since Japanese glyphs are already monospaced.
 
-```{r setup, echo = FALSE}
+```{r setup, echo = FALSE, message = FALSE}
+library(grid)
+library(upxdvir)
 knitr::opts_chunk$set(error = TRUE)
 drawGrid <- function(border = TRUE) {
     if (border) {
@@ -35,40 +28,34 @@ drawGrid <- function(border = TRUE) {
 }
 ```
 
+## Font Families
 
-```{r fonts2, fig.align = "center", fig.height = 4, fig.width = 4}
-drawGrid()
-grid.uplatex("これはIPAフォントです。",
-    x = .1,
-    gp = gpar(fontfamily = "ipa")
-)
-grid.uplatex("これはIPAexフォントです。",
-    x = .3,
-    gp = gpar(fontfamily = "ipaex")
-)
-grid.uplatex("これはHaranoAjiフォントです。",
-    x = .5,
-    gp = gpar(fontfamily = "haranoaji")
-)
-grid.uplatex("これはSourceHanフォントです。",
-    x = .7,
-    gp = gpar(fontfamily = "sourcehan")
-)
-grid.uplatex("デフォルトのフォント。", x = .9)
+```{r families, fig.align = "center", fig.height = 4, fig.width = 4}
+fontfamilies <- c("noto", "ipaex", "haranoaji", "sourcehan")
+xs <- seq(.2, .8, by = .2)
+invisible(mapply(
+    \(x, fam, fac) {
+        grid.latex(fam, x = x, y = .75)
+        grid.uplatex(
+        "これはフォントです。",
+        x = x,
+        gp = gpar(fontfamily = fam)
+    )},
+    xs, fontfamilies
+))
 ```
 
-## Locally Installed Fonts
+## Font faces
 
-In order to use locally installed fonts, they must be searchable by a `kpsewhich` lookup.
-The specified font face will determine where the font will apply.
-
-For example, specifying `fontfamily = "NotoSansCJKjp-Regular.otf"` with `fontface = "serif"` will apply the font to the Serif face.
-
-```{r}
-grid.uplatex(
-    "これは Noto Sans フォントです。", x = .25)
-grid.uplatex(
-    "これは Noto Sans フォントです。",
-    gp = gpar(fontfamily = "SourceHanSans-Bold.otf", face = "bold")
-)
+```{r faces, fig.align = "center", fig.height = 4, fig.width = 4}
+invisible(mapply(
+    \(x, fam, fac) {
+        grid.latex(fam, x = x, y = .75)
+        grid.uplatex(
+        "これはフォントです。",
+        x = x,
+        gp = gpar(fontfamily = fam, fontface = "bold")
+    )},
+    xs, fontfamilies
+))
 ```

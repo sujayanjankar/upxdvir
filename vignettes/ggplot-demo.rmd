@@ -5,8 +5,7 @@ library(upxdvir)
 library(gggrid)
 
 label <- function(data, coords) {
-    # TODO: Export this.
-    upxdvir:::uplatexGrob(
+    uplatexGrob(
         "このグラフは、自動車の燃費とエンジン排気量との関係を示しています。",
         x = coords$x, y = coords$y,
         hjust = 1, vjust = 1, height = unit(1, "in")
@@ -26,7 +25,7 @@ gg +
     theme(
         axis.title.x = element_uplatex(direction = 0),
         axis.title.y = element_uplatex(angle = -0, vjust = 0.5),
-        plot.title = element_uplatex(direction = 0)
+        plot.title = element_uplatex(direction = 0, family = "serif", fontface = "bold")
     ) +
     grid_panel(
         label,

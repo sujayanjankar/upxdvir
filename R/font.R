@@ -1,19 +1,20 @@
 FONT_CACHE_PREFIX <- "up-font-def-"
-FONT_CACHE_CJK <- "cjk-"
-FONT_CACHE_LATIN <- "ltn-"
+FONT_CACHE_CJK <- "up-font-cjk-"
+FONT_CACHE_LATIN <- "up-font-ltn-"
 
 .initFonts <- function() {
     # This may potentially be expanded in the future
     # considering other maps.
     pdftexMapPath <- lookupKpathsea("pdftex.map")
     kanjixMapPath <- lookupKpathsea("kanjix.map")
-    if (length(pdftexMapPath) > 0) {
+    if (!is.na(pdftexMapPath)) {
         set("pdftex.map.path", pdftexMapPath)
     }
-    if (length(kanjixMapPath) > 0) {
+    if (!is.na(kanjixMapPath)) {
         set("kanjix.map.path", kanjixMapPath)
     }
     set("fonts.initialised", TRUE)
+    message("Fonts initialised.")
 }
 
 .lookupFont <- function(lookupString, lookupPath, fontNameIdx = 3) {
@@ -31,19 +32,20 @@ FONT_CACHE_LATIN <- "ltn-"
         # Assume otf, if no extension.
         filenameToSearch <- paste0(fontFileName, ifelse(hasExtension, "", ".otf"))
         lookupResult <- lookupKpathsea(filenameToSearch)
-        if (length(lookupResult) <= 0) {
+        if (is.na(lookupResult)) {
             # Lookup lowercase if the as-is lookup returns nothing.
             lookupResult <- lookupKpathsea(tolower(filenameToSearch))
         }
-        if (
-            length(lookupResult) <= 0 &&
-                attr(lookupResult, "status") > 0
-        ) {
+        if (is.na(lookupResult)) {
             message("File ", fontFileName, " not found!")
         } else {
             return(lookupResult)
         }
     }
+}
+
+.clearFontCache <- function(pattern = "^up-font-") {
+    rm(list = grep(pattern, ls(upxdvir_state), value = TRUE), envir = upxdvir_state)
 }
 
 upFontFile <- function(fontNameWithoutExtension) {
@@ -56,21 +58,21 @@ upFontFile <- function(fontNameWithoutExtension) {
     # If a pxchfon family has been set, skip the cache.
     skipCache <- length(pxchFonts) > 0
     if (isTRUE(!skipCache && (nchar(cachedFontPath) > 0))) {
+        message("Returning cached font: ", cachedFontPath)
         return(cachedFontPath)
     }
     fontNameWithExtn <- paste0(fontNameWithoutExtension, ".vf")
     filePath <- lookupKpathsea(fontNameWithExtn)
-    exitStatus <- attr(filePath, "status")
     latinFont <- cjkFont <- NULL
     # If the `.vf` file was not found, try the lookup in the latin font map.
-    if (length(filePath) <= 0 && exitStatus > 0) {
+    if (is.na(filePath)) {
         # Modern roman fonts have their OTF font name as the second column
         # in the font map.
         latinFont <- .lookupFont(fontNameWithoutExtension,
             get("pdftex.map.path"),
             fontNameIdx = 2
         )
-        # message("Found: ", latinFont)
+        message("Found: ", latinFont)
         # Cache font names from the DVI output against their type.
         if (length(latinFont) > 0 && nchar(latinFont) > 0) {
             latinFonts <- get(FONT_CACHE_LATIN)
@@ -80,11 +82,10 @@ upFontFile <- function(fontNameWithoutExtension) {
         strContentFile <- readVirtualFontName(filePath)
         # Kanji fonts have their OTF font name as the final column
         # in the font map.
-        cjkFont <- ""
         if (skipCache) {
             cjkFont <- lookupKpathsea(pxchFonts[strContentFile])
         }
-        if (length(cjkFont) == 0 || !nchar(cjkFont) > 0) {
+        if (length(cjkFont) <= 0 || is.na(cjkFont)) {
             if (skipCache) {
                 warning(
                     "Physical font for the specified font family (",
@@ -95,7 +96,7 @@ upFontFile <- function(fontNameWithoutExtension) {
             # Lookup the old way if the pxchfon specification does not return anything.
             cjkFont <- .lookupFont(strContentFile, get("kanjix.map.path"))
         }
-        # message("Found: ", cjkFont)
+        message("Found: ", cjkFont)
         # Cache font names from the DVI output against their type.
         if (nchar(cjkFont) > 0) {
             cjkFonts <- get(FONT_CACHE_CJK)
@@ -107,6 +108,7 @@ upFontFile <- function(fontNameWithoutExtension) {
     }
     res <- ifelse(length(cjkFont) > 0, cjkFont, latinFont)
     set(fontCacheKey, res)
+    message("Resolving to: ", res)
     res
 }
 
