@@ -38,7 +38,9 @@ element_uplatex <- function(text, ..., height = 0, direction = 1, verbose = FALS
     } else {
         suppressMessages(suppressWarnings(.innerElementUplatex(text, ...,
             height = height,
-            direction = direction
+            direction = direction,
+            angle = if(direction == 1) -0 else 0,
+            vjust = if(direction == 1) 0.5 else 0
         )))
     }
 }

@@ -67,12 +67,6 @@ vf_op241 <- markedBlock(
     markerLabel = "pl"
 )
 
-vf_op1 <- vf_op6 <- mixedBlock(
-    cc = uint1,
-    tfm = int3,
-    dvi = vectorBlock(uint1, 6)
-)
-
 vf_op242 <- markedBlock(
     marker = int4,
     function(marker) {
@@ -123,7 +117,7 @@ readVF <- function(f) {
         op <- readFormat(f, vfFormat, offset = offset)
         ## Just read as far as first 242 or 241
         ## in order to get the font definitions
-        if (blockValue(op$blocks$op.opcode) < 243) {
+        if (blockValue(op$blocks$op.opcode) <= 243) {
             done <- TRUE
         }
         offset <- offset + op$nbytes

@@ -24,7 +24,7 @@ gg +
     ) +
     theme(
         axis.title.x = element_uplatex(direction = 0),
-        axis.title.y = element_uplatex(angle = -0, vjust = 0.5),
+        axis.title.y = element_uplatex(),
         plot.title = element_uplatex(direction = 0, family = "serif", fontface = "bold")
     ) +
     grid_panel(
