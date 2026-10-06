@@ -22,7 +22,7 @@
   \setlength{\textwidth}{1.5in}
   ```
 - [ ] Fill out documentation files and DESCRIPTION file.
-- [ ] Exposed API will likely need cleanup, eventually, there will be no need to export `grid.uplatex` or `element_uplatex`. The same API is `{xdvir}` should be usable with just the `upLaTeX` engine.
+- [x] Exposed API will likely need cleanup, eventually, there will be no need to export `grid.uplatex` or `element_uplatex`. The same API is `{xdvir}` should be usable with just the `upLaTeX` engine.
 - [x] Fix the bounding box to make sure `vjust` works as expected. Currently, the glyphs are drawn slightly higher up on the viewport than they should be.
 - [x] Fix `tinytex::latexmk` args so that the `.fdb_latexmk` and `.aux` files are not created in the user's working directory.
 - [x] Mixed fonts: `cmr10.pfb` type fonts cause a segmentation fault. Potential reason is the font can't be found, seems to work on Paul's desktop, but with weird broken positioning for text from a different font. Observed traceback:
@@ -58,7 +58,7 @@
 - [ ] Support: `grid.uplatex("$\\frac{1}{2}$")`
 - [x] Glyph indexer should be direction aware.
 - [ ] Investigate `LuaHBTeX` failure.
-- [ ] Font face support in 0.2 `xdvir`?
+- [x] Font face support in 0.2 `xdvir`?
 - [x] Independent font library specification?
 - [x] Font family changes with/without `gpar`s.
 - [ ] Math fonts? `newtxmath`/`newpxmath` etc.
@@ -81,8 +81,9 @@ Specifying an absolute font can be done in two ways with `pxchfon`:
     - Directly set it as `\setminchofont{fontname.otf}` or `\setgothicfont{fontname.ttf}` in the preamble. This requires the file to be searchable by `kpsewhich`.
     - Use `systemfonts::matchfont`, which requires the font to be "installed", not just present at a path where `kpsewhich` can find it. Upside, can find bold weight fonts, if installed. Downside, if the CJK font could not be found with something like `systemfonts::matchfont('Source Han Sans')`, it returns a Latin font, `Helvetica` for MacOS.
 
-- [ ] Should the upLaTeX (+ grid) API determine whether a given font is serif or sans-serif? If a font file is given as `gp = gpar(fontfamily = "SourceHanSans-Bold.otf")`, how can it be decided whether this is the Gothic font or Mincho font?
-- [ ] Would specifying a font family for latin fonts also be allowed via the `uplatex` API?
+- [x] Should the upLaTeX (+ grid) API determine whether a given font is serif or sans-serif? If a font file is given as `gp = gpar(fontfamily = "SourceHanSans-Bold.otf")`, how can it be decided whether this is the Gothic font or Mincho font?
+- [x] Would specifying a font family for latin fonts also be allowed via the `uplatex` API? - No, just sans, serif & mono.
 - Two potential font weight specifications:
     - When Mincho (serif) text is to be emphasised, it is shown as Gothic (sans-serif) instead
     - `pxchfon` can specify both the Mincho and Gothic fonts, but the `grid`/`uplatex` API allows for only 1.
+- Solution: use `\mcfamily` in the fragment.
