@@ -7,6 +7,12 @@ import("hexView")
 import("xdvir")
 
 export(
-    "element_uplatex",
-    "grid.uplatex"
+    # Main API
+    "element_uplatex", "grid.uplatex", "uplatexGrob",
+
+    # Font Library
+    "HBfontLibrary",
+
+    # Packages
+    "minipagePackage", "pxchfonPackage"
 )
