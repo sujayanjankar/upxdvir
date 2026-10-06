@@ -31,16 +31,20 @@ grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
     do.call(xdvir::grid.latex, args)
 }
 
-element_uplatex <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
+element_uplatex <- function(text, ..., height = 0, direction = 1,
+                            angle = if (direction == 1) -0 else 0,
+                            vjust = if (direction == 1) 0.5 else 0,
+                            verbose = FALSE) {
     if (verbose) {
         .clearFontCache()
-        .innerElementUplatex(text, ..., height = height, direction = direction)
+        .innerElementUplatex(text, ..., height = height, direction = direction,
+                             angle = angle, vjust = vjust)
     } else {
         suppressMessages(suppressWarnings(.innerElementUplatex(text, ...,
             height = height,
             direction = direction,
-            angle = if(direction == 1) -0 else 0,
-            vjust = if(direction == 1) 0.5 else 0
+            angle = angle,
+            vjust = vjust
         )))
     }
 }
