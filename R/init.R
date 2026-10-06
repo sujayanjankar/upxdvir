@@ -23,7 +23,7 @@ initialiseEngine <- function() {
             fontPreset = upFontPreset
         )
         xdvir::registerEngine(UpTeXengine)
-        xdvir::registerPackage(upFontPackage())
+        xdvir::registerPackage(pxchfonPackage())
         xdvir::registerPackage(minipagePackage())
         # message("Registered upTeX!")
     } else {

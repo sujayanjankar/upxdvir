@@ -26,7 +26,7 @@ grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
         list(documentClass = ifelse(direction == 1, "utarticle", "ujarticle")),
         otherArgs,
         list(packages = pkgs),
-        list(fontLib = upFontLibrary)
+        list(fontLib = HBfontLibrary)
     )
     do.call(xdvir::grid.latex, args)
 }
@@ -65,7 +65,7 @@ element_uplatex <- function(text, ..., height = 0, direction = 1,
             list(engine = "upTeX"),
             list(documentClass = ifelse(direction == 1, "utarticle", "ujarticle")),
             otherArgs,
-            list(fontLib = upFontLibrary),
+            list(fontLib = HBfontLibrary),
             list(packages = pkgs)
         )
     )
@@ -100,7 +100,7 @@ uplatexGrob <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
             list(engine = "upTeX"),
             list(packages = pkgs),
             otherArgs,
-            list(fontLib = upFontLibrary),
+            list(fontLib = HBfontLibrary),
             list(documentClass = ifelse(direction == 1, "utarticle", "ujarticle"))
         )
     )

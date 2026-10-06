@@ -58,7 +58,7 @@ upFontFile <- function(fontNameWithoutExtension) {
     # If a pxchfon family has been set, skip the cache.
     skipCache <- length(pxchFonts) > 0
     if (isTRUE(!skipCache && (nchar(cachedFontPath) > 0))) {
-        message("Returning cached font: ", cachedFontPath)
+        # message("Returning cached font: ", cachedFontPath)
         return(cachedFontPath)
     }
     fontNameWithExtn <- paste0(fontNameWithoutExtension, ".vf")
@@ -72,7 +72,7 @@ upFontFile <- function(fontNameWithoutExtension) {
             get("pdftex.map.path"),
             fontNameIdx = 2
         )
-        message("Found: ", latinFont)
+        # message("Found: ", latinFont)
         # Cache font names from the DVI output against their type.
         if (length(latinFont) > 0 && nchar(latinFont) > 0) {
             latinFonts <- get(FONT_CACHE_LATIN)
@@ -96,7 +96,7 @@ upFontFile <- function(fontNameWithoutExtension) {
             # Lookup the old way if the pxchfon specification does not return anything.
             cjkFont <- .lookupFont(strContentFile, get("kanjix.map.path"))
         }
-        message("Found: ", cjkFont)
+        # message("Found: ", cjkFont)
         # Cache font names from the DVI output against their type.
         if (nchar(cjkFont) > 0) {
             cjkFonts <- get(FONT_CACHE_CJK)
@@ -108,12 +108,12 @@ upFontFile <- function(fontNameWithoutExtension) {
     }
     res <- ifelse(length(cjkFont) > 0, cjkFont, latinFont)
     set(fontCacheKey, res)
-    message("Resolving to: ", res)
+    # message("Resolving to: ", res)
     res
 }
 
 upFontPreset <- function(family, face, size, lineheight, colour) {
-    packages <- list(upFontPackage(family, face))
+    packages <- list(pxchfonPackage(family, face))
     # Process font size.
     fontsize <- paste0(
         "\\fontsize{", size, "}{", size * lineheight, "}\n",

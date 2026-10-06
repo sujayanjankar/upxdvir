@@ -90,7 +90,7 @@ resolveScriptType <- function(fontName) {
     }
 }
 
-upFontLibrary <- xdvir::FontLibrary(
+HBfontLibrary <- xdvir::FontLibrary(
     glyphWidth = hbGlyphWidth,
     glyphHeight = hbGlyphHeight,
     glyphBounds = hbGlyphBounds,

@@ -2,7 +2,7 @@ pxchfonSpecialPrefix <- "^pdf:mapline "
 pxchFontCacheKey <- "upxdvir::pxchfon"
 defaultFamilies <- c("sans", "serif", "mono")
 
-.upFontPreamble <- function(fontFamily, fontFace) {
+.pxchfonPreamble <- function(fontFamily, fontFace) {
     # Clean pxchfon state for every document.
     set(pxchFontCacheKey, list())
     ff <- "noalphabet"
@@ -16,7 +16,7 @@ defaultFamilies <- c("sans", "serif", "mono")
     )
 }
 
-.upFontPrefix <- function(fontFamily, fontFace) {
+.pxchfonPrefix <- function(fontFamily, fontFace) {
     if (!nchar(fontFace)) {
         fontFace <- "plain"
     }
@@ -49,7 +49,7 @@ defaultFamilies <- c("sans", "serif", "mono")
     }
 }
 
-.upFontSpecial <- function(specialString, state) {
+.pxchfonSpecial <- function(specialString, state) {
     if (grepl(pxchfonSpecialPrefix, specialString)) {
         splitArr <- unlist(strsplit(specialString, split = " "))
         fontName <- splitArr[2]
@@ -62,11 +62,11 @@ defaultFamilies <- c("sans", "serif", "mono")
     }
 }
 
-upFontPackage <- function(fontFamily = "", fontFace = "plain") {
+pxchfonPackage <- function(fontFamily = "", fontFace = "plain") {
     xdvir::LaTeXpackage(
         name = "pxchfon",
-        preamble = .upFontPreamble(fontFamily, fontFace),
-        prefix = .upFontPrefix(fontFamily, fontFace),
-        special = .upFontSpecial
+        preamble = .pxchfonPreamble(fontFamily, fontFace),
+        prefix = .pxchfonPrefix(fontFamily, fontFace),
+        special = .pxchfonSpecial
     )
 }
