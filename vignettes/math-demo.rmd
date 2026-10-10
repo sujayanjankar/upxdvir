@@ -1,0 +1,25 @@
+# `{upxdvir}` Math Demo
+
+**Note**: This is not fully functional yet. Unexpected behaviour may be encountered.
+
+```{r imports, message = FALSE}
+library(grid)
+library(upxdvir)
+```
+
+```{r setup, echo = FALSE}
+source("demo-helpers.R")
+setKnitrPresets()
+```
+
+## Fraction
+
+```{r frac}
+drawGrid()
+grid.uplatex("全体の $\\frac{1}{2}$ は $x$ です。")
+```
+
+## Exponentials
+```{r exp}
+grid.uplatex("$1^2$ のグラフです。")
+```

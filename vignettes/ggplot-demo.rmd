@@ -1,6 +1,6 @@
 # `{ggplot}` Examples
 
-```{r ggp}
+```{r ggp, message = FALSE}
 library(upxdvir)
 library(gggrid)
 

@@ -10,28 +10,21 @@ Font customisation is supported from presets offered by `{pxchfon}` such as the 
 
 Only `plain` and `bold` font faces are supported since Japanese glyphs are already monospaced.
 
-```{r setup, echo = FALSE, message = FALSE}
+```{r imports, message = FALSE}
 library(grid)
 library(upxdvir)
-knitr::opts_chunk$set(error = TRUE)
-drawGrid <- function(border = TRUE) {
-    if (border) {
-        grid.rect(gp = gpar(lwd = 10, col = 2))
-    }
-    grid.segments(
-        c(0, .5),
-        c(.5, 0),
-        c(1, .5),
-        c(.5, 1),
-        gp = gpar(lty = 4, col = "gray", alpha = .5)
-    )
-}
+```
+
+```{r setup, echo = FALSE}
+source("demo-helpers.R")
+setKnitrPresets(4, 4)
 ```
 
 ## Font Families
 
 ```{r families, fig.align = "center", fig.height = 4, fig.width = 4}
-fontfamilies <- c("serif", "noto", "ipaex", "haranoaji", "sourcehan")
+drawGrid()
+fontfamilies <- c("sourcehan", "serif", "noto", "ipaex", "haranoaji")
 xs <- seq(.1, .9, by = .2)
 invisible(mapply(
     \(x, fam, fac) {
@@ -48,6 +41,7 @@ invisible(mapply(
 ## Font faces
 
 ```{r faces, fig.align = "center", fig.height = 4, fig.width = 4}
+drawGrid()
 invisible(mapply(
     \(x, fam, fac) {
         grid.latex(fam, x = x, y = .75)

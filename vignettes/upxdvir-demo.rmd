@@ -2,32 +2,21 @@
 
 ## Libraries
 
-```{r imports}
+```{r imports, message = FALSE}
 library(grid)
 library(upxdvir)
 ```
 
 ```{r setup, echo = FALSE}
-knitr::opts_chunk$set(error = TRUE)
-drawGrid <- function(border = TRUE) {
-    if (border) {
-        grid.rect(gp = gpar(lwd = 10, col = 2))
-    }
-    grid.segments(
-        c(0, .5),
-        c(.5, 0),
-        c(1, .5),
-        c(.5, 1),
-        gp = gpar(lty = 4, col = "gray", alpha = .5)
-    )
-}
+source("demo-helpers.R")
+setKnitrPresets(4, 4)
 ```
 
 ## Examples
 
 ### Vertical Typesetting
 
-```{r vert, fig.align = "center", fig.height = 4, fig.width = 4}
+```{r vert}
 drawGrid()
 grid.uplatex(
     "The text is rendered vertically by default.",
@@ -39,7 +28,7 @@ grid.uplatex("「JRまで 0.5 km」と聞いた。", gp = gpar(height = 1))
 
 ### Horizontal Typesetting
 
-```{r horiz, fig.align = "center", fig.height = 4, fig.width = 4}
+```{r horiz}
 drawGrid()
 grid.uplatex(
     "The \\texttt{direction = 0} parameter typesets text horizontally.",
@@ -51,7 +40,7 @@ grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = 0)
 
 ## Regression Checks
 
-```{r reg, fig.align = "center", fig.height = 4, fig.width = 4}
+```{r reg}
 drawGrid()
 grid.latex("LuaTeX", engine = "LuaTeX", y = .7)
 grid.latex("XeTeX", engine = "XeTeX", y = .3)
