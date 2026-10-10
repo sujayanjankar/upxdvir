@@ -1,6 +1,6 @@
 # `{upxdvir}` Math Demo
 
-**Note**: This is not fully functional yet. Unexpected behaviour may be encountered.
+## Setup
 
 ```{r imports, message = FALSE}
 library(grid)
@@ -12,14 +12,16 @@ source("demo-helpers.R")
 setKnitrPresets()
 ```
 
-## Fraction
+## Fractions
 
 ```{r frac}
 drawGrid()
-grid.uplatex("全体の $\\frac{1}{2}$ は $x$ です。")
+grid.uplatex("全体の $\\frac{1}{2}$ は です。")
 ```
 
 ## Exponentials
+
 ```{r exp}
+drawGrid()
 grid.uplatex("$1^2$ のグラフです。")
 ```
