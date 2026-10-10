@@ -38,10 +38,12 @@ FONT_CACHE_LATIN <- "up-font-ltn-"
         }
         if (is.na(lookupResult)) {
             message("File ", fontFileName, " not found!")
+            return(NA_character_)
         } else {
             return(lookupResult)
         }
     }
+    return(NA_character_)
 }
 
 .clearFontCache <- function(pattern = "^up-font-") {
@@ -63,7 +65,7 @@ upFontFile <- function(fontNameWithoutExtension) {
     }
     fontNameWithExtn <- paste0(fontNameWithoutExtension, ".vf")
     filePath <- lookupKpathsea(fontNameWithExtn)
-    latinFont <- cjkFont <- NULL
+    latinFont <- cjkFont <- NA
     # If the `.vf` file was not found, try the lookup in the latin font map.
     if (is.na(filePath)) {
         # Modern roman fonts have their OTF font name as the second column
@@ -74,7 +76,7 @@ upFontFile <- function(fontNameWithoutExtension) {
         )
         # message("Found: ", latinFont)
         # Cache font names from the DVI output against their type.
-        if (length(latinFont) > 0 && nchar(latinFont) > 0) {
+        if (!is.na(latinFont)) {
             latinFonts <- get(FONT_CACHE_LATIN)
             set(FONT_CACHE_LATIN, c(latinFonts, fontNameWithoutExtension))
         }
@@ -85,7 +87,7 @@ upFontFile <- function(fontNameWithoutExtension) {
         if (skipCache) {
             cjkFont <- lookupKpathsea(pxchFonts[strContentFile])
         }
-        if (length(cjkFont) <= 0 || is.na(cjkFont)) {
+        if (is.na(cjkFont)) {
             if (skipCache) {
                 warning(
                     "Physical font for the specified font family (",
@@ -98,15 +100,15 @@ upFontFile <- function(fontNameWithoutExtension) {
         }
         # message("Found: ", cjkFont)
         # Cache font names from the DVI output against their type.
-        if (nchar(cjkFont) > 0) {
+        if (!is.na(cjkFont)) {
             cjkFonts <- get(FONT_CACHE_CJK)
             set(FONT_CACHE_CJK, c(cjkFonts, fontNameWithoutExtension))
         }
     }
-    if (is.null(cjkFont) && is.null(latinFont)) {
-        stop("No font could be resolved.")
+    if (is.na(cjkFont) && is.na(latinFont)) {
+        stop("No font could be resolved for:", fontNameWithoutExtension)
     }
-    res <- ifelse(length(cjkFont) > 0, cjkFont, latinFont)
+    res <- ifelse(!is.na(cjkFont), cjkFont, latinFont)
     set(fontCacheKey, res)
     # message("Resolving to: ", res)
     res
