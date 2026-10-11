@@ -2,8 +2,8 @@ require(grid)
 require(xdvir)
 
 grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
+    .clearFontCache()
     if (verbose) {
-        .clearFontCache()
         .innerGridUplatex(text, ..., direction = direction)
     } else {
         suppressMessages(suppressWarnings(.innerGridUplatex(text, ..., direction = direction)))
@@ -19,6 +19,10 @@ grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
         pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
     }
     message(otherArgs)
+    if (length(otherArgs$packages) > 0) {
+        pkgs <- c(pkgs, list(otherArgs$packages))
+        otherArgs$packages <- NULL
+    }
     message(pkgs)
     args <- c(
         list(tex = text),
@@ -35,10 +39,12 @@ element_uplatex <- function(text, ..., height = 0, direction = 1,
                             angle = if (direction == 1) -0 else 0,
                             vjust = if (direction == 1) 0.5 else 0,
                             verbose = FALSE) {
+    .clearFontCache()
     if (verbose) {
-        .clearFontCache()
-        .innerElementUplatex(text, ..., height = height, direction = direction,
-                             angle = angle, vjust = vjust)
+        .innerElementUplatex(text, ...,
+            height = height, direction = direction,
+            angle = angle, vjust = vjust
+        )
     } else {
         suppressMessages(suppressWarnings(.innerElementUplatex(text, ...,
             height = height,
@@ -58,6 +64,10 @@ element_uplatex <- function(text, ..., height = 0, direction = 1,
         pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
     }
     message(otherArgs)
+    if (length(otherArgs$packages) > 0) {
+        pkgs <- c(pkgs, list(otherArgs$packages))
+        otherArgs$packages <- NULL
+    }
     message(pkgs)
     do.call(
         xdvir::element_latex,
@@ -72,8 +82,8 @@ element_uplatex <- function(text, ..., height = 0, direction = 1,
 }
 
 uplatexGrob <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
+    .clearFontCache()
     if (verbose) {
-        .clearFontCache()
         .innerUplatexGrob(text, ..., height = height, direction = direction)
     } else {
         suppressMessages(suppressWarnings(.innerUplatexGrob(text, ...,
@@ -92,6 +102,10 @@ uplatexGrob <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
         pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
     }
     message(otherArgs)
+    if (length(otherArgs$packages) > 0) {
+        pkgs <- c(pkgs, list(otherArgs$packages))
+        otherArgs$packages <- NULL
+    }
     message(pkgs)
     do.call(
         xdvir::latexGrob,

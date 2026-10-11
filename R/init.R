@@ -17,7 +17,8 @@ initialiseEngine <- function() {
             buildArgs = buildUpTeXargs,
             preamble = c(
                 "\\usepackage{lmodern}",
-                "\\pagestyle{empty}"
+                "\\pagestyle{empty}",
+                "\\setlength{\\parindent}{0pt}"
             ),
             emulation = FALSE,
             fontPreset = upFontPreset

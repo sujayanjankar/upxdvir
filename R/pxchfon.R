@@ -11,7 +11,7 @@ defaultFamilies <- c("sans", "serif", "mono")
         ff <- paste(ff, fontFamily, sep = ",")
     }
     paste0(
-        "\\usepackage[deluxe,uplatex]{otf}",
+        "\\usepackage[deluxe,uplatex]{otf}\n",
         "\\usepackage[dvipdfmx,unicode,", ff, "]{pxchfon}"
     )
 }
