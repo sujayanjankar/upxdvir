@@ -9,19 +9,19 @@ library(upxdvir)
 
 ```{r setup, echo = FALSE}
 source("demo-helpers.R")
-setKnitrPresets()
+setKnitrPresets(4, 4, error = TRUE)
 ```
 
-## Fractions
+## Basic Example
 
-```{r frac}
+```{r e1}
 drawGrid()
-grid.uplatex("全体の $\\frac{1}{2}$ は です。")
+grid.uplatex("全体の $x_i^z \\frac{1}{2}$ は です。")
 ```
 
-## Exponentials
+## More Symbols
 
-```{r exp}
+```{r e2}
 drawGrid()
-grid.uplatex("$1^2$ のグラフです。")
+grid.uplatex("次式は $ax^2 + bx + c$ の形をしています。")
 ```
