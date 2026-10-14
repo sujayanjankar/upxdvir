@@ -11,7 +11,8 @@ set("hb-fontlib-cache", list())
             names(x) <- c(
                 "width",
                 "left", "right", "top", "bottom",
-                "height"
+                "height",
+                "origX", "origY"
             )
             x
         }
@@ -42,13 +43,11 @@ hbGlyphMetrics <- function(index, subset, fontName) {
 }
 
 hbGlyphWidth <- function(index, fontName) {
-    hbGlyphMetrics(index, "width", fontName)
+    hbGlyphMetrics(index, c("width", "origX"), fontName)
 }
 
 hbGlyphHeight <- function(index, fontName) {
-    # HB returns a negative vert advance when moving down.
-    # Negate it for compatibility with the engine.
-    -hbGlyphMetrics(index, "height", fontName)
+    hbGlyphMetrics(index, c("height", "origY"), fontName)
 }
 
 hbGlyphBounds <- function(index, fontName) {

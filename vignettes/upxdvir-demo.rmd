@@ -23,7 +23,7 @@ grid.uplatex(
     y = .8,
     direction = 0
 )
-grid.uplatex("「JRまで 0.5 km」と聞いた。", gp = gpar(height = 1))
+grid.uplatex("「JRまで 0.5 km」と聞いた。")
 ```
 
 ### Horizontal Typesetting

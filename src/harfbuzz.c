@@ -109,17 +109,16 @@ SEXP hbGlyphMetrics(SEXP font) {
     for (i = 0; i < numGlyphs; i++) {
         hb_codepoint_t glyph = (hb_codepoint_t)i;
         hb_glyph_extents_t extents;
-
-        PROTECT(glyphInfo = allocVector(INTSXP, 6));
-
+        hb_position_t origX;
+        hb_position_t origY;
+        int resultSize = 8;
+        PROTECT(glyphInfo = allocVector(INTSXP, resultSize));
+        hb_font_get_glyph_v_origin(hb_font, glyph, &origX, &origY);
         if (!hb_font_get_glyph_extents(hb_font, glyph, &extents)) {
             glyphErr = 1;
-            INTEGER(glyphInfo)[0] = NA_INTEGER;
-            INTEGER(glyphInfo)[1] = NA_INTEGER;
-            INTEGER(glyphInfo)[2] = NA_INTEGER;
-            INTEGER(glyphInfo)[3] = NA_INTEGER;
-            INTEGER(glyphInfo)[4] = NA_INTEGER;
-            INTEGER(glyphInfo)[5] = NA_INTEGER;
+            for (i = 0; i < resultSize; i++) {
+                INTEGER(glyphInfo)[i] = NA_INTEGER;    
+            }
         } else {
             INTEGER(glyphInfo)[0] = hb_font_get_glyph_h_advance(hb_font, glyph); // horizontal advance
             INTEGER(glyphInfo)[1] = extents.x_bearing; // left
@@ -127,6 +126,8 @@ SEXP hbGlyphMetrics(SEXP font) {
             INTEGER(glyphInfo)[3] = extents.y_bearing; // top
             INTEGER(glyphInfo)[4] = extents.y_bearing + extents.height; // bottom
             INTEGER(glyphInfo)[5] = hb_font_get_glyph_v_advance(hb_font, glyph); // vertical advance
+            INTEGER(glyphInfo)[6] = origX;
+            INTEGER(glyphInfo)[7] = origY;
         }
         SET_VECTOR_ELT(metrics, i, glyphInfo);
         UNPROTECT(1);
