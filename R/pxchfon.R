@@ -1,20 +1,65 @@
+require("fs")
+
 pxchfonSpecialPrefix <- "^pdf:mapline "
 pxchFontCacheKey <- "upxdvir::pxchfon"
 defaultFamilies <- c("sans", "serif", "mono")
+ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 
 .pxchfonPreamble <- function(fontFamily, fontFace) {
     # Clean pxchfon state for every document.
     set(pxchFontCacheKey, list())
     ff <- "noalphabet"
     # pxchfon font family.
-    if (nchar(fontFamily) > 1 && fontFamily != ff && !(fontFamily %in% defaultFamilies)) {
-        ff <- paste(ff, fontFamily, sep = ",")
+    if (nchar(fontFamily) > 1 && !(fontFamily %in% defaultFamilies)) {
+        validatedFontFams <- unique(c(ff, .validatePtexFontFamily(fontFamily)))
+        ff <- paste(validatedFontFams, collapse = ",")
     }
     paste0(
         "\\usepackage{mathastext}\n",
         "\\usepackage[deluxe,uplatex]{otf}\n",
         "\\usepackage[dvipdfmx,unicode,", ff, "]{pxchfon}"
     )
+}
+
+.loadPtexFontMaps <- function() {
+    ptexPath <- options("upxdvir.ptex.path")
+    texHome <- lookupKpathsea("-var-value TEXMFDIST", wrap = FALSE)
+    if (isFALSE(nchar(ptexPath) > 0) && is.na(texHome)) {
+        message(
+            "TeX home can't be resolved, ptex-fontmaps can't be validated.",
+            "Set the TEXMFDIST environment variable or ",
+            "options(upxdvir.ptex.path) to enable font validation."
+        )
+        set(ALLOWED_PTEX_FONT_FAMILIES, list())
+    } else if (!is.na(texHome)) {
+        ptexPath <- fs::path(texHome, "fonts/map/dvipdfmx/ptex-fontmaps/")
+        fontMaps <- c(system2("ls", ptexPath, stdout = TRUE, stderr = TRUE))
+        if (length(fontMaps) > 0) {
+            set(ALLOWED_PTEX_FONT_FAMILIES, fontMaps)
+        }
+    } else if (nchar(ptexPath) > 0) {
+        fontMaps <- c(system2("ls", ptexPath, stdout = TRUE, stderr = TRUE))
+        if (length(fontMaps) > 0) {
+            set(ALLOWED_PTEX_FONT_FAMILIES, fontMaps)
+        }
+    } else {
+        set(ALLOWED_PTEX_FONT_FAMILIES, list())
+    }
+}
+
+.validatePtexFontFamily <- function(fontFamily) {
+    allowedFontFamilies <- get(ALLOWED_PTEX_FONT_FAMILIES)
+    if (length(allowedFontFamilies) == 0) {
+        .loadPtexFontMaps()
+        allowedFontFamilies <- get(ALLOWED_PTEX_FONT_FAMILIES)
+    }
+
+    if (length(allowedFontFamilies) > 0 && fontFamily %in% allowedFontFamilies) {
+        fontFamily
+    } else {
+        message("Unsupported font family, using default instead.")
+        "noalphabet"
+    }
 }
 
 .pxchfonPrefix <- function(fontFamily, fontFace) {

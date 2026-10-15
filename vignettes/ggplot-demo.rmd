@@ -1,5 +1,10 @@
 # `{ggplot}` Examples
 
+```{r, echo = FALSE}
+source("./demo-helpers.R")
+setKnitrPresets(6, 6)
+```
+
 ```{r ggp, message = FALSE}
 library(upxdvir)
 library(gggrid)

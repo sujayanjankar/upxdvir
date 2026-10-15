@@ -90,9 +90,9 @@ upFontFile <- function(fontNameWithoutExtension) {
         if (is.na(cjkFont)) {
             if (skipCache) {
                 warning(
-                    "Physical font for the specified font family (",
-                    pxchFonts[strContentFile],
-                    ") could not be located. Using system default."
+                    "Physical font ", pxchFonts[strContentFile],
+                    "for the specified font family could not be located.",
+                    "Using system default."
                 )
             }
             # Lookup the old way if the pxchfon specification does not return anything.

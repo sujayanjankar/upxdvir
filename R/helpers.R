@@ -1,6 +1,7 @@
-lookupKpathsea <- function(fileName) {
+lookupKpathsea <- function(fileName, wrapArgs = TRUE) {
+    args <- ifelse(wrapArgs, shQuote(fileName), fileName)
     out <- suppressWarnings(
-        system2("kpsewhich", args = shQuote(fileName), stdout = TRUE, stderr = FALSE)
+        system2("kpsewhich", args = args, stdout = TRUE, stderr = FALSE)
     )
     status <- attr(out, "status")
     if (!is.null(status) && status != 0L) {
@@ -12,6 +13,7 @@ lookupKpathsea <- function(fileName) {
     }
     out[1L]
 }
+
 readVirtualFontName <- function(filePath) {
     # message("Resolving from VF: ", file_path)
     res <- readVF(filePath)
@@ -29,6 +31,4 @@ convertUnitToInches <- function(dim, unit = "npc") {
     }
 }
 
-quiet <- function(fun) {
-    \(...) suppressMessages(suppressWarnings(fun(...)))
-}
+quiet <- function(expr) suppressMessages(suppressWarnings(expr))
