@@ -1,3 +1,5 @@
+#' @import hexView 
+
 ## Code for reading virtual font (.vf) files
 
 ## These files are binary, but there is a 'vftopl' tool to convert

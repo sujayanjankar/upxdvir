@@ -17,6 +17,7 @@ FONT_CACHE_LATIN <- "up-font-ltn-"
     message("Fonts initialised.")
 }
 
+#' @importFrom fs path_sanitize
 .lookupFont <- function(lookupString, lookupPath, fontNameIdx = 3) {
     fontMappingRow <- grep(
         lookupString,

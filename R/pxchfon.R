@@ -21,6 +21,7 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
     )
 }
 
+#' @importFrom fs path
 .loadPtexFontMaps <- function() {
     ptexPath <- options("upxdvir.ptex.path")
     texHome <- lookupKpathsea("-var-value TEXMFDIST", wrap = FALSE)
@@ -108,6 +109,9 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
     }
 }
 
+
+#' HarfBuzz font library which supports glyph substitution for vertically typeset text.
+#' @export
 pxchfonPackage <- function(fontFamily = "", fontFace = "plain") {
     xdvir::LaTeXpackage(
         name = "pxchfon",

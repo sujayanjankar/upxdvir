@@ -12,8 +12,10 @@ License: GPL-3
 Depends:
     xdvir (>= 0.3-0)
 Imports:
-    hexView
+    hexView,
+    rlang
 Suggests:
     grid
 Encoding: UTF-8
 SystemRequirements: freetype2, harfbuzz
+Config/roxygen2/version: 8.1.1

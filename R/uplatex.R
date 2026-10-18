@@ -1,6 +1,6 @@
-require(grid)
-require(xdvir)
-
+#' Draws a glyph grob on the default graphics device.
+#' @export
+#' @importFrom xdvir grid.latex
 grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
     .clearFontCache()
     if (verbose) {
@@ -33,8 +33,9 @@ grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
     do.call(xdvir::grid.latex, args)
 }
 
-# TODO: Handle what happens with forced ligatures here. No direct control over
-# the LaTeX fragment.
+#' \code{ggplot2} theme element for vertically typesetting text using the (u)p\LaTeX engine.
+#' @export
+#' @importFrom xdvir element_latex
 element_uplatex <- function(..., height = 0, direction = 1,
                             angle = if (direction == 1) -0 else 0,
                             vjust = if (direction == 1) 0.5 else 0,
@@ -77,6 +78,9 @@ element_uplatex <- function(..., height = 0, direction = 1,
     )
 }
 
+#' Render \LaTeX fragments using the (u)p\LaTeX typesetting engine.
+#' @export
+#' @importFrom xdvir latexGrob
 uplatexGrob <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
     .clearFontCache()
     if (verbose) {

@@ -1,7 +1,11 @@
+#' @useDynLib upxdvir, .registration=TRUE, .fixes="C_"
+
+#' @importFrom rlang on_load
 .onLoad <- function(libname, pkgname) {
     initialiseEngine()
 }
 
+#' @importFrom xdvir registerEngine registerPackage 
 initialiseEngine <- function() {
     ## Define and register the upTeX engine.
     initUpTeX()
@@ -66,6 +70,7 @@ uptexAvailable <- function() {
     !is.null(uptexVersion())
 }
 
+#' @importFrom xdvir commentString
 isUpTeX <- function(dvi) {
     commentStr <- xdvir::commentString(dvi)
     grepl(uptexVersion(), commentStr)
