@@ -5,10 +5,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} R ${{ matrix.r-version }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        os: [ macos-latest ]
-        r-version: [ release ]
+        os: [macos-latest]
+        r-version: [release]
     steps:
       - uses: actions/checkout@v6
       - name: Install R
@@ -25,10 +25,10 @@ jobs:
         shell: Rscript {0}
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      - uses: xu-cheng/texlive-action@v3
-        with:
-          scheme: small
-          run: tlmgr install collection-langjapanese
+      - name: Install uptex
+        run: tlmgr install ipaex japanese-otf latexmk lm ptex ptex-base ptex-fontmaps ptex-fonts ptex-manual uplatex uptex uptex-base uptex-fonts
+      - name: Check upTeX version
+        run: uplatex --version
       - uses: s-u/R-actions/pkg-check@v2
         with:
           debian-deps: libfreetype-dev pandoc-citeproc libharfbuzz-dev
