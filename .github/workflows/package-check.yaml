@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [ubuntu-latest]
         r-version: [release]
     steps:
       - uses: actions/checkout@v6
@@ -45,7 +45,7 @@ jobs:
       - name: R CMD check
         uses: s-u/R-actions/pkg-check@v2
         with:
-          debian-deps: libfontconfig1-dev libfreetype-dev libharfbuzz-dev
+          debian-deps: libuv1-dev libfontconfig1-dev libfreetype-dev libharfbuzz-dev
           macos-deps: freetype harfbuzz
           check-flags: --as-cran
       - name: Artifact set-up
