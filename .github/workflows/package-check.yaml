@@ -27,11 +27,19 @@ jobs:
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: Install upLaTeX (MacOS)
-        run: tlmgr install ipaex japanese-otf latexmk lm ptex ptex-base ptex-fontmaps ptex-fonts ptex-manual uplatex uptex uptex-base uptex-fonts
         if: runner.os == 'macOS'
+        run: |
+            tlmgr install ipaex japanese-otf \
+                latexmk lm ptex ptex-base ptex-fontmaps \
+                ptex-fonts ptex-manual uplatex uptex \
+                uptex-base uptex-fonts
       - name: Install upLaTeX (Ubuntu)
-        run: sudo apt-get install ipaex japanese-otf latexmk fonts-lmodern ptex ptex-base ptex-fontmaps ptex-fonts ptex-manual uplatex uptex uptex-base uptex-fonts
         if: runner.os == 'Linux'
+        run: |
+            sudo apt-get update
+            sudo apt-get install -y \
+            latexmk texlive-lang-japanese \
+            fonts-lmodern fonts-ipaexfont
       - name: Check upTeX version
         run: uplatex --version
       - uses: s-u/R-actions/pkg-check@v2
