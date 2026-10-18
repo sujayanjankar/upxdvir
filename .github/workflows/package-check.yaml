@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest]
+        os: [macos-latest, ubuntu-latest]
         r-version: [release]
     steps:
       - uses: actions/checkout@v6
