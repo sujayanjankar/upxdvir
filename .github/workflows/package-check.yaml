@@ -42,12 +42,13 @@ jobs:
             fonts-lmodern fonts-ipaexfont
       - name: Check upTeX version
         run: uplatex --version
-      - uses: s-u/R-actions/pkg-check@v2
+      - name: R CMD check
+        uses: s-u/R-actions/pkg-check@v2
         with:
-          debian-deps: libfontconfig1-dev libfreetype-dev pandoc-citeproc libharfbuzz-dev
+          debian-deps: libfontconfig1-dev libfreetype-dev libharfbuzz-dev
           macos-deps: freetype harfbuzz
           check-flags: --as-cran
-      - name: Artifact set up
+      - name: Artifact set-up
         if: always()
         run: |
           if [ ${{ runner.os }} = Windows ] ; then
