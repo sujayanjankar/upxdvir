@@ -21,19 +21,23 @@ jobs:
       - name: Install xdvir from GitHub
         run: |
           install.packages("remotes", repos = "https://cloud.r-project.org")
+          # TODO: Update to main whenever the 0.3-0 is merged.
           remotes::install_github("sujayanjankar/xdvir#1")
         shell: Rscript {0}
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install uptex
+      - name: Install upLaTeX (MacOS)
         run: tlmgr install ipaex japanese-otf latexmk lm ptex ptex-base ptex-fontmaps ptex-fonts ptex-manual uplatex uptex uptex-base uptex-fonts
+        if: $RUNNER_OS == 'macOS'
+      - name: Install upLaTeX (Ubuntu)
+        run: apt install ipaex japanese-otf latexmk fonts-lmodern ptex ptex-base ptex-fontmaps ptex-fonts ptex-manual uplatex uptex uptex-base uptex-fonts
+        if: runner.os == 'Linux'
       - name: Check upTeX version
         run: uplatex --version
       - uses: s-u/R-actions/pkg-check@v2
         with:
-          debian-deps: libfreetype-dev pandoc-citeproc libharfbuzz-dev
+          debian-deps: libfontconfig1-dev libfreetype-dev pandoc-citeproc libharfbuzz-dev
           macos-deps: freetype harfbuzz
-          # freetype part of Tomas' Rtools on Windows
           check-flags: --as-cran
       - name: Artifact set up
         if: always()
