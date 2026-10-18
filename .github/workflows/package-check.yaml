@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-latest, ubuntu-latest ]
+        os: [ macos-latest ]
         r-version: [ release ]
     steps:
       - uses: actions/checkout@v6
@@ -18,6 +18,13 @@ jobs:
           tools: base
       - name: Install tinytex
         uses: s-u/R-actions/tinytex@v2
+      - name: Install xdvir from GitHub
+        run: |
+          install.packages("remotes")
+          remotes::install_github("sujayanjankar/xdvir#1")
+        shell: Rscript {0}
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - uses: s-u/R-actions/pkg-check@v2
         with:
           debian-deps: libfreetype-dev pandoc-citeproc libharfbuzz-dev
