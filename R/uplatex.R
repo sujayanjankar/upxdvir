@@ -1,16 +1,16 @@
 require(grid)
 require(xdvir)
 
-grid.uplatex <- function(..., direction = 1, verbose = FALSE) {
+grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
     .clearFontCache()
     if (verbose) {
-        .innerGridUplatex(..., direction = direction)
+        .innerGridUplatex(text, ..., direction = direction)
     } else {
-        quiet(.innerGridUplatex(..., direction = direction))
+        quiet(.innerGridUplatex(text, ..., direction = direction))
     }
 }
 
-.innerGridUplatex <- function(..., direction) {
+.innerGridUplatex <- function(text, ..., direction) {
     otherArgs <- list(...)
     pkgs <- c()
     dimToLimit <- if (direction == 1) otherArgs$gp$height else otherArgs$gp$width
@@ -25,6 +25,7 @@ grid.uplatex <- function(..., direction = 1, verbose = FALSE) {
     }
     message(pkgs)
     args <- c(
+        list(tex = suppressLigatures(text)),
         otherArgs,
         list(packages = pkgs),
         fixedParameters(direction)
@@ -32,6 +33,8 @@ grid.uplatex <- function(..., direction = 1, verbose = FALSE) {
     do.call(xdvir::grid.latex, args)
 }
 
+# TODO: Handle what happens with forced ligatures here. No direct control over
+# the LaTeX fragment.
 element_uplatex <- function(..., height = 0, direction = 1,
                             angle = if (direction == 1) -0 else 0,
                             vjust = if (direction == 1) 0.5 else 0,
@@ -74,16 +77,16 @@ element_uplatex <- function(..., height = 0, direction = 1,
     )
 }
 
-uplatexGrob <- function(..., height = 0, direction = 1, verbose = FALSE) {
+uplatexGrob <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
     .clearFontCache()
     if (verbose) {
-        .innerUplatexGrob(..., height = height, direction = direction)
+        .innerUplatexGrob(text, ..., height = height, direction = direction)
     } else {
-        quiet(.innerUplatexGrob(..., height = height, direction = direction))
+        quiet(.innerUplatexGrob(text, ..., height = height, direction = direction))
     }
 }
 
-.innerUplatexGrob <- function(..., height, direction) {
+.innerUplatexGrob <- function(text, ..., height, direction) {
     otherArgs <- list(...)
     pkgs <- c()
     dimToLimit <- if (direction == 1) height else otherArgs$width
@@ -100,6 +103,7 @@ uplatexGrob <- function(..., height = 0, direction = 1, verbose = FALSE) {
     do.call(
         xdvir::latexGrob,
         c(
+            list(tex = suppressLigatures(text)),
             otherArgs,
             list(packages = pkgs),
             fixedParameters(direction)

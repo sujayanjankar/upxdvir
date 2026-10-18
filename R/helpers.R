@@ -32,3 +32,8 @@ convertUnitToInches <- function(dim, unit = "npc") {
 }
 
 quiet <- function(expr) suppressMessages(suppressWarnings(expr))
+
+# TODO: Super hack, see if a nicer way out can be found.
+suppressLigatures <- function(text) {
+  gsub("f([fil])", "f{}\\1", text)
+}
