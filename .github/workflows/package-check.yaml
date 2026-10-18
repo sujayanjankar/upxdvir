@@ -18,6 +18,21 @@ jobs:
           tools: base
       - name: Install tinytex
         uses: s-u/R-actions/tinytex@v2
+      - name: Install upLaTeX (MacOS)
+        if: runner.os == 'macOS'
+        run: |
+          tlmgr install ipaex japanese-otf \
+              latexmk lm ptex ptex-base ptex-fontmaps \
+              ptex-fonts ptex-manual uplatex uptex \
+              uptex-base uptex-fonts
+      - name: Install upLaTeX (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+          latexmk texlive-lang-japanese libuv1-dev \
+          libfontconfig1-dev fonts-lmodern fonts-ipaexfont \
+          libfreetype-dev libharfbuzz-dev
       - name: Install xdvir from GitHub
         run: |
           install.packages("remotes", repos = "https://cloud.r-project.org")
@@ -26,26 +41,11 @@ jobs:
         shell: Rscript {0}
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      - name: Install upLaTeX (MacOS)
-        if: runner.os == 'macOS'
-        run: |
-            tlmgr install ipaex japanese-otf \
-                latexmk lm ptex ptex-base ptex-fontmaps \
-                ptex-fonts ptex-manual uplatex uptex \
-                uptex-base uptex-fonts
-      - name: Install upLaTeX (Ubuntu)
-        if: runner.os == 'Linux'
-        run: |
-            sudo apt-get update
-            sudo apt-get install -y \
-            latexmk texlive-lang-japanese \
-            fonts-lmodern fonts-ipaexfont
       - name: Check upTeX version
         run: uplatex --version
       - name: R CMD check
         uses: s-u/R-actions/pkg-check@v2
         with:
-          debian-deps: libuv1-dev libfontconfig1-dev libfreetype-dev libharfbuzz-dev
           macos-deps: freetype harfbuzz
           check-flags: --as-cran
       - name: Artifact set-up
