@@ -20,7 +20,7 @@ jobs:
         uses: s-u/R-actions/tinytex@v2
       - name: Install xdvir from GitHub
         run: |
-          install.packages("remotes")
+          install.packages("remotes", repos = "https://cloud.r-project.org")
           remotes::install_github("sujayanjankar/xdvir#1")
         shell: Rscript {0}
         env:

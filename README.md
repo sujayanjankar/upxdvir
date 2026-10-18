@@ -1,5 +1,9 @@
 # `{upxdvir}`
 
+<!-- TODO: Switch to main. -->
+
+[![{upxdvir} Package check](https://github.com/sujayanjankar/upxdvir/actions/workflows/package-check.yaml/badge.svg?branch=feature%2Fdocumentation-and-ci-pipeline)](https://github.com/sujayanjankar/upxdvir/actions/workflows/package-check.yaml)
+  
 `{upxdvir}` is an extension to [`{xdvir}`](https://cran.r-project.org/package=xdvir) to enable the use of Unicode, and vertically typeset text with `{grid}` and `{ggplot2}` objects.
 
 # TODOs
