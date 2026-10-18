@@ -30,7 +30,7 @@ jobs:
         run: tlmgr install ipaex japanese-otf latexmk lm ptex ptex-base ptex-fontmaps ptex-fonts ptex-manual uplatex uptex uptex-base uptex-fonts
         if: runner.os == 'macOS'
       - name: Install upLaTeX (Ubuntu)
-        run: apt install ipaex japanese-otf latexmk fonts-lmodern ptex ptex-base ptex-fontmaps ptex-fonts ptex-manual uplatex uptex uptex-base uptex-fonts
+        run: sudo apt-get install ipaex japanese-otf latexmk fonts-lmodern ptex ptex-base ptex-fontmaps ptex-fonts ptex-manual uplatex uptex uptex-base uptex-fonts
         if: runner.os == 'Linux'
       - name: Check upTeX version
         run: uplatex --version
