@@ -28,7 +28,7 @@ jobs:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: Install upLaTeX (MacOS)
         run: tlmgr install ipaex japanese-otf latexmk lm ptex ptex-base ptex-fontmaps ptex-fonts ptex-manual uplatex uptex uptex-base uptex-fonts
-        if: $RUNNER_OS == 'macOS'
+        if: runner.os == 'macOS'
       - name: Install upLaTeX (Ubuntu)
         run: apt install ipaex japanese-otf latexmk fonts-lmodern ptex ptex-base ptex-fontmaps ptex-fonts ptex-manual uplatex uptex uptex-base uptex-fonts
         if: runner.os == 'Linux'
