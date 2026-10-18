@@ -12,6 +12,7 @@ License: GPL-3
 Depends:
     xdvir (>= 0.3-0)
 Imports:
+    fs,
     hexView,
     rlang
 Suggests:

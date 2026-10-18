@@ -19,7 +19,6 @@
 #' @usage minipagePackage()
 #' @details This function creates a \code{LaTeXpackage} object.
 #' @return A \code{LaTeXpackage} object.
-#' @examples grid.uplatex("TeX fragment", packages = c(minipagePackage(unit(2, "in"))))
 minipagePackage <- function(height = NULL) {
     heightAsUnit <- convertUnitToInches(height)
     LaTeXpackage(

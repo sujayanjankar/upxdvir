@@ -15,6 +15,3 @@ Wraps the \LaTeX{} fragment in a \code{\begin[limit]{minipage}<fragment>\end{min
 \details{
 This function creates a \code{LaTeXpackage} object.
 }
-\examples{
-grid.uplatex("TeX fragment", packages = c(minipagePackage(unit(2, "in"))))
-}

@@ -13,6 +13,7 @@ importFrom(fs,
 )
 importFrom(rlang,on_load)
 importFrom(xdvir,
+  LaTeXpackage,
   commentString,
   element_latex,
   grid.latex,
