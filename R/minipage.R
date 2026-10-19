@@ -1,29 +1,36 @@
-.minipagePrefix <- \(height) ifelse(
-    height > 0,
-    paste0("\\begin{minipage}{", height, "in}"),
+# Applies the \begin{minipage} prefix.
+.minipagePrefix <- \(limit) ifelse(
+    limit > 0,
+    paste0("\\begin{minipage}{", limit, "in}"),
     ""
 )
 
-
-.minipageSuffix <- \(height) ifelse(
-    height > 0,
+# Applies the \end{minipage} suffix.
+.minipageSuffix <- \(limit) ifelse(
+    limit > 0,
     "\\end{minipage}",
     ""
 )
 
 #' @export
 #' @name minipagePackage
-#' @title LaTeX package for \code{minipage}
-#' @aliases minipagePackage
-#' @description Wraps the \LaTeX{} fragment in a \code{\begin[limit]{minipage}<fragment>\end{minipage}}
-#' @usage minipagePackage()
-#' @details This function creates a \code{LaTeXpackage} object.
+#' @title LaTeX Package for \code{minipage}
+#' @description Wraps the \LaTeX{} fragment in a \code{\\begin[limit]{minipage}<fragment>\\end{minipage}}
+#' @param limit This is either the height or width to which the typesetting is to be limited. Interpretation depends on whether the typesetting is vertical or horizontal. When specified just as a number, it needs to be in \eqn{[0, 1]}.
+#' @details This function creates a \code{LaTeXpackage} object. 
+#' The specified \code{limit} is by default in \code{grid} NPC units. A \code{grid.unit} may also be specified.
+#' @examples \dontrun{
+#'  # Needs upLaTeX and grid.
+#'  require(grid)
+#'  grid.uplatex("Abc", packages = minipagePackage(limit = 1))
+#' }
+#' @seealso [`grid::unit`] [`xdvir::LaTeXpackage`]
 #' @return A \code{LaTeXpackage} object.
-minipagePackage <- function(height = NULL) {
-    heightAsUnit <- convertUnitToInches(height)
+minipagePackage <- function(limit = NULL) {
+    limitAsUnit <- convertUnitToInches(limit)
     LaTeXpackage(
         name = "",
-        prefix = .minipagePrefix(heightAsUnit),
-        suffix = .minipageSuffix(heightAsUnit)
+        prefix = .minipagePrefix(limitAsUnit),
+        suffix = .minipageSuffix(limitAsUnit)
     )
 }

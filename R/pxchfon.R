@@ -24,7 +24,7 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 #' @importFrom fs path
 .loadPtexFontMaps <- function() {
     ptexPath <- options("upxdvir.ptex.path")
-    texHome <- lookupKpathsea("-var-value TEXMFDIST", wrap = FALSE)
+    texHome <- lookupKpathsea("-var-value TEXMFDIST", wrapArgs = FALSE)
     if (isFALSE(nchar(ptexPath) > 0) && is.na(texHome)) {
         message(
             "TeX home can't be resolved, ptex-fontmaps can't be validated.",
@@ -110,8 +110,19 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 }
 
 
-#' HarfBuzz font library which supports glyph substitution for vertically typeset text.
 #' @importFrom xdvir LaTeXpackage
+#' @title LaTeX Package for \code{pxchfon} package
+#' @examples 
+#'  grid.uplatex(
+#'      "Abc", 
+#'      packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
+#' )
+#' @description This package allows for font families supported by the \code{ptex-fontmaps} (u)p\LaTeX package
+#' @details This includes the \code{pxchfon} package in the document preamble.
+#' This also include the \code{japanese-otf} package in the (u)p\LaTeX fragment with the \code{deluxe} option to support multi-weight fonts.
+#' @param fontFamily A font family supported by \code{ptex-fontmaps}, or one of \code{sans}, \code{serif} or \code{mono}. By default, \code{sans} is applied.
+#' @param fontFace Only \code{plain} or \code{bold} faces are supported. By default, \code{plain} is applied.
+#' @seealso [`xdvir::LaTeXpackage`]
 #' @export
 pxchfonPackage <- function(fontFamily = "", fontFace = "plain") {
     xdvir::LaTeXpackage(

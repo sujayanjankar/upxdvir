@@ -6,6 +6,20 @@
 \usage{
 uplatexGrob(text, ..., height = 0, direction = 1, verbose = FALSE)
 }
+\arguments{
+\item{text}{This is the (u)p\LaTeX fragment to typeset.}
+
+\item{\dots}{Additional parameters sent to \code{xdvir::latexGrob}}
+
+\item{height}{Can be a number, or a \code{grid::unit}. Default: 0}
+
+\item{direction}{Can be either 0 or 1. If 0, text is typeset horizontally, else vertically. Default: 1.}
+
+\item{verbose}{If \code{TRUE}, prints trace logging. Default: \code{FALSE}}
+}
 \description{
 Render \LaTeX fragments using the (u)p\LaTeX typesetting engine.
+}
+\seealso{
+xdvir::latexGrob
 }

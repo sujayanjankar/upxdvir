@@ -5,7 +5,7 @@
     initialiseEngine()
 }
 
-#' @importFrom xdvir registerEngine registerPackage 
+#' @importFrom xdvir registerEngine registerPackage
 initialiseEngine <- function() {
     ## Define and register the upTeX engine.
     initUpTeX()
@@ -41,6 +41,8 @@ buildUpTeXargs <- function(signature, dir) {
     paste0(
         '-latex="uplatex -output-comment=\'',
         signature,
+        # TODO: This works for Windows, but not for others.
+        # "' \"-output-directory=", dir, '\""',
         "' '-output-directory=", dir, '\'"',
         " -auxdir=", dir,
         " -outdir=", dir,

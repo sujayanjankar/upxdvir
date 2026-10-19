@@ -2,10 +2,28 @@
 % Please edit documentation in R/pxchfon.R
 \name{pxchfonPackage}
 \alias{pxchfonPackage}
-\title{HarfBuzz font library which supports glyph substitution for vertically typeset text.}
+\title{LaTeX Package for \code{pxchfon} package}
 \usage{
 pxchfonPackage(fontFamily = "", fontFace = "plain")
 }
+\arguments{
+\item{fontFamily}{A font family supported by \code{ptex-fontmaps}, or one of \code{sans}, \code{serif} or \code{mono}. By default, \code{sans} is applied.}
+
+\item{fontFace}{Only \code{plain} or \code{bold} faces are supported. By default, \code{plain} is applied.}
+}
 \description{
-HarfBuzz font library which supports glyph substitution for vertically typeset text.
+This package allows for font families supported by the \code{ptex-fontmaps} (u)p\LaTeX package
+}
+\details{
+This includes the \code{pxchfon} package in the document preamble.
+This also include the \code{japanese-otf} package in the (u)p\LaTeX fragment with the \code{deluxe} option to support multi-weight fonts.
+}
+\examples{
+ grid.uplatex(
+     "Abc", 
+     packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
+)
+}
+\seealso{
+[`xdvir::LaTeXpackage`]
 }

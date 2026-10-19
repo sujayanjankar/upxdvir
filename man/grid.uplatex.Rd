@@ -6,6 +6,19 @@
 \usage{
 grid.uplatex(text, ..., direction = 1, verbose = FALSE)
 }
+\arguments{
+\item{text}{This is the (u)p\LaTeX fragment to typeset.}
+
+\item{\dots}{Additional parameters sent to \code{xdvir::grid.latex}}
+
+\item{direction}{Can be either 0 or 1. If 0, text is typeset horizontally, else vertically. Default: 1.}
+
+\item{verbose}{If \code{TRUE}, prints trace logging. Default: \code{FALSE}}
+}
 \description{
 Draws a glyph grob on the default graphics device.
+}
+\seealso{
+xdvir::grid_latex
+ grid::unit
 }

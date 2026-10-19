@@ -1,3 +1,5 @@
+require(fs)
+
 FONT_CACHE_PREFIX <- "up-font-def-"
 FONT_CACHE_CJK <- "up-font-cjk-"
 FONT_CACHE_LATIN <- "up-font-ltn-"
@@ -127,7 +129,7 @@ upFontPreset <- function(family, face, size, lineheight, colour) {
     if (is.null(colour)) {
         stop("No colour specified")
     }
-    rgb <- col2rgb(colour)
+    rgb <- grDevices::col2rgb(colour)
     col <- paste0(
         "\\definecolor{upxdvir}{RGB}{",
         rgb[1, ], ",", rgb[2, ], ",", rgb[3, ], "}\n",

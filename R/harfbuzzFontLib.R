@@ -89,6 +89,8 @@ resolveScriptType <- function(fontName) {
     }
 }
 
+#' Font library based on the HarfBuzz shaping engine.
+#' It also performs glyph substitution for vertical typesetting.
 #' @export
 HBfontLibrary <- xdvir::FontLibrary(
     glyphWidth = hbGlyphWidth,

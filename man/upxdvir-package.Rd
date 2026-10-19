@@ -6,6 +6,6 @@
 \alias{upxdvir}
 \title{\pkg{upxdvir} adds support for vertically typesetting \LaTeX fragments using the (u)p\LaTeX typesetting engine.}
 \description{
-Extends the `{xdvir}` package with support for the upLaTeX typesetting engine.
+Extends the \code{xdvir} package with support for the upLaTeX typesetting engine.
 }
 \keyword{internal}

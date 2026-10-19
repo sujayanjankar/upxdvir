@@ -13,6 +13,22 @@ element_uplatex(
   verbose = FALSE
 )
 }
+\arguments{
+\item{\dots}{Additional parameters sent to \code{xdvir::element_latex}}
+
+\item{height}{Can be a number, or a \code{grid::unit}. Default: 0}
+
+\item{direction}{Can be either 0 or 1. If 0, text is typeset horizontally, else vertically. Default: 1.}
+
+\item{angle}{The angle to which the text is to be rotated. Default -0 for vertical typesetting, else 0.}
+
+\item{vjust}{The vertical justification. Default 0.5 for vertical typesetting, else 0.}
+
+\item{verbose}{If \code{TRUE}, prints trace logging. Default: \code{FALSE}}
+}
 \description{
 \code{ggplot2} theme element for vertically typesetting text using the (u)p\LaTeX engine.
+}
+\seealso{
+xdvir::element_latex
 }
