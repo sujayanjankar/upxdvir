@@ -19,10 +19,12 @@ This includes the \code{pxchfon} package in the document preamble.
 This also include the \code{japanese-otf} package in the (u)p\LaTeX fragment with the \code{deluxe} option to support multi-weight fonts.
 }
 \examples{
- grid.uplatex(
-     "Abc", 
-     packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
+\dontrun{
+grid.uplatex(
+    "Abc", 
+    packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
 )
+}
 }
 \seealso{
 [`xdvir::LaTeXpackage`]

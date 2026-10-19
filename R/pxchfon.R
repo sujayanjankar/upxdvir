@@ -113,10 +113,12 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 #' @importFrom xdvir LaTeXpackage
 #' @title LaTeX Package for \code{pxchfon} package
 #' @examples 
-#'  grid.uplatex(
-#'      "Abc", 
-#'      packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
+#' \dontrun{
+#' grid.uplatex(
+#'     "Abc", 
+#'     packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
 #' )
+#' }
 #' @description This package allows for font families supported by the \code{ptex-fontmaps} (u)p\LaTeX package
 #' @details This includes the \code{pxchfon} package in the document preamble.
 #' This also include the \code{japanese-otf} package in the (u)p\LaTeX fragment with the \code{deluxe} option to support multi-weight fonts.
