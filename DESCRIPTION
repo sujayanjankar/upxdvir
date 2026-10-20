@@ -17,7 +17,10 @@ Imports:
     hexView,
     rlang
 Suggests:
-    grid
+    grid,
+    knitr,
+    rmarkdown
 Encoding: UTF-8
 SystemRequirements: freetype2, harfbuzz
 Config/roxygen2/version: 8.1.1
+VignetteBuilder: knitr

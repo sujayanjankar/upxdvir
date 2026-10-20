@@ -1,0 +1,177 @@
+---
+title: "The {upxdvir} Package"
+author: "Sujay Anjankar"
+output: 
+  rmarkdown::html_vignette:
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{The {upxdvir} Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+drawGrid <- function(border = TRUE) {
+    grid.segments(
+        c(0, .5),
+        c(.5, 0),
+        c(1, .5),
+        c(.5, 1),
+        gp = gpar(lty = 4, col = "gray", alpha = .5)
+    )
+    if (border) {
+        grid.rect(gp = gpar(lwd = 10, col = 2, fill = NA))
+    }
+}
+
+setKnitrPresets <- function(
+  height = 3, width = 3, error = TRUE, align = "center"
+) {
+    chunkSet <- knitr::opts_chunk$set
+    chunkSet(error = error)
+    chunkSet(fig.height = height)
+    chunkSet(fig.width = width)
+    chunkSet(fig.align = align)
+}
+
+setKnitrPresets(4, 4)
+```
+
+```{r setup}
+library(grid)
+library(upxdvir)
+```
+
+## Vertical Typesetting
+
+```{r vert}
+drawGrid()
+grid.uplatex(
+    "The text is rendered vertically by default.",
+    y = .8,
+    direction = 0
+)
+grid.uplatex("「JRまで 0.5 km」と聞いた。")
+```
+
+## `{ggplot2}` Example
+
+```{r, echo = FALSE}
+setKnitrPresets(6, 6)
+```
+```{r ggp, message = FALSE}
+library(gggrid)
+
+label <- function(data, coords) {
+    uplatexGrob(
+        "このグラフは、自動車の燃費とエンジン排気量との関係を示しています。",
+        x = coords$x, y = coords$y,
+        hjust = 1, vjust = 1, height = unit(1, "in")
+    )
+}
+
+gg <- ggplot(mtcars) +
+    geom_point(aes(x = disp, y = mpg))
+
+gg +
+    labs(
+        x = "エンジン排気量 (Engine Displacement)",
+        y = "燃費 (Miles per gallon)",
+        title = "エンジン排気量と燃費の関係",
+        subtitle = "Engine Displacement vs Fuel Economy"
+    ) +
+    theme(
+        axis.title.x = element_uplatex(direction = 0),
+        axis.title.y = element_uplatex(),
+        plot.title = element_uplatex(direction = 0, family = "serif", fontface = "bold")
+    ) +
+    grid_panel(
+        label,
+        data = data.frame(x = max(mtcars$disp), y = max(mtcars$mpg)),
+        aes(x, y)
+    )
+```
+
+## Horizontal Typesetting
+
+```{r horiz}
+drawGrid()
+grid.uplatex(
+    "The \\texttt{direction = 0} parameter typesets text horizontally.",
+    gp = gpar(width = unit(2, "in")),
+    y = .75, direction = 0
+)
+grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = 0)
+```
+
+## Basic Math Example
+
+```{r e1}
+drawGrid()
+grid.uplatex("全体の $x_i^z \\frac{1}{2}$ は です。", y = .35)
+grid.uplatex("次式は $ax^2 + bx + c$ の形をしています。", t = .65)
+```
+
+```{r, echo = FALSE}
+setKnitrPresets(6, 6)
+```
+
+## Font Customisation
+
+Font customisation is supported from presets offered by `{pxchfon}` such as the following:
+
+1. `ipa`
+1. `ipaex`
+1. `haranoaji`
+1. `sourcehan`
+1. `noto`
+
+Only `plain` and `bold` font faces are supported since Japanese glyphs are already monospaced.
+
+### Font Families
+
+```{r families, fig.align = "center", fig.height = 4, fig.width = 4}
+drawGrid()
+fontfamilies <- c("sourcehan", "serif", "noto", "ipaex", "haranoaji")
+xs <- seq(.1, .9, by = .2)
+invisible(mapply(
+    \(x, fam, fac) {
+        grid.latex(fam, x = x, y = .75)
+        grid.uplatex(
+            "これはフォントです。",
+            x = x,
+            gp = gpar(fontfamily = fam)
+        )
+    },
+    xs, fontfamilies
+))
+```
+
+### Font Faces
+
+```{r faces, fig.align = "center", fig.height = 4, fig.width = 4}
+drawGrid()
+invisible(mapply(
+    \(x, fam, fac) {
+        grid.latex(fam, x = x, y = .75)
+        grid.uplatex(
+            "これはフォントです。",
+            x = x,
+            gp = gpar(fontfamily = fam, fontface = "bold")
+        )
+    },
+    xs, fontfamilies
+))
+```
+
+## Regression Checks
+
+```{r reg}
+drawGrid()
+grid.latex("LuaTeX", engine = "LuaTeX", y = .7)
+grid.latex("XeTeX", engine = "XeTeX", y = .3)
+```
