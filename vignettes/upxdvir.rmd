@@ -113,7 +113,7 @@ grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = 0)
 ```{r e1}
 drawGrid()
 grid.uplatex("全体の $x_i^z \\frac{1}{2}$ は です。", y = .35)
-grid.uplatex("次式は $ax^2 + bx + c$ の形をしています。", t = .65)
+grid.uplatex("次式は $ax^2 + bx + c$ の形をしています。", y = .65)
 ```
 
 ```{r, echo = FALSE}

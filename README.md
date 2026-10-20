@@ -92,4 +92,6 @@ Specifying an absolute font can be done in two ways with `pxchfon`:
     - `pxchfon` can specify both the Mincho and Gothic fonts, but the `grid`/`uplatex` API allows for only 1.
 - Solution: use `\mcfamily` in the fragment.
 - [x] `.pfb` file support in MacOS?
-- [ ] Error handling for font family that is supported by `pxchon` (`ptex-fontmap`) presets, but the physical OTF files are not installed.
+- [x] Error handling for font family that is supported by `pxchon` (`ptex-fontmap`) presets, but the physical OTF files are not installed.
+- [ ] `gdiff` unit tests
+- [ ] Try the `ragg` / `cairo` package for png or pdf devices.
