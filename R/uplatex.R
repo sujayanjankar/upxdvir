@@ -5,7 +5,7 @@
 #' @param \dots Additional parameters sent to \code{xdvir::grid.latex}
 #' @export
 #' @importFrom xdvir grid.latex
-#' @seealso 
+#' @seealso
 #'  xdvir::grid_latex
 #'  grid::unit
 grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
@@ -21,8 +21,7 @@ grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
     otherArgs <- list(...)
     pkgs <- c()
     dimToLimit <- if (direction == 1) otherArgs$gp$height else otherArgs$gp$width
-    dimToLimit <- convertUnitToInches(dimToLimit)
-    if (dimToLimit > 0) {
+    if (!is.null(dimToLimit)) {
         pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
     }
     message(otherArgs)
@@ -72,8 +71,7 @@ element_uplatex <- function(..., height = 0, direction = 1,
     otherArgs <- list(...)
     pkgs <- c()
     dimToLimit <- if (direction == 1) height else otherArgs$width
-    dimToLimit <- convertUnitToInches(dimToLimit)
-    if (dimToLimit > 0) {
+    if (!is.null(dimToLimit)) {
         pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
     }
     message(otherArgs)
@@ -114,8 +112,7 @@ uplatexGrob <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
     otherArgs <- list(...)
     pkgs <- c()
     dimToLimit <- if (direction == 1) height else otherArgs$width
-    dimToLimit <- convertUnitToInches(dimToLimit)
-    if (dimToLimit > 0) {
+    if (!is.null(dimToLimit)) {
         pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
     }
     message(otherArgs)
