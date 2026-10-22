@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
         r-version: [release]
     steps:
       - name: Checkout
@@ -37,14 +37,6 @@ jobs:
           latexmk texlive-lang-japanese libuv1-dev \
           libfontconfig1-dev fonts-lmodern fonts-ipaexfont \
           libfreetype-dev libharfbuzz-dev
-      - name: Install xdvir from GitHub
-        run: |
-          install.packages("remotes", repos = "https://cloud.r-project.org")
-          # TODO: Update to main whenever the 0.3-0 is merged.
-          remotes::install_github("sujayanjankar/xdvir#1")
-        shell: Rscript {0}
-        env:
-          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: Check upTeX version
         run: uplatex --version
       - name: R CMD check

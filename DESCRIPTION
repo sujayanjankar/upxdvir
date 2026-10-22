@@ -4,8 +4,12 @@ Title: Extends the \code{xdvir} package with support for the upLaTeX typesetting
     engine
 Version: 1.0
 Date: 2026-08-01
-Author: Sujay Anjankar
-Maintainer: Sujay Anjankar <sanj402@aucklanduni.ac.nz>
+Authors@R: person(
+    given = "Sujay",
+    family = "Anjankar",
+    role = c("aut", "cre"),
+    email = "sanj402@aucklanduni.ac.nz"
+)
 Description: Extends the \code{xdvir} package with support for the upLaTeX typesetting
     engine.
 License: GPL-3
@@ -20,6 +24,8 @@ Suggests:
     grid,
     knitr,
     rmarkdown
+# TODO: Will need to be updated.
+Remotes: sujayanjankar/xdvir#1
 Encoding: UTF-8
 SystemRequirements: freetype2, harfbuzz
 Config/roxygen2/version: 8.1.1
