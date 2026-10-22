@@ -19,14 +19,16 @@ jobs:
           tools: base
       - name: Install TinyTeX
         uses: s-u/R-actions/tinytex@v2
-      - name: Install upLaTeX (MacOS)
+      - name: Install upLaTeX (MacOS/Windows)
         if: runner.os != 'Linux'
         shell: bash
         run: |
-          tlmgr install ipaex japanese-otf \
-              latexmk lm ptex ptex-base ptex-fontmaps \
-              ptex-fonts ptex-manual uplatex uptex \
-              uptex-base uptex-fonts
+          TLMGR=tlmgr
+          [ "$RUNNER_OS" = Windows ] && TLMGR=tlmgr.bat
+          $TLMGR install ipaex japanese-otf \
+          latexmk lm ptex ptex-base ptex-fontmaps \
+          ptex-fonts ptex-manual uplatex uptex \
+          uptex-base uptex-fonts
       - name: Install upLaTeX (Ubuntu)
         if: runner.os == 'Linux'
         run: |
