@@ -10,16 +10,18 @@ jobs:
         os: [windows-latest]
         r-version: [release]
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Install R
         uses: s-u/R-actions/install@v2
         with:
           r-version: ${{ matrix.r-version }}
           tools: base
-      - name: Install tinytex
+      - name: Install TinyTeX
         uses: s-u/R-actions/tinytex@v2
       - name: Install upLaTeX (MacOS)
         if: runner.os != 'Linux'
+        shell: bash
         run: |
           tlmgr install ipaex japanese-otf \
               latexmk lm ptex ptex-base ptex-fontmaps \
