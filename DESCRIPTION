@@ -24,7 +24,6 @@ Suggests:
     grid,
     knitr,
     rmarkdown
-# TODO: Will need to be updated.
 Remotes: sujayanjankar/xdvir#1
 Encoding: UTF-8
 SystemRequirements: freetype2, harfbuzz
