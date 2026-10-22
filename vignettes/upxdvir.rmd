@@ -98,6 +98,10 @@ gg +
 
 ## Horizontal Typesetting
 
+```{r, echo = FALSE}
+setKnitrPresets(4, 4)
+```
+
 ```{r horiz}
 drawGrid()
 grid.uplatex(
@@ -116,8 +120,21 @@ grid.uplatex("全体の $x_i^z \\frac{1}{2}$ は です。", x = .35)
 grid.uplatex("次式は $ax^2 + bx + c$ の形をしています。", x = .65)
 ```
 
+### Math Symbol Support
+
+```{r symbols, message = FALSE}
+library(fs)
+library(ragg)
+imgPath <- path(getwd(), "symbol.png")
+options(upxdvir.pfb = TRUE)
+agg_png(imgPath, res = 100, height = 4, width = 4, units = "in")
+drawGrid()
+grid.uplatex("\\mcfamily 全体の $x_i^z \\frac{1}{2}$ は です。", x = .35)
+grid.uplatex("\\mcfamily 次式は $ax^2 + bx + c$ の形をしています。", x = .65)
+dev.off()
+```
 ```{r, echo = FALSE}
-setKnitrPresets(6, 6)
+knitr::include_graphics(imgPath)
 ```
 
 ## Font Customisation
@@ -134,7 +151,11 @@ Only `plain` and `bold` font faces are supported since Japanese glyphs are alrea
 
 ### Font Families
 
-```{r families, fig.align = "center"}
+```{r, echo = FALSE}
+setKnitrPresets(5, 5)
+```
+
+```{r families}
 drawGrid()
 fontfamilies <- c("sourcehan", "serif", "noto", "ipaex", "haranoaji")
 xs <- seq(.1, .9, by = .2)
@@ -153,7 +174,7 @@ invisible(mapply(
 
 ### Font Faces
 
-```{r faces, fig.align = "center"}
+```{r faces}
 drawGrid()
 invisible(mapply(
     \(x, fam, fac) {
@@ -169,6 +190,10 @@ invisible(mapply(
 ```
 
 ## Regression Checks
+
+```{r, echo = FALSE}
+setKnitrPresets(3, 3)
+```
 
 ```{r reg}
 drawGrid()
