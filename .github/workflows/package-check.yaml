@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [windows-latest]
         r-version: [release]
     steps:
       - uses: actions/checkout@v6
@@ -19,7 +19,7 @@ jobs:
       - name: Install tinytex
         uses: s-u/R-actions/tinytex@v2
       - name: Install upLaTeX (MacOS)
-        if: runner.os == 'macOS'
+        if: runner.os != 'Linux'
         run: |
           tlmgr install ipaex japanese-otf \
               latexmk lm ptex ptex-base ptex-fontmaps \
