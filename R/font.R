@@ -77,6 +77,10 @@ upFontFile <- function(fontNameWithoutExtension) {
             get("pdftex.map.path"),
             fontNameIdx = 2
         )
+        if (isTRUE(getOption("upxdvir.pfb"))) {
+            # Use the .pfb font.
+            latinFont <- lookupKpathsea(paste0(fontNameWithoutExtension, ".pfb"))
+        }
         # message("Found: ", latinFont)
         # Cache font names from the DVI output against their type.
         if (!is.na(latinFont)) {
@@ -109,7 +113,7 @@ upFontFile <- function(fontNameWithoutExtension) {
         }
     }
     if (is.na(cjkFont) && is.na(latinFont)) {
-        stop("No font could be resolved for:", fontNameWithoutExtension)
+        stop("No font could be resolved for: ", fontNameWithoutExtension)
     }
     res <- ifelse(!is.na(cjkFont), cjkFont, latinFont)
     set(fontCacheKey, res)

@@ -112,8 +112,8 @@ grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = 0)
 
 ```{r e1}
 drawGrid()
-grid.uplatex("全体の $x_i^z \\frac{1}{2}$ は です。", y = .35)
-grid.uplatex("次式は $ax^2 + bx + c$ の形をしています。", y = .65)
+grid.uplatex("全体の $x_i^z \\frac{1}{2}$ は です。", x = .35)
+grid.uplatex("次式は $ax^2 + bx + c$ の形をしています。", x = .65)
 ```
 
 ```{r, echo = FALSE}
@@ -134,7 +134,7 @@ Only `plain` and `bold` font faces are supported since Japanese glyphs are alrea
 
 ### Font Families
 
-```{r families, fig.align = "center", fig.height = 4, fig.width = 4}
+```{r families, fig.align = "center"}
 drawGrid()
 fontfamilies <- c("sourcehan", "serif", "noto", "ipaex", "haranoaji")
 xs <- seq(.1, .9, by = .2)
@@ -153,7 +153,7 @@ invisible(mapply(
 
 ### Font Faces
 
-```{r faces, fig.align = "center", fig.height = 4, fig.width = 4}
+```{r faces, fig.align = "center"}
 drawGrid()
 invisible(mapply(
     \(x, fam, fac) {

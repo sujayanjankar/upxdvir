@@ -38,6 +38,15 @@ SEXP hbGlyphIndex(SEXP code, SEXP font, SEXP direction) {
     hb_glyph_info_t *info = hb_buffer_get_glyph_infos(buf, &count);
 
     index = info[0].codepoint;
+
+    /* Look-up raw charmaps for lmsy font. */
+    if (!index) {
+        for (int c = 0; c < face->num_charmaps && !index; c++) {
+            FT_Set_Charmap(face, face->charmaps[c]);
+            index = FT_Get_Char_Index(face, cp);
+        }
+    }
+
     if (!index) {
         error("Undefined character code");
     }
@@ -101,7 +110,7 @@ SEXP hbGlyphMetrics(SEXP font) {
     SET_VECTOR_ELT(result, 0, unitsPerEm);
     UNPROTECT(1);
 
-    numGlyphs = hb_face_get_glyph_count(hb_font_get_face(hb_font));
+    numGlyphs = (long)face->num_glyphs;
 
     PROTECT(metrics = allocVector(VECSXP, numGlyphs));
     glyphErr = 0;
