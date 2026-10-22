@@ -9,20 +9,6 @@
 initialiseEngine <- function() {
     ## Define and register the upTeX engine.
     initUpTeX()
-    preamblePackages <- c(
-        "\\pagestyle{empty}",
-        "\\setlength{\\parindent}{0pt}"
-    )
-    if (!isTRUE(getOption("upxdvir.pfb"))) {
-        preamblePackages <- c(
-            c(
-                "\\usepackage[T1]{fontenc}",
-                "\\usepackage{lmodern}",
-                "\\usepackage{mathastext}"
-            ),
-            preamblePackages
-        )
-    }
     if (uptexAvailable()) {
         UpTeXengine <- xdvir::TeXengine(
             name = "upTeX",
@@ -33,7 +19,10 @@ initialiseEngine <- function() {
             glyphIndex = upGlyphIndex,
             options = "",
             buildArgs = buildUpTeXargs,
-            preamble = preamblePackages,
+            preamble = c(
+                "\\pagestyle{empty}",
+                "\\setlength{\\parindent}{0pt}"
+            ),
             emulation = FALSE,
             fontPreset = upFontPreset
         )

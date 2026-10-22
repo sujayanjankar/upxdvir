@@ -14,10 +14,21 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
         validatedFontFams <- unique(c(ff, .validatePtexFontFamily(fontFamily)))
         ff <- paste(validatedFontFams, collapse = ",")
     }
-    paste0(
+    preamblePackages <- paste0(
         "\\usepackage[deluxe,uplatex]{otf}\n",
         "\\usepackage[dvipdfmx,unicode,", ff, "]{pxchfon}"
     )
+    if (!isTRUE(getOption("upxdvir.pfb"))) {
+        preamblePackages <- c(
+            c(
+                "\\usepackage[T1]{fontenc}\n",
+                "\\usepackage{lmodern}\n",
+                "\\usepackage{mathastext}\n"
+            ),
+            preamblePackages
+        )
+    }
+    paste(preamblePackages, collapse = "")
 }
 
 #' @importFrom fs path
