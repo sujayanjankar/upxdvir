@@ -39,6 +39,13 @@ jobs:
           libfreetype-dev libharfbuzz-dev
       - name: Check upTeX version
         run: uplatex --version
+      - name: Install xdvir from GitHub
+        shell: Rscript {0}
+        run: |
+          install.packages("remotes", repos = "https://cloud.r-project.org")
+          remotes::install_github("sujayanjankar/xdvir#1")
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: R CMD check
         uses: s-u/R-actions/pkg-check@v2
         with:
