@@ -8,8 +8,7 @@ Authors@R: person(
     given = "Sujay",
     family = "Anjankar",
     role = c("aut", "cre"),
-    email = "sanj402@aucklanduni.ac.nz"
-)
+    email = "sanj402@aucklanduni.ac.nz")
 Description: Extends the \code{xdvir} package with support for the upLaTeX typesetting
     engine.
 License: GPL-3
