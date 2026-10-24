@@ -5,7 +5,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} R ${{ matrix.r-version }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
         r-version: [release]
@@ -25,6 +25,7 @@ jobs:
         run: |
           TLMGR=tlmgr
           [ "$RUNNER_OS" = Windows ] && TLMGR=tlmgr.bat
+          $TLMGR update --self
           $TLMGR install ipaex japanese-otf \
           latexmk lm ptex ptex-base ptex-fontmaps \
           ptex-fonts ptex-manual uplatex uptex \
