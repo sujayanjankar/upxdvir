@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [windows-latest]
         r-version: [release]
     steps:
       - name: Checkout
@@ -47,6 +47,12 @@ jobs:
           remotes::install_github("sujayanjankar/xdvir#1")
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      - name: DEBUG
+        shell: bash
+        run: |
+            which -a R Rscript
+            R --version | head -n1
+            Rscript -e 'print(R.home()); print("~~"); print(.libPaths())'
       - name: R CMD check
         uses: s-u/R-actions/pkg-check@v2
         with:
