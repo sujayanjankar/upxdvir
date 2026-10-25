@@ -1,3 +1,5 @@
+require(fs)
+
 FONT_CACHE_PREFIX <- "up-font-def-"
 FONT_CACHE_CJK <- "up-font-cjk-"
 FONT_CACHE_LATIN <- "up-font-ltn-"
@@ -17,6 +19,7 @@ FONT_CACHE_LATIN <- "up-font-ltn-"
     message("Fonts initialised.")
 }
 
+#' @importFrom fs path_sanitize
 .lookupFont <- function(lookupString, lookupPath, fontNameIdx = 3) {
     fontMappingRow <- grep(
         lookupString,
@@ -74,6 +77,10 @@ upFontFile <- function(fontNameWithoutExtension) {
             get("pdftex.map.path"),
             fontNameIdx = 2
         )
+        if (isTRUE(getOption("upxdvir.pfb"))) {
+            # Use the .pfb font.
+            latinFont <- lookupKpathsea(paste0(fontNameWithoutExtension, ".pfb"))
+        }
         # message("Found: ", latinFont)
         # Cache font names from the DVI output against their type.
         if (!is.na(latinFont)) {
@@ -106,7 +113,7 @@ upFontFile <- function(fontNameWithoutExtension) {
         }
     }
     if (is.na(cjkFont) && is.na(latinFont)) {
-        stop("No font could be resolved for:", fontNameWithoutExtension)
+        stop("No font could be resolved for: ", fontNameWithoutExtension)
     }
     res <- ifelse(!is.na(cjkFont), cjkFont, latinFont)
     set(fontCacheKey, res)
@@ -126,7 +133,7 @@ upFontPreset <- function(family, face, size, lineheight, colour) {
     if (is.null(colour)) {
         stop("No colour specified")
     }
-    rgb <- col2rgb(colour)
+    rgb <- grDevices::col2rgb(colour)
     col <- paste0(
         "\\definecolor{upxdvir}{RGB}{",
         rgb[1, ], ",", rgb[2, ], ",", rgb[3, ], "}\n",

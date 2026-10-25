@@ -14,16 +14,27 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
         validatedFontFams <- unique(c(ff, .validatePtexFontFamily(fontFamily)))
         ff <- paste(validatedFontFams, collapse = ",")
     }
-    paste0(
-        "\\usepackage{mathastext}\n",
+    preamblePackages <- paste0(
         "\\usepackage[deluxe,uplatex]{otf}\n",
         "\\usepackage[dvipdfmx,unicode,", ff, "]{pxchfon}"
     )
+    if (!isTRUE(getOption("upxdvir.pfb"))) {
+        preamblePackages <- c(
+            c(
+                "\\usepackage[T1]{fontenc}\n",
+                "\\usepackage{lmodern}\n",
+                "\\usepackage{mathastext}\n"
+            ),
+            preamblePackages
+        )
+    }
+    paste(preamblePackages, collapse = "")
 }
 
+#' @importFrom fs path
 .loadPtexFontMaps <- function() {
     ptexPath <- options("upxdvir.ptex.path")
-    texHome <- lookupKpathsea("-var-value TEXMFDIST", wrap = FALSE)
+    texHome <- lookupKpathsea("-var-value TEXMFDIST", wrapArgs = FALSE)
     if (isFALSE(nchar(ptexPath) > 0) && is.na(texHome)) {
         message(
             "TeX home can't be resolved, ptex-fontmaps can't be validated.",
@@ -108,6 +119,23 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
     }
 }
 
+
+#' @importFrom xdvir LaTeXpackage
+#' @title LaTeX Package for \code{pxchfon} package
+#' @examples 
+#' \dontrun{grid.uplatex(
+#'     "Abc", 
+#'     packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
+#' )
+#' }
+#' @description This package allows for font families supported by the \code{ptex-fontmaps} up\LaTeX{} package
+#' @details This includes the \code{pxchfon} package in the document preamble.
+#' This also include the \code{japanese-otf} package in the up\LaTeX{} fragment with the \code{deluxe} option to support multi-weight fonts.
+#' @param fontFamily A font family supported by \code{ptex-fontmaps}, or one of \code{sans}, \code{serif} or \code{mono}. By default, \code{sans} is applied.
+#' @param fontFace Only \code{plain} or \code{bold} faces are supported. By default, \code{plain} is applied.
+#' @seealso \code{\link{xdvir::LaTeXpackage}}
+#' @seealso \link{https://ctan.org/pkg/ptex-fontmaps?lang=en}
+#' @export
 pxchfonPackage <- function(fontFamily = "", fontFace = "plain") {
     xdvir::LaTeXpackage(
         name = "pxchfon",
