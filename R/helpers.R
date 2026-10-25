@@ -37,3 +37,14 @@ quiet <- function(expr) suppressMessages(suppressWarnings(expr))
 suppressLigatures <- function(text) {
   gsub("f([fil])", "f{}\\1", text)
 }
+
+resolveDirection <- function(method = c("horizontal", "vertical")) {
+  method <- tryCatch(
+    match.arg(method),
+    error = function(e) {
+      warning("Invalid direction provided. Defaulting to 'vertical'.")
+      return("vertical") 
+    }
+  )
+  method
+}

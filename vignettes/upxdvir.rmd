@@ -53,7 +53,7 @@ drawGrid()
 grid.uplatex(
     "The text is rendered vertically by default.",
     y = .8,
-    direction = 0
+    direction = "horizontal"
 )
 grid.uplatex("「JRまで 0.5 km」と聞いた。")
 ```
@@ -85,9 +85,9 @@ gg +
         subtitle = "Engine Displacement vs Fuel Economy"
     ) +
     theme(
-        axis.title.x = element_uplatex(direction = 0),
+        axis.title.x = element_uplatex(direction = "horizontal"),
         axis.title.y = element_uplatex(),
-        plot.title = element_uplatex(direction = 0, family = "serif", fontface = "bold")
+        plot.title = element_uplatex(direction = "horizontal", family = "serif", fontface = "bold")
     ) +
     grid_panel(
         label,
@@ -105,11 +105,11 @@ setKnitrPresets(4, 4)
 ```{r horiz}
 drawGrid()
 grid.uplatex(
-    "The \\texttt{direction = 0} parameter typesets text horizontally.",
+    "The \\texttt{direction = "horizontal"} parameter typesets text horizontally.",
     gp = gpar(width = unit(2, "in")),
-    y = .75, direction = 0
+    y = .75, direction = "horizontal"
 )
-grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = 0)
+grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = "horizontal")
 ```
 
 ## Basic Math Example

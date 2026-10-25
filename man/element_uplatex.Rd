@@ -5,20 +5,17 @@
 \title{element_uplatex}
 \usage{
 element_uplatex(
-  ...,
   height = 0,
-  direction = 1,
-  angle = if (direction == 1) -0 else 0,
-  vjust = if (direction == 1) 0.5 else 0,
-  verbose = FALSE
+  direction = "vertical",
+  angle = if (resolveDirection(direction) == "vertical") -0 else 0,
+  vjust = if (resolveDirection(direction) == "vertical") 0.5 else 0,
+  verbose = FALSE,
+  ...
 )
 }
 \arguments{
-\item{\dots}{Additional parameters sent to \code{xdvir::element_latex}}
-
-\item{height}{Height is interpreted by \code{minipagePackage}. So it
-can be a number, or a
-\code{grid::unit}. Default: 0}
+\item{height}{Can be a number (interpreted as \code{npc} units), or a 
+\code{grid::unit}. Default: unset.}
 
 \item{direction}{Can be either 0 or 1. If 0, text is typeset horizontally,
 else vertically. Default: 1.}
@@ -30,6 +27,8 @@ for vertical typesetting, else 0.}
 typesetting, else 0.}
 
 \item{verbose}{If \code{TRUE}, prints trace logging. Default: \code{FALSE}}
+
+\item{\dots}{Additional parameters sent to \code{xdvir::element_latex}}
 }
 \description{
 \code{ggplot2} theme element for vertically typesetting

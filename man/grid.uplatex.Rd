@@ -2,41 +2,30 @@
 % Please edit documentation in R/uplatex.R
 \name{grid.uplatex}
 \alias{grid.uplatex}
-\alias{uplatexGrob}
 \title{grid.uplatex}
 \usage{
-grid.uplatex(text, ..., direction = 1, verbose = FALSE)
-
-uplatexGrob(text, ..., height = 0, direction = 1, verbose = FALSE)
+grid.uplatex(text, direction = "vertical", verbose = FALSE, ...)
 }
 \arguments{
-\item{text}{This is the up\LaTeX{} fragment to typeset.}
+\item{text}{The up\LaTeX{} fragment to typeset.}
 
-\item{\dots}{Additional parameters sent to \code{xdvir::grid.latex}}
-
-\item{direction}{Can be either 0 or 1. If 0, text is typeset horizontally,
-else vertically. Default: 1.}
+\item{direction}{Can be either \code{horizontal} or \code{vertical}. Default: \code{vertical}.}
 
 \item{verbose}{If \code{TRUE}, prints trace logging. Default: \code{FALSE}}
 
-\item{height}{For \code{grid.uplatex}, height is supplied as a part of the
-graphical parameters (\code{gpar}s).
- For \code{uplatexGrob}, height is a parameter of its own. Height is
-interpreted by \code{minipagePackage}. So it can be a number, or a
-\code{grid::unit}. Default: 0}
-}
-\value{
-A \code{xdvir::DVIgrob} object
+\item{\dots}{Additional parameters sent to \code{xdvir::grid.latex}}
 }
 \description{
 Draws a glyph grob on the specified graphics device.
 }
+\details{
+Height should be supplied as a part of the
+graphical parameters (\code{gpar}s). It can be a number (interpreted as 
+\code{npc}), or a \code{grid::unit}. Default: unset.
+}
 \examples{
-\dontrun{
-grid.uplatex("Text")
-grid.uplatex("Text", gp = grid::gpar(height = grid::unit(1, "in")))
-uplatexGrob("Text")
-uplatexGrob("Text", height = grid::unit(1, "in"))}
+\dontrun{grid.uplatex("Text")
+grid.uplatex("Text", gp = grid::gpar(height = grid::unit(1, "in")))}
 }
 \seealso{
 \link{minipagePackage}
