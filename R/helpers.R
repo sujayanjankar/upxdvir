@@ -24,10 +24,10 @@ convertUnitToInches <- function(dim, unit = "npc") {
     if (is.null(dim)) {
         0
     } else {
-        if (!is.unit(dim)) {
-            dim <- unit(dim, unit)
+        if (!grid::is.unit(dim)) {
+            dim <- grid::unit(dim, unit)
         }
-        convertUnit(dim, "in", valueOnly = TRUE)
+        grid::convertUnit(dim, "in", valueOnly = TRUE)
     }
 }
 

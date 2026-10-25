@@ -1,5 +1,9 @@
 # `{upxdvir}`
 
+<!-- TODO: Switch to main. -->
+
+[![{upxdvir} Package check](https://github.com/sujayanjankar/upxdvir/actions/workflows/package-check.yaml/badge.svg?branch=feature%2Ffirst-implementation)](https://github.com/sujayanjankar/upxdvir/actions/workflows/package-check.yaml)
+  
 `{upxdvir}` is an extension to [`{xdvir}`](https://cran.r-project.org/package=xdvir) to enable the use of Unicode, and vertically typeset text with `{grid}` and `{ggplot2}` objects.
 
 # TODOs
@@ -88,4 +92,6 @@ Specifying an absolute font can be done in two ways with `pxchfon`:
     - `pxchfon` can specify both the Mincho and Gothic fonts, but the `grid`/`uplatex` API allows for only 1.
 - Solution: use `\mcfamily` in the fragment.
 - [x] `.pfb` file support in MacOS?
-- [ ] Error handling for font family that is supported by `pxchon` (`ptex-fontmap`) presets, but the physical OTF files are not installed.
+- [x] Error handling for font family that is supported by `pxchon` (`ptex-fontmap`) presets, but the physical OTF files are not installed.
+- [ ] `gdiff` unit tests
+- [ ] Try the `ragg` / `cairo` package for png or pdf devices.
