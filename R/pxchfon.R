@@ -123,18 +123,20 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 #' @importFrom xdvir LaTeXpackage
 #' @title LaTeX Package for \code{pxchfon} package
 #' @examples 
-#' \dontrun{grid.uplatex(
+#' \dontrun{
+#' grid.uplatex(
 #'     "Abc", 
 #'     packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
-#' )
-#' }
+#' )}
 #' @description This package allows for font families supported by the \code{ptex-fontmaps} up\LaTeX{} package
 #' @details This includes the \code{pxchfon} package in the document preamble.
 #' This also include the \code{japanese-otf} package in the up\LaTeX{} fragment with the \code{deluxe} option to support multi-weight fonts.
 #' @param fontFamily A font family supported by \code{ptex-fontmaps}, or one of \code{sans}, \code{serif} or \code{mono}. By default, \code{sans} is applied.
 #' @param fontFace Only \code{plain} or \code{bold} faces are supported. By default, \code{plain} is applied.
-#' @seealso \code{\link{xdvir::LaTeXpackage}}
-#' @seealso \link{https://ctan.org/pkg/ptex-fontmaps?lang=en}
+#' @seealso \code{xdvir::LaTeXpackage}
+#' @seealso \url{https://ctan.org/pkg/ptex-fontmaps?lang=en}
+#' @keywords LaTeXpackage
+#' @return A \code{LaTeXpackage} object.
 #' @export
 pxchfonPackage <- function(fontFamily = "", fontFace = "plain") {
     xdvir::LaTeXpackage(

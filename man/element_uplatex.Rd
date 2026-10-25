@@ -36,7 +36,7 @@ typesetting, else 0.}
 text using the up\LaTeX{} engine.
 }
 \seealso{
-\code{\link{minipagePackage}}
+\link{minipagePackage}
 
-\code{\link{xdvir::element_uplatex}}
+\code{xdvir::element_latex}
 }

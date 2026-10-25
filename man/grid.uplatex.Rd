@@ -25,23 +25,25 @@ graphical parameters (\code{gpar}s).
 interpreted by \code{minipagePackage}. So it can be a number, or a
 \code{grid::unit}. Default: 0}
 }
+\value{
+A \code{xdvir::DVIgrob} object
+}
 \description{
 Draws a glyph grob on the specified graphics device.
 }
 \examples{
 \dontrun{
-grid.uplatex("日本語")
-grid.uplatex("日本語", gp = grid::gpar(height = grid::unit(1, "in")))
-uplatexGrob("日本語")
-uplatexGrob("日本語", height = grid::unit(1, "in"))
-}
+grid.uplatex("Text")
+grid.uplatex("Text", gp = grid::gpar(height = grid::unit(1, "in")))
+uplatexGrob("Text")
+uplatexGrob("Text", height = grid::unit(1, "in"))}
 }
 \seealso{
-\code{\link{minipagePackage}}
+\link{minipagePackage}
 
-\code{\link{xdvir::grid_latex}}
+\code{xdvir::grid.latex}
 
-\code{\link{xdvir::latexGrob}}
+\code{xdvir::latexGrob}
 
-\code{\link{grid::unit}}
+\code{grid::unit}
 }

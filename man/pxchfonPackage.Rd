@@ -11,6 +11,9 @@ pxchfonPackage(fontFamily = "", fontFace = "plain")
 
 \item{fontFace}{Only \code{plain} or \code{bold} faces are supported. By default, \code{plain} is applied.}
 }
+\value{
+A \code{LaTeXpackage} object.
+}
 \description{
 This package allows for font families supported by the \code{ptex-fontmaps} up\LaTeX{} package
 }
@@ -19,14 +22,15 @@ This includes the \code{pxchfon} package in the document preamble.
 This also include the \code{japanese-otf} package in the up\LaTeX{} fragment with the \code{deluxe} option to support multi-weight fonts.
 }
 \examples{
-\dontrun{grid.uplatex(
+\dontrun{
+grid.uplatex(
     "Abc", 
     packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
-)
-}
+)}
 }
 \seealso{
-\code{\link{xdvir::LaTeXpackage}}
+\code{xdvir::LaTeXpackage}
 
-\link{https://ctan.org/pkg/ptex-fontmaps?lang=en}
+\url{https://ctan.org/pkg/ptex-fontmaps?lang=en}
 }
+\keyword{LaTeXpackage}

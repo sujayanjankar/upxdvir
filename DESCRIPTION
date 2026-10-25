@@ -1,14 +1,18 @@
 Type: Package
 Package: upxdvir
 Version: 1.0
-Title: \pkg{upxdvir}: An \pkg{xdvir} Extension for Vertically Typesetting \LaTeX Fragments
-Description: Extends the \code{xdvir} package with support for vertical typesetting using the up\LaTeX typesetting engine.
+Title: 'upxdvir': An 'xdvir' Extension for Vertically Typesetting LaTeX
+        Fragments
+Description: Extends the 'xdvir' package with support for vertical 
+        typesetting using the 'upLaTeX' typesetting engine.
 Date: 2026-08-01
 Authors@R: person(
     given = "Sujay",
     family = "Anjankar",
     role = c("aut", "cre"),
     email = "sanj402@aucklanduni.ac.nz")
+Author: Sujay Anjankar <sanj402@aucklanduni.ac.nz>
+Maintainer: Sujay Anjankar <sanj402@aucklanduni.ac.nz>
 License: GPL-3
 Depends:
     R (>= 4.1.0),

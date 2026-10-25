@@ -15,15 +15,14 @@
 #' @aliases uplatexGrob
 #' @rdname grid.uplatex
 #' @examples \dontrun{
-#' grid.uplatex("日本語")
-#' grid.uplatex("日本語", gp = grid::gpar(height = grid::unit(1, "in")))
-#' uplatexGrob("日本語")
-#' uplatexGrob("日本語", height = grid::unit(1, "in"))
-#' }
-#' @seealso \code{\link{minipagePackage}}
-#' @seealso \code{\link{xdvir::grid_latex}}
-#' @seealso \code{\link{xdvir::latexGrob}}
-#' @seealso \code{\link{grid::unit}}
+#' grid.uplatex("Text")
+#' grid.uplatex("Text", gp = grid::gpar(height = grid::unit(1, "in")))
+#' uplatexGrob("Text")
+#' uplatexGrob("Text", height = grid::unit(1, "in"))}
+#' @seealso \link{minipagePackage}
+#' @seealso \code{xdvir::grid.latex}
+#' @seealso \code{xdvir::latexGrob}
+#' @seealso \code{grid::unit}
 grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
     .clearFontCache()
     if (verbose) {
@@ -71,8 +70,8 @@ grid.uplatex <- function(text, ..., direction = 1, verbose = FALSE) {
 #' @param \dots Additional parameters sent to \code{xdvir::element_latex}
 #' @export
 #' @importFrom xdvir element_latex
-#' @seealso \code{\link{minipagePackage}}
-#' @seealso \code{\link{xdvir::element_uplatex}}
+#' @seealso \link{minipagePackage}
+#' @seealso \code{xdvir::element_latex}
 element_uplatex <- function(..., height = 0, direction = 1,
                             angle = if (direction == 1) -0 else 0,
                             vjust = if (direction == 1) 0.5 else 0,
@@ -117,6 +116,7 @@ element_uplatex <- function(..., height = 0, direction = 1,
 #' @rdname grid.uplatex
 #' @export
 #' @importFrom xdvir latexGrob
+#' @return A \code{xdvir::DVIgrob} object
 uplatexGrob <- function(text, ..., height = 0, direction = 1, verbose = FALSE) {
     .clearFontCache()
     if (verbose) {

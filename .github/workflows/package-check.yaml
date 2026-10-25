@@ -1,0 +1,69 @@
+name: "{upxdvir} Package check"
+on: [pull_request, workflow_dispatch]
+jobs:
+  check:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} R ${{ matrix.r-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        r-version: [release]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install R
+        uses: s-u/R-actions/install@v2
+        with:
+          r-version: ${{ matrix.r-version }}
+          tools: base
+      - name: Install TinyTeX
+        uses: s-u/R-actions/tinytex@v2
+      - name: Install upLaTeX (MacOS/Windows)
+        if: runner.os != 'Linux'
+        shell: bash
+        run: |
+          TLMGR=tlmgr
+          [ "$RUNNER_OS" = Windows ] && TLMGR=tlmgr.bat
+          $TLMGR update --self
+          $TLMGR install ipaex japanese-otf \
+          latexmk lm ptex ptex-base ptex-fontmaps \
+          ptex-fonts ptex-manual uplatex uptex \
+          uptex-base uptex-fonts
+      - name: Install upLaTeX (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+          latexmk texlive-lang-japanese libuv1-dev \
+          libfontconfig1-dev fonts-lmodern fonts-ipaexfont \
+          libfreetype-dev libharfbuzz-dev
+      - name: Check upTeX version
+        run: uplatex --version
+      - name: Install xdvir from GitHub
+        shell: bash
+        run: |
+            Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org"); remotes::install_github("sujayanjankar/xdvir#1")'
+        env:
+            GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      - name: R CMD check
+        uses: s-u/R-actions/pkg-check@v2
+        with:
+          macos-deps: freetype harfbuzz
+          check-flags: --as-cran
+      - name: Artifact set-up
+        if: always()
+        run: |
+          if [ ${{ runner.os }} = Windows ] ; then
+            TDIR=`cygpath -m $GITHUB_WORKSPACE/..`
+          else
+            TDIR=$(cd $GITHUB_WORKSPACE/.. && pwd)
+          fi
+          echo "TOP_DIR=$TDIR" >> $GITHUB_ENV
+        shell: bash
+      - name: Upload check results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.os }}-r-${{ matrix.r-version }}-results
+          path: ${{ env.TOP_DIR }}/upxdvir.Rcheck/
