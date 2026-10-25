@@ -41,18 +41,11 @@ jobs:
       - name: Check upTeX version
         run: uplatex --version
       - name: Install xdvir from GitHub
-        shell: Rscript {0}
-        run: |
-          install.packages("remotes", repos = "https://cloud.r-project.org")
-          remotes::install_github("sujayanjankar/xdvir#1")
-        env:
-          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      - name: DEBUG
         shell: bash
         run: |
-            which -a R Rscript
-            R --version | head -n1
-            Rscript -e 'print(R.home()); print("~~"); print(.libPaths())'
+            Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org"); remotes::install_github("sujayanjankar/xdvir#1")'
+        env:
+            GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: R CMD check
         uses: s-u/R-actions/pkg-check@v2
         with:
