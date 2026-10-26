@@ -21,6 +21,8 @@ initialiseEngine <- function() {
             buildArgs = buildUpTeXargs,
             preamble = c(
                 "\\pagestyle{empty}",
+                # TODO: Consider conditionally loading pxrubrica?
+                "\\usepackage{pxrubrica}",
                 "\\setlength{\\parindent}{0pt}"
             ),
             emulation = FALSE,

@@ -131,6 +131,21 @@ drawGrid()
 grid.uplatex(mathText, x = c(0.3, 0.5, 0.7), gp = gpar(height = .5))
 ```
 
+## Annotations
+
+```{r annotations}
+drawGrid()
+grid.uplatex(
+    "\\aruby{日本語}{Japanese language}を勉強しています。",
+    y = .9, vjust = 1
+)
+
+grid.uplatex(
+    "\\aruby{日本語}{Japanese language}を勉強しています。",
+    x = .2, dir = "h"
+)
+```
+
 ## Font Customisation
 
 Font customisation is supported from presets offered by `{pxchfon}` such as the following:
