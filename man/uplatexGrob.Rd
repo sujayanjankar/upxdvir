@@ -10,11 +10,12 @@ uplatexGrob(text, height = 0, direction = "vertical", verbose = FALSE, ...)
 \item{text}{The up\LaTeX{} fragment to typeset.}
 
 \item{height}{For \code{grid.uplatex}, height is supplied as a part of the
-graphical parameters (\code{gpar}s). For \code{uplatexGrob}, height is a 
-parameter of its own. Height is interpreted by \code{minipagePackage}. 
+graphical parameters (\code{gpar}s). For \code{uplatexGrob}, height is a
+parameter of its own. Height is interpreted by \code{minipagePackage}.
 So it can be a number (as \code{npc}), or a \code{grid::unit}. Default: 0}
 
-\item{direction}{Can be either \code{horizontal} or \code{vertical}. Default: \code{vertical}.}
+\item{direction}{Can be either \code{horizontal} or \code{vertical}.
+Default: \code{vertical}.}
 
 \item{verbose}{If \code{TRUE}, prints trace logging. Default: \code{FALSE}}
 
@@ -24,11 +25,14 @@ So it can be a number (as \code{npc}), or a \code{grid::unit}. Default: 0}
 A \code{xdvir::DVIgrob} object
 }
 \description{
-Produces a \code{xdvir::DVIgrob} object to be drawn on graphics devices.
+Produces a \code{xdvir::DVIgrob} object to be drawn on graphics
+devices.
 }
 \examples{
-\dontrun{uplatexGrob("Text")
-uplatexGrob("Text", height = grid::unit(1, "in"))}
+\dontrun{# Needs upLaTeX and grid.
+uplatexGrob("Text")
+uplatexGrob("Text", height = grid::unit(1, "in"))
+}
 }
 \seealso{
 \link{minipagePackage}

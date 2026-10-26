@@ -9,7 +9,8 @@ grid.uplatex(text, direction = "vertical", verbose = FALSE, ...)
 \arguments{
 \item{text}{The up\LaTeX{} fragment to typeset.}
 
-\item{direction}{Can be either \code{horizontal} or \code{vertical}. Default: \code{vertical}.}
+\item{direction}{Can be either \code{horizontal} or \code{vertical}.
+Default: \code{vertical}.}
 
 \item{verbose}{If \code{TRUE}, prints trace logging. Default: \code{FALSE}}
 
@@ -20,12 +21,14 @@ Draws a glyph grob on the specified graphics device.
 }
 \details{
 Height should be supplied as a part of the
-graphical parameters (\code{gpar}s). It can be a number (interpreted as 
+graphical parameters (\code{gpar}s). It can be a number (interpreted as
 \code{npc}), or a \code{grid::unit}. Default: unset.
 }
 \examples{
-\dontrun{grid.uplatex("Text")
-grid.uplatex("Text", gp = grid::gpar(height = grid::unit(1, "in")))}
+\dontrun{# Needs upLaTeX and grid.
+grid.uplatex("Text")
+grid.uplatex("Text", gp = grid::gpar(height = grid::unit(1, "in")))
+}
 }
 \seealso{
 \link{minipagePackage}

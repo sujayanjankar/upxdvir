@@ -1,4 +1,4 @@
-#' @import hexView 
+#' @import hexView
 
 ## Code for reading virtual font (.vf) files
 

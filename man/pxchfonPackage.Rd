@@ -7,26 +7,31 @@
 pxchfonPackage(fontFamily = "", fontFace = "plain")
 }
 \arguments{
-\item{fontFamily}{A font family supported by \code{ptex-fontmaps}, or one of \code{sans}, \code{serif} or \code{mono}. By default, \code{sans} is applied.}
+\item{fontFamily}{A font family supported by \code{ptex-fontmaps}, or one of
+\code{sans}, \code{serif} or \code{mono}. By default, \code{sans} is applied.}
 
-\item{fontFace}{Only \code{plain} or \code{bold} faces are supported. By default, \code{plain} is applied.}
+\item{fontFace}{Only \code{plain} or \code{bold} faces are supported.
+By default, \code{plain} is applied.}
 }
 \value{
 A \code{LaTeXpackage} object.
 }
 \description{
-This package allows for font families supported by the \code{ptex-fontmaps} up\LaTeX{} package
+This package allows for font families supported by the
+\code{ptex-fontmaps} up\LaTeX{} package
 }
 \details{
 This includes the \code{pxchfon} package in the document preamble.
-This also include the \code{japanese-otf} package in the up\LaTeX{} fragment with the \code{deluxe} option to support multi-weight fonts.
+This also include the \code{japanese-otf} package in the up\LaTeX{} fragment
+with the \code{deluxe} option to support multi-weight fonts.
 }
 \examples{
-\dontrun{
+\dontrun{# Needs upLaTeX and grid.
 grid.uplatex(
-    "Abc", 
+    "Abc",
     packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
-)}
+)
+}
 }
 \seealso{
 \code{xdvir::LaTeXpackage}

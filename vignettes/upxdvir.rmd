@@ -13,8 +13,10 @@ vignette: >
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
     collapse = TRUE,
-    comment = "#>"
+    comment = "#>",
+    dev = "ragg_png"
 )
+options(upxdvir.pfb = TRUE)
 drawGrid <- function(border = TRUE) {
     grid.segments(
         c(0, .5),
@@ -87,7 +89,9 @@ gg +
     theme(
         axis.title.x = element_uplatex(direction = "horizontal"),
         axis.title.y = element_uplatex(),
-        plot.title = element_uplatex(direction = "horizontal", family = "serif", fontface = "bold")
+        plot.title = element_uplatex(
+            direction = "horizontal", family = "serif", fontface = "bold"
+        )
     ) +
     grid_panel(
         label,
@@ -105,8 +109,11 @@ setKnitrPresets(4, 4)
 ```{r horiz}
 drawGrid()
 grid.uplatex(
-    "The \\texttt{direction = "horizontal"} parameter typesets text horizontally.",
-    gp = gpar(width = unit(2, "in")),
+    paste(
+        "The \\texttt{direction = \"horizontal\"}",
+        "parameter typesets text horizontally."
+    ),
+    gp = gpar(width = unit(3, "in")),
     y = .75, direction = "horizontal"
 )
 grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = "horizontal")
@@ -115,26 +122,13 @@ grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = "horizontal")
 ## Basic Math Example
 
 ```{r e1}
+mathText <- c(
+    "二次式 $ax^2 + bx + c$ を考えます。",
+    "分数 $\\frac{a}{b}$ を計算します（ただし、$b \\neq 0$ とします）。",
+    "確率変数 $Z$ は、平均0、分散1の標準正規分布 $Z \\sim \\mathcal{N}(0, 1)$ に従います。"
+)
 drawGrid()
-grid.uplatex("全体の $x_i^z \\frac{1}{2}$ は です。", x = .35)
-grid.uplatex("次式は $ax^2 + bx + c$ の形をしています。", x = .65)
-```
-
-### Math Symbol Support
-
-```{r symbols, message = FALSE}
-library(fs)
-library(ragg)
-imgPath <- path(getwd(), "symbol.png")
-options(upxdvir.pfb = TRUE)
-agg_png(imgPath, res = 100, height = 4, width = 4, units = "in")
-drawGrid()
-grid.uplatex("\\mcfamily 全体の $x_i^z \\frac{1}{2}$ は です。", x = .35)
-grid.uplatex("\\mcfamily 次式は $ax^2 + bx + c$ の形をしています。", x = .65)
-dev.off()
-```
-```{r, echo = FALSE}
-knitr::include_graphics(imgPath)
+grid.uplatex(mathText, x = c(0.3, 0.5, 0.7), gp = gpar(height = .5))
 ```
 
 ## Font Customisation

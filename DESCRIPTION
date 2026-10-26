@@ -24,6 +24,7 @@ Imports:
 Suggests:
     grid,
     knitr,
+    ragg,
     rmarkdown
 Encoding: UTF-8
 SystemRequirements: freetype2, harfbuzz

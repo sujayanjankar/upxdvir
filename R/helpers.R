@@ -34,17 +34,18 @@ convertUnitToInches <- function(dim, unit = "npc") {
 quiet <- function(expr) suppressMessages(suppressWarnings(expr))
 
 # TODO: Super hack, see if a nicer way out can be found.
+# May not even be be needed with the pfb font support.
 suppressLigatures <- function(text) {
-  gsub("f([fil])", "f{}\\1", text)
+    gsub("f([fil])", "f{}\\1", text)
 }
 
 resolveDirection <- function(method = c("horizontal", "vertical")) {
-  method <- tryCatch(
-    match.arg(method),
-    error = function(e) {
-      warning("Invalid direction provided. Defaulting to 'vertical'.")
-      return("vertical") 
-    }
-  )
-  method
+    method <- tryCatch(
+        match.arg(method),
+        error = function(e) {
+            warning("Invalid direction provided. Defaulting to 'vertical'.")
+            return("vertical")
+        }
+    )
+    method
 }

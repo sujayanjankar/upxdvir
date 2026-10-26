@@ -14,7 +14,7 @@ element_uplatex(
 )
 }
 \arguments{
-\item{height}{Can be a number (interpreted as \code{npc} units), or a 
+\item{height}{Can be a number (interpreted as \code{npc} units), or a
 \code{grid::unit}. Default: unset.}
 
 \item{direction}{Can be either 0 or 1. If 0, text is typeset horizontally,

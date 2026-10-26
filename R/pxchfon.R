@@ -65,7 +65,9 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
         allowedFontFamilies <- get(ALLOWED_PTEX_FONT_FAMILIES)
     }
 
-    if (length(allowedFontFamilies) > 0 && fontFamily %in% allowedFontFamilies) {
+    if (
+        length(allowedFontFamilies) > 0 && fontFamily %in% allowedFontFamilies
+    ) {
         fontFamily
     } else {
         message("Unsupported font family, using default instead.")
@@ -122,23 +124,31 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 
 #' @importFrom xdvir LaTeXpackage
 #' @title LaTeX Package for \code{pxchfon} package
-#' @examples 
-#' \dontrun{
+#' @examples
+#' \dontrun{# Needs upLaTeX and grid.
 #' grid.uplatex(
-#'     "Abc", 
+#'     "Abc",
 #'     packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
-#' )}
-#' @description This package allows for font families supported by the \code{ptex-fontmaps} up\LaTeX{} package
+#' )
+#' }
+#' @description This package allows for font families supported by the
+#' \code{ptex-fontmaps} up\LaTeX{} package
 #' @details This includes the \code{pxchfon} package in the document preamble.
-#' This also include the \code{japanese-otf} package in the up\LaTeX{} fragment with the \code{deluxe} option to support multi-weight fonts.
-#' @param fontFamily A font family supported by \code{ptex-fontmaps}, or one of \code{sans}, \code{serif} or \code{mono}. By default, \code{sans} is applied.
-#' @param fontFace Only \code{plain} or \code{bold} faces are supported. By default, \code{plain} is applied.
+#' This also include the \code{japanese-otf} package in the up\LaTeX{} fragment
+#' with the \code{deluxe} option to support multi-weight fonts.
+#' @param fontFamily A font family supported by \code{ptex-fontmaps}, or one of
+#' \code{sans}, \code{serif} or \code{mono}. By default, \code{sans} is applied.
+#' @param fontFace Only \code{plain} or \code{bold} faces are supported.
+#' By default, \code{plain} is applied.
 #' @seealso \code{xdvir::LaTeXpackage}
 #' @seealso \url{https://ctan.org/pkg/ptex-fontmaps?lang=en}
 #' @keywords LaTeXpackage
 #' @return A \code{LaTeXpackage} object.
 #' @export
 pxchfonPackage <- function(fontFamily = "", fontFace = "plain") {
+    # Can't support multiple font faces/families.
+    fontFace <- fontFace[1]
+    fontFamily <- fontFamily[1]
     xdvir::LaTeXpackage(
         name = "pxchfon",
         preamble = .pxchfonPreamble(fontFamily, fontFace),

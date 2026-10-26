@@ -33,7 +33,10 @@ FONT_CACHE_LATIN <- "up-font-ltn-"
         fontFileName <- fs::path_sanitize(fontFileName)
         hasExtension <- grepl("\\.[^/.]+$", fontFileName)
         # Assume otf, if no extension.
-        filenameToSearch <- paste0(fontFileName, ifelse(hasExtension, "", ".otf"))
+        filenameToSearch <- paste0(
+            fontFileName,
+            if (hasExtension) "" else ".otf"
+        )
         lookupResult <- lookupKpathsea(filenameToSearch)
         if (is.na(lookupResult)) {
             # Lookup lowercase if the as-is lookup returns nothing.
@@ -50,7 +53,10 @@ FONT_CACHE_LATIN <- "up-font-ltn-"
 }
 
 .clearFontCache <- function(pattern = "^up-font-") {
-    rm(list = grep(pattern, ls(upxdvir_state), value = TRUE), envir = upxdvir_state)
+    rm(
+        list = grep(pattern, ls(upxdvir_state), value = TRUE),
+        envir = upxdvir_state
+    )
 }
 
 upFontFile <- function(fontNameWithoutExtension) {
@@ -77,9 +83,12 @@ upFontFile <- function(fontNameWithoutExtension) {
             get("pdftex.map.path"),
             fontNameIdx = 2
         )
+        # TODO: Should this be "upxdvir.interactive"?
         if (isTRUE(getOption("upxdvir.pfb"))) {
             # Use the .pfb font.
-            latinFont <- lookupKpathsea(paste0(fontNameWithoutExtension, ".pfb"))
+            latinFont <- lookupKpathsea(
+                paste0(fontNameWithoutExtension, ".pfb")
+            )
         }
         # message("Found: ", latinFont)
         # Cache font names from the DVI output against their type.
@@ -102,7 +111,8 @@ upFontFile <- function(fontNameWithoutExtension) {
                     "Using system default."
                 )
             }
-            # Lookup the old way if the pxchfon specification does not return anything.
+            # Lookup the old way if the pxchfon specification does
+            # not return anything.
             cjkFont <- .lookupFont(strContentFile, get("kanjix.map.path"))
         }
         # message("Found: ", cjkFont)
