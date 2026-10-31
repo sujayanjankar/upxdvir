@@ -28,16 +28,15 @@ jobs:
           $TLMGR update --self
           $TLMGR install ipaex japanese-otf \
           latexmk lm ptex ptex-base ptex-fontmaps \
-          ptex-fonts ptex-manual uplatex uptex \
-          uptex-base uptex-fonts
+          uplatex uptex uptex-base uptex-fonts pxrubrica
       - name: Install upLaTeX (Ubuntu)
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y \
           latexmk texlive-lang-japanese libuv1-dev \
-          libfontconfig1-dev fonts-lmodern fonts-ipaexfont \
-          libfreetype-dev libharfbuzz-dev
+          libfontconfig1-dev libfreetype-dev libharfbuzz-dev
+          libfribidi-dev
       - name: Check upTeX version
         run: uplatex --version
       - name: Install xdvir from GitHub
