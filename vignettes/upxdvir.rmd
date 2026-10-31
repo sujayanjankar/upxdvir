@@ -14,7 +14,8 @@ vignette: >
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",
-    dev = "ragg_png"
+    dev = "ragg_png",
+    dpi = 120
 )
 options(upxdvir.pfb = TRUE)
 drawGrid <- function(border = TRUE) {
@@ -63,7 +64,7 @@ grid.uplatex("「JRまで 0.5 km」と聞いた。")
 ## `{ggplot2}` Example
 
 ```{r, echo = FALSE}
-setKnitrPresets(6, 6)
+setKnitrPresets(5, 5)
 ```
 ```{r ggp, message = FALSE}
 library(gggrid)
@@ -137,12 +138,12 @@ grid.uplatex(mathText, x = c(0.3, 0.5, 0.7), gp = gpar(height = .5))
 drawGrid()
 grid.uplatex(
     "\\aruby{日本語}{Japanese language}を勉強しています。",
-    y = .9, vjust = 1
+    y = .95, vjust = 1, gp = gpar(fontsize = 16)
 )
 
 grid.uplatex(
     "\\aruby{日本語}{Japanese language}を勉強しています。",
-    x = .2, dir = "h"
+    y = .2, dir = "h", gp = gpar(fontsize = 16)
 )
 ```
 

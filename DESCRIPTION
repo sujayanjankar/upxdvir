@@ -11,7 +11,7 @@ Authors@R: person(
     family = "Anjankar",
     role = c("aut", "cre"),
     email = "sanj402@aucklanduni.ac.nz")
-Author: Sujay Anjankar <sanj402@aucklanduni.ac.nz>
+Author: Sujay Anjankar [aut, cre]
 Maintainer: Sujay Anjankar <sanj402@aucklanduni.ac.nz>
 License: GPL-3
 Depends:
@@ -25,7 +25,8 @@ Suggests:
     grid,
     knitr,
     ragg,
-    rmarkdown
+    rmarkdown,
+    gggrid
 Encoding: UTF-8
 SystemRequirements: freetype2, harfbuzz
 Config/roxygen2/version: 8.1.1
