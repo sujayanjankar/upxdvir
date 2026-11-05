@@ -19,7 +19,7 @@ jobs:
           tools: base
       - name: Install TinyTeX
         uses: s-u/R-actions/tinytex@v2
-      - name: Install upLaTeX
+      - name: Install upLaTeX and Friends
         shell: bash
         run: |
           if [ "$RUNNER_OS" = Linux ]; then
@@ -28,7 +28,7 @@ jobs:
               latexmk texlive-lang-japanese libuv1-dev \
               libfontconfig1-dev libfreetype-dev libharfbuzz-dev \
               libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev \
-              libjpeg-dev libwebp-dev texlive-latex-recommended
+              libjpeg-dev libwebp-dev texlive-latex-base
           else
             TLMGR=tlmgr
             [ "$RUNNER_OS" = Windows ] && TLMGR=tlmgr.bat
