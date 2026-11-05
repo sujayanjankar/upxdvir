@@ -3,6 +3,7 @@ require(fs)
 FONT_CACHE_PREFIX <- "up-font-def-"
 FONT_CACHE_CJK <- "up-font-cjk-"
 FONT_CACHE_LATIN <- "up-font-ltn-"
+FONT_CACHE_HW <- "up-font-half-width-"
 
 .initFonts <- function() {
     # This may potentially be expanded in the future
@@ -17,6 +18,26 @@ FONT_CACHE_LATIN <- "up-font-ltn-"
     }
     set("fonts.initialised", TRUE)
     message("Fonts initialised.")
+}
+
+.getHalfWidthChars <- function(tfmFileName) {
+    lines <- system2("uptftopl", tfmFileName, stdout = TRUE, stderr = FALSE)
+    txt <- paste(lines, collapse = "\n")
+
+    ## Width of each type (listed in order, starting at type 0)
+    wd <- as.numeric(sub(
+        ".*R ([0-9.]+).*", "\\1",
+        grep("CHARWD", lines, value = TRUE)
+    ))
+    half <- setdiff(which(wd == 0.5) - 1, 1)
+
+    ## Characters of the half-width types
+    m <- regmatches(txt, gregexpr("\\(CHARSINTYPE O [0-9]+[^)]*", txt))[[1]]
+    type <- as.integer(sub("^\\(CHARSINTYPE O ([0-9]+).*", "\\1", m))
+    chars <- unlist(strsplit(sub("^[^\n]*", "", m[type %in% half]), "\\s+"))
+    chars <- chars[nzchar(chars)]
+    # These are the pre-HB shaping indices.
+    utf8ToInt(paste(chars, collapse = ""))
 }
 
 #' @importFrom fs path_sanitize
@@ -120,6 +141,12 @@ upFontFile <- function(fontNameWithoutExtension) {
         if (!is.na(cjkFont)) {
             cjkFonts <- get(FONT_CACHE_CJK)
             set(FONT_CACHE_CJK, c(cjkFonts, fontNameWithoutExtension))
+            tfmFile <- lookupKpathsea(paste0(fontNameWithoutExtension, ".tfm"))
+            if (!is.na(tfmFile)) {
+                hwCacheKey <- paste0(FONT_CACHE_HW, basename(cjkFont))
+                halfWidthChars <- .getHalfWidthChars(tfmFile)
+                set(hwCacheKey, halfWidthChars)
+            }
         }
     }
     if (is.na(cjkFont) && is.na(latinFont)) {

@@ -1,4 +1,5 @@
 set("hb-fontlib-cache", list())
+.gidToCp <- new.env()
 
 # Most of this is copied from xdvir::freetype.R.
 # TODO: Consider a refactor.
@@ -42,12 +43,26 @@ hbGlyphMetrics <- function(index, subset, fontName) {
     metrics
 }
 
+.hwMultiplier <- function(index, fontName) {
+    hwGlyphs <- get(paste0(FONT_CACHE_HW, basename(fontName)))
+    # Don't clutter the base environment with index mapping.
+    cp <- unlist(base::mget(paste(basename(fontName), index, sep = ":"),
+        envir = .gidToCp, ifnotfound = NA
+    ))
+    m <- if (cp %in% hwGlyphs) 0.5 else 1
+    m
+}
+
 hbGlyphWidth <- function(index, fontName) {
-    hbGlyphMetrics(index, c("width", "origX"), fontName)
+    m <- hbGlyphMetrics(index, c("width", "origX"), fontName)
+    m["width"] <- m["width"] * .hwMultiplier(index, fontName)
+    m
 }
 
 hbGlyphHeight <- function(index, fontName) {
-    hbGlyphMetrics(index, c("height", "origY"), fontName)
+    m <- hbGlyphMetrics(index, c("height", "origY"), fontName)
+    m["height"] <- m["height"] * .hwMultiplier(index, fontName)
+    m
 }
 
 hbGlyphBounds <- function(index, fontName) {
@@ -58,13 +73,16 @@ hbGlyphBounds <- function(index, fontName) {
     )
 }
 
+#' @importFrom stats setNames
 .hbGlyphIndex <- function(value, fontName, direction) {
-    .Call(
-        C_hbGlyphIndex,
-        as.integer(value),
-        as.character(fontName)[1],
-        as.integer(direction)
+    i <- .Call(
+        C_hbGlyphIndex, as.integer(value),
+        as.character(fontName)[1], as.integer(direction)
     )
+    list2env(setNames(as.list(value), paste(basename(fontName), i, sep = ":")),
+        envir = .gidToCp
+    )
+    i
 }
 
 upGlyphIndex <- function(raw, fontName, fontLib, direction = 1) {

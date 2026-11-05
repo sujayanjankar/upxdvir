@@ -12,6 +12,7 @@ importFrom(fs,
   path_sanitize
 )
 importFrom(rlang,on_load)
+importFrom(stats,setNames)
 importFrom(xdvir,
   LaTeXpackage,
   commentString,
