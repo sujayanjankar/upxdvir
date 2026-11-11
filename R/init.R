@@ -23,6 +23,7 @@ initialiseEngine <- function() {
                 "\\pagestyle{empty}",
                 # TODO: Consider conditionally loading pxrubrica?
                 "\\usepackage{pxrubrica}",
+                "\\usepackage{plext}",
                 "\\setlength{\\parindent}{0pt}"
             ),
             emulation = FALSE,
