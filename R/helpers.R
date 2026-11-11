@@ -49,3 +49,5 @@ resolveDirection <- function(method = c("horizontal", "vertical")) {
     )
     method
 }
+
+isEmptyString <- function(x) !isTRUE(nzchar(x, keepNA = TRUE))

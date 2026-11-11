@@ -76,9 +76,6 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 }
 
 .pxchfonPrefix <- function(fontFamily, fontFace) {
-    if (!nchar(fontFace)) {
-        fontFace <- "plain"
-    }
     fontFace <- match.arg(fontFace, c("plain", "bold"))
     prefix <- ""
     # Process font-face, currently only plain and bold work.
@@ -125,7 +122,8 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 #' @importFrom xdvir LaTeXpackage
 #' @title LaTeX Package for \code{pxchfon} package
 #' @examples
-#' \dontrun{# Needs upLaTeX and grid.
+#' \dontrun{
+#' # Needs upLaTeX and grid.
 #' grid.uplatex(
 #'     "Abc",
 #'     packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
@@ -149,6 +147,14 @@ pxchfonPackage <- function(fontFamily = "", fontFace = "plain") {
     # Can't support multiple font faces/families.
     fontFace <- fontFace[1]
     fontFamily <- fontFamily[1]
+    # Use HaranoAji if no font family is specified.
+    if (isEmptyString(fontFamily)) {
+        fontFamily <- "haranoaji"
+    }
+    # Use plain if no font face is specified.
+    if (isEmptyString(fontFace)) {
+        fontFace <- "plain"
+    }
     xdvir::LaTeXpackage(
         name = "pxchfon",
         preamble = .pxchfonPreamble(fontFamily, fontFace),
