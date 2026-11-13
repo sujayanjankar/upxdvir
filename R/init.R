@@ -11,7 +11,7 @@ initialiseEngine <- function() {
     initUpTeX()
     if (uptexAvailable()) {
         UpTeXengine <- xdvir::TeXengine(
-            name = "upTeX",
+            name = "upLaTeX",
             version = uptexVersion(),
             command = "latex",
             isEngine = isUpTeX,

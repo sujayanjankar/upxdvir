@@ -187,7 +187,7 @@ uplatexGrob <- function(
 
 fixedParameters <- function(direction) {
     c(
-        list(engine = "upTeX"),
+        list(engine = "upLaTeX"),
         list(fontLib = HBfontLibrary),
         list(documentClass = if (resolveDirection(direction) == "vertical") {
             "utarticle"
