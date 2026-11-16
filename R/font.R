@@ -4,6 +4,7 @@ FONT_CACHE_PREFIX <- "up-font-def-"
 FONT_CACHE_CJK <- "up-font-cjk-"
 FONT_CACHE_LATIN <- "up-font-ltn-"
 FONT_CACHE_HW <- "up-font-half-width-"
+ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 
 .initFonts <- function() {
     # This may potentially be expanded in the future
@@ -16,8 +17,40 @@ FONT_CACHE_HW <- "up-font-half-width-"
     if (!is.na(kanjixMapPath)) {
         set("kanjix.map.path", kanjixMapPath)
     }
+    .loadPtexFontMaps()
     set("fonts.initialised", TRUE)
     message("Fonts initialised.")
+}
+
+#' @importFrom fs path
+.loadPtexFontMaps <- function() {
+    ptexPath <- options("upxdvir.ptex.path")
+    texHome <- lookupKpathsea("-var-value TEXMFDIST", wrapArgs = FALSE)
+    if (isFALSE(nchar(ptexPath) > 0) && is.na(texHome)) {
+        message(
+            "TeX home can't be resolved, ptex-fontmaps can't be validated.",
+            "Set the TEXMFDIST environment variable or ",
+            "options(upxdvir.ptex.path) to enable font validation."
+        )
+        set(ALLOWED_PTEX_FONT_FAMILIES, list())
+    } else if (!is.na(texHome)) {
+        ptexPath <- fs::path(texHome, "fonts/map/dvipdfmx/ptex-fontmaps/")
+        fontMaps <- c(system2("ls", ptexPath, stdout = TRUE, stderr = TRUE))
+        if (length(fontMaps) > 0) {
+            set(ALLOWED_PTEX_FONT_FAMILIES, fontMaps)
+        }
+    } else if (nchar(ptexPath) > 0) {
+        fontMaps <- c(system2("ls", ptexPath, stdout = TRUE, stderr = TRUE))
+        if (length(fontMaps) > 0) {
+            set(ALLOWED_PTEX_FONT_FAMILIES, fontMaps)
+        }
+    } else {
+        set(ALLOWED_PTEX_FONT_FAMILIES, list())
+    }
+}
+
+.getPtexFontMaps <- function() {
+    get(ALLOWED_PTEX_FONT_FAMILIES)
 }
 
 .getHalfWidthChars <- function(tfmFileName) {

@@ -17,8 +17,10 @@ By default, \code{plain} is applied.}
 A \code{LaTeXpackage} object.
 }
 \description{
-This package allows for font families supported by the
-\code{ptex-fontmaps} up\LaTeX{} package
+This package allows for using font families supported by the
+\code{ptex-fontmaps} up\LaTeX{} package for customising \code{upxdvir}
+output. To see the font families supported by \code{upxdvir}, run:
+\code{upxdvir:::.getPtexFontMaps}.
 }
 \details{
 This includes the \code{pxchfon} package in the document preamble.
@@ -26,10 +28,13 @@ This also include the \code{japanese-otf} package in the up\LaTeX{} fragment
 with the \code{deluxe} option to support multi-weight fonts.
 }
 \examples{
-\dontrun{# Needs upLaTeX and grid.
+\dontrun{
+# Needs upLaTeX and grid.
 grid.uplatex(
     "Abc",
-    packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
+    packages = pxchfonPackage(
+        fontFamily = "noto", fontFace = "bold"
+    )
 )
 }
 }

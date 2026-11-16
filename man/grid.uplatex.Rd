@@ -25,7 +25,8 @@ graphical parameters (\code{gpar}s). It can be a number (interpreted as
 \code{npc}), or a \code{grid::unit}. Default: unset.
 }
 \examples{
-\dontrun{# Needs upLaTeX and grid.
+\dontrun{
+# Needs upLaTeX and grid.
 grid.uplatex("Text")
 grid.uplatex("Text", gp = grid::gpar(height = grid::unit(1, "in")))
 }

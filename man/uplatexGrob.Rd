@@ -4,7 +4,7 @@
 \alias{uplatexGrob}
 \title{uplatexGrob}
 \usage{
-uplatexGrob(text, height = 0, direction = "vertical", verbose = FALSE, ...)
+uplatexGrob(text, height = NULL, direction = "vertical", verbose = FALSE, ...)
 }
 \arguments{
 \item{text}{The up\LaTeX{} fragment to typeset.}
@@ -29,7 +29,8 @@ Produces a \code{xdvir::DVIgrob} object to be drawn on graphics
 devices.
 }
 \examples{
-\dontrun{# Needs upLaTeX and grid.
+\dontrun{
+# Needs upLaTeX and grid.
 uplatexGrob("Text")
 uplatexGrob("Text", height = grid::unit(1, "in"))
 }

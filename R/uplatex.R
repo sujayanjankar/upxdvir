@@ -10,7 +10,8 @@
 #' \code{npc}), or a \code{grid::unit}. Default: unset.
 #' @export
 #' @importFrom xdvir grid.latex
-#' @examples \dontrun{# Needs upLaTeX and grid.
+#' @examples \dontrun{
+#' # Needs upLaTeX and grid.
 #' grid.uplatex("Text")
 #' grid.uplatex("Text", gp = grid::gpar(height = grid::unit(1, "in")))
 #' }
@@ -71,7 +72,7 @@ grid.uplatex <- function(text, direction = "vertical", verbose = FALSE, ...) {
 #' @seealso \link{minipagePackage}
 #' @seealso \code{xdvir::element_latex}
 element_uplatex <- function(
-  height = 0, direction = "vertical",
+  height = NULL, direction = "vertical",
   angle = if (resolveDirection(direction) == "vertical") -0 else 0,
   vjust = if (resolveDirection(direction) == "vertical") 0.5 else 0,
   verbose = FALSE, ...
@@ -129,7 +130,8 @@ element_uplatex <- function(
 #' parameter of its own. Height is interpreted by \code{minipagePackage}.
 #' So it can be a number (as \code{npc}), or a \code{grid::unit}. Default: 0
 #' @param \dots Additional parameters sent to \code{xdvir::latexGrob}
-#' @examples \dontrun{# Needs upLaTeX and grid.
+#' @examples \dontrun{
+#' # Needs upLaTeX and grid.
 #' uplatexGrob("Text")
 #' uplatexGrob("Text", height = grid::unit(1, "in"))
 #' }
@@ -141,7 +143,7 @@ element_uplatex <- function(
 #' @importFrom xdvir latexGrob
 #' @return A \code{xdvir::DVIgrob} object
 uplatexGrob <- function(
-  text, height = 0, direction = "vertical", verbose = FALSE, ...
+  text, height = NULL, direction = "vertical", verbose = FALSE, ...
 ) {
     .clearFontCache()
     if (verbose) {

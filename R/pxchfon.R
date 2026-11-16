@@ -3,7 +3,6 @@ require("fs")
 pxchfonSpecialPrefix <- "^pdf:mapline "
 pxchFontCacheKey <- "upxdvir::pxchfon"
 defaultFamilies <- c("sans", "serif", "mono")
-ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 
 .pxchfonPreamble <- function(fontFamily, fontFace) {
     # Clean pxchfon state for every document.
@@ -29,33 +28,6 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
         )
     }
     paste(preamblePackages, collapse = "")
-}
-
-#' @importFrom fs path
-.loadPtexFontMaps <- function() {
-    ptexPath <- options("upxdvir.ptex.path")
-    texHome <- lookupKpathsea("-var-value TEXMFDIST", wrapArgs = FALSE)
-    if (isFALSE(nchar(ptexPath) > 0) && is.na(texHome)) {
-        message(
-            "TeX home can't be resolved, ptex-fontmaps can't be validated.",
-            "Set the TEXMFDIST environment variable or ",
-            "options(upxdvir.ptex.path) to enable font validation."
-        )
-        set(ALLOWED_PTEX_FONT_FAMILIES, list())
-    } else if (!is.na(texHome)) {
-        ptexPath <- fs::path(texHome, "fonts/map/dvipdfmx/ptex-fontmaps/")
-        fontMaps <- c(system2("ls", ptexPath, stdout = TRUE, stderr = TRUE))
-        if (length(fontMaps) > 0) {
-            set(ALLOWED_PTEX_FONT_FAMILIES, fontMaps)
-        }
-    } else if (nchar(ptexPath) > 0) {
-        fontMaps <- c(system2("ls", ptexPath, stdout = TRUE, stderr = TRUE))
-        if (length(fontMaps) > 0) {
-            set(ALLOWED_PTEX_FONT_FAMILIES, fontMaps)
-        }
-    } else {
-        set(ALLOWED_PTEX_FONT_FAMILIES, list())
-    }
 }
 
 .validatePtexFontFamily <- function(fontFamily) {
@@ -119,18 +91,22 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 }
 
 
-#' @importFrom xdvir LaTeXpackage
 #' @title LaTeX Package for \code{pxchfon} package
+#' @aliases pxchfonPackage
 #' @examples
 #' \dontrun{
 #' # Needs upLaTeX and grid.
 #' grid.uplatex(
 #'     "Abc",
-#'     packages = pxchfonPackage(fontFamily = "serif", fontFace = "bold")
+#'     packages = pxchfonPackage(
+#'         fontFamily = "noto", fontFace = "bold"
+#'     )
 #' )
 #' }
-#' @description This package allows for font families supported by the
-#' \code{ptex-fontmaps} up\LaTeX{} package
+#' @description This package allows for using font families supported by the
+#' \code{ptex-fontmaps} up\LaTeX{} package for customising \code{upxdvir}
+#' output. To see the font families supported by \code{upxdvir}, run:
+#' \code{upxdvir:::.getPtexFontMaps}.
 #' @details This includes the \code{pxchfon} package in the document preamble.
 #' This also include the \code{japanese-otf} package in the up\LaTeX{} fragment
 #' with the \code{deluxe} option to support multi-weight fonts.
@@ -138,6 +114,7 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 #' \code{sans}, \code{serif} or \code{mono}. By default, \code{sans} is applied.
 #' @param fontFace Only \code{plain} or \code{bold} faces are supported.
 #' By default, \code{plain} is applied.
+#' @importFrom xdvir LaTeXpackage
 #' @seealso \code{xdvir::LaTeXpackage}
 #' @seealso \url{https://ctan.org/pkg/ptex-fontmaps?lang=en}
 #' @keywords LaTeXpackage

@@ -5,7 +5,7 @@
 \title{element_uplatex}
 \usage{
 element_uplatex(
-  height = 0,
+  height = NULL,
   direction = "vertical",
   angle = if (resolveDirection(direction) == "vertical") -0 else 0,
   vjust = if (resolveDirection(direction) == "vertical") 0.5 else 0,

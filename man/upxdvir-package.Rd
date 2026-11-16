@@ -10,9 +10,24 @@ Extends the \code{xdvir} package with support for vertical
 typesetting using the up\LaTeX typesetting engine.
 }
 \details{
-For the best experience, the following LaTeX pacakges
-are recommended: ptex-fontmaps, pxchfon, pxrubrica, 
-japanese-otf, mathastext, lmodern.
+\pkg{upxdvir} enables vertical typesetting using the upLaTeX typesetting
+engine. A minimal TeX installation (at least), such as \code{tinytex}
+is recommended to be installed before anything else.
+For the best experience, the following system dependencies are recommended
+to be installed:
+\enumerate{
+ \item Ubuntu:
+ latexmk, texlive-lang-japanese, libuv1-dev,
+ libfontconfig1-dev, libfreetype-dev, libharfbuzz-dev,
+ libfribidi-dev, libfreetype6-dev, libpng-dev, libtiff5-dev,
+ libjpeg-dev, libwebp-dev, texlive-latex-base
+\item macOS, Windows: ipaex, japanese-otf,
+ latexmk, lm, ptex, ptex-base, ptex-fontmaps,
+ uplatex, uptex, uptex-base, uptex-fonts, pxrubrica, plext
+}
+Ubuntu dependencies can be installed using \code{apt}.
+On macOS/Windows, \code{tlmgr} can be used to install them, which
+should be available once \code{tinytex} has been installed.
 }
 \seealso{
 \url{https://github.com/sujayanjankar/upxdvir}
