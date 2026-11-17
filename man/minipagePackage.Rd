@@ -17,17 +17,22 @@ A \code{LaTeXpackage} object.
 }
 \description{
 Wraps the \LaTeX{} fragment in a \code{minipage} environment.
-The output resembles:
-\code{\\begin[limit]{minipage}<fragment>\\end{minipage}}
 }
 \details{
+The output resembles:
+\code{\\begin[limit]{minipage}<fragment>\\end{minipage}}
+
 This function creates a \code{LaTeXpackage} object.
 The specified \code{limit} is by default in \code{grid} NPC units.
 A \code{grid.unit} may also be specified.
 }
 \examples{
-\dontrun{# Needs upLaTeX and grid.
-grid.uplatex("Abc", packages = minipagePackage(limit = 1))
+\dontrun{
+# Needs upLaTeX and grid.
+grid.uplatex(
+    "Long text Long text Long text Long text ",
+    packages = minipagePackage(limit = 0.2)
+)
 }
 }
 \seealso{

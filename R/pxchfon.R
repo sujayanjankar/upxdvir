@@ -97,13 +97,14 @@ defaultFamilies <- c("sans", "serif", "mono")
 #' \dontrun{
 #' # Needs upLaTeX and grid.
 #' grid.uplatex(
-#'     "Abc",
+#'     "Text",
 #'     packages = pxchfonPackage(
 #'         fontFamily = "noto", fontFace = "bold"
 #'     )
 #' )
 #' }
-#' @description This package allows for using font families supported by the
+#' @description LaTeX package \code{pxchfon}
+#' @details This package allows for using font families supported by the
 #' \code{ptex-fontmaps} up\LaTeX{} package for customising \code{upxdvir}
 #' output. To see the font families supported by \code{upxdvir}, run:
 #' \code{upxdvir:::.getPtexFontMaps}.
