@@ -213,7 +213,7 @@ grid.uplatex(mathText, x = c(0.3, 0.5, 0.7), gp = gpar(height = .5))
 
 ## Annotations
 
-Annotations (_Furigana_) are used in Japanese text to provide more context, translation, or pronunciation hints to the main text. In the following example, the annotation "Japanese Language", which translates the main text "日本語", is typeset to the right of the main text. In horizontal typesetting, these would be placed above the main text.
+Annotations (_Furigana_) are used in Japanese text to provide more context, translation, or pronunciation hints to the main text. In the following example, the annotation "Japanese Language" which is a translation for the main text "日本語" is typeset to the right of the main text. In horizontal typesetting, these would be place above the main text.
 
 ```{r annotations}
 drawGrid()

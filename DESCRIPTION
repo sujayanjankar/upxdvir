@@ -22,12 +22,15 @@ Imports:
     hexView,
     rlang
 Suggests:
+    covr,
     grid,
     knitr,
     ragg,
     rmarkdown,
-    gggrid
+    gggrid,
+    testthat (>= 3.0.0)
 Encoding: UTF-8
 SystemRequirements: freetype2, harfbuzz
 Config/roxygen2/version: 8.1.1
 VignetteBuilder: knitr
+Config/testthat/edition: 3

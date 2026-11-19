@@ -27,7 +27,7 @@ convertUnitToInches <- function(dim, unit = "npc") {
         if (!grid::is.unit(dim)) {
             dim <- grid::unit(dim, unit)
         }
-        grid::convertUnit(dim, "in", valueOnly = TRUE)
+        round(grid::convertUnit(dim, "in", valueOnly = TRUE), 2)
     }
 }
 
