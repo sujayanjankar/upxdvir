@@ -1,5 +1,5 @@
 name: "{upxdvir} Package Check"
-on: [pull_request, workflow_dispatch]
+on: [pull_request, push]
 jobs:
   check:
     runs-on: ${{ matrix.os }}
