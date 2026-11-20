@@ -1,0 +1,286 @@
+---
+title: "The {upxdvir} Package"
+author: "Sujay Anjankar"
+output: 
+  rmarkdown::html_vignette:
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{The {upxdvir} Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# `{upxdvir}`
+
+The `{upxdvir}` package enables vertically typeset results to be converted to \textsf{R} objects and used with `{ggplot}` visualisations.
+
+## Setup
+
+`{upxdvir}` typesetting pipeline uses the up\LaTeX{} typesetting engine. The following system requirements are required to be installed prior to usage.
+
+A TeX Live installation is required, steps to install a distribution can be found here: https://www.tug.org/texlive/. A minimal installation such as `tinytex` may also be used.
+
+### *nix
+
+The following dependencies should be installed with a package manager, such as `apt`.
+Required packages: latexmk, texlive-lang-japanese, libuv1-dev, libfontconfig1-dev, libfreetype-dev, libharfbuzz-dev, libfribidi-dev, libfreetype6-dev, libpng-dev, libtiff5-dev, libjpeg-dev, libwebp-dev, texlive-latex-base
+
+### macOS, Windows: 
+
+The following can be installed using the `tlmgr` binary which is bundled with TeX installations.
+
+Required packages: ipaex, japanese-otf, latexmk, lm, ptex, ptex-base, ptex-fontmaps, uplatex, uptex, uptex-base, uptex-fonts, pxrubrica, plext
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    dev = "ragg_png",
+    dpi = 120
+)
+options(upxdvir.pfb = TRUE)
+drawGrid <- function(border = TRUE) {
+    grid.segments(
+        c(0, .5),
+        c(.5, 0),
+        c(1, .5),
+        c(.5, 1),
+        gp = gpar(lty = 4, col = "gray", alpha = .5)
+    )
+    if (border) {
+        grid.rect(gp = gpar(lwd = 10, col = 2, fill = NA))
+    }
+}
+
+setKnitrPresets <- function(
+  height = 3, width = 3, error = TRUE, align = "center"
+) {
+    chunkSet <- knitr::opts_chunk$set
+    chunkSet(error = error)
+    chunkSet(fig.height = height)
+    chunkSet(fig.width = width)
+    chunkSet(fig.align = align)
+}
+
+setKnitrPresets(4, 4)
+```
+
+```{r setup}
+library(grid)
+library(upxdvir)
+```
+
+## Example Usage
+
+`{upxdvir}` is a vertical typesetting extension to `{xdvir}`. There are two ways of interacting with this API:
+
+1. Using the `{xdvir}` API, with parameters set to values that allow vertical typesetting. For example:
+
+```{r, eval = FALSE}
+grid.latex(
+    "Text",
+    engine = "upLaTeX",
+    documentClass = "utarticle",
+    fontLib = HBfontLibrary
+)
+latexGrob("Text",
+    engine = "upLaTeX",
+    documentClass = "utarticle",
+    fontLib = HBfontLibrary
+)
+element_latex(
+    engine = "upLaTeX",
+    documentClass = "utarticle",
+    fontLib = HBfontLibrary
+)
+```
+
+2. Using the `{upxdvir}` API, which is a thin, convenience layer on top of the `{xdvir}` API, and sets the parameters up assuming vertical typesetting.
+
+```{r, eval = FALSE}
+grid.uplatex("Text")
+uplatexGrob("Text")
+element_uplatex()
+```
+
+## Vertical Typesetting
+
+This is the most basic way of typesetting vertically (which is the default typesetting direction). Typesetting direction may be changed by setting the parameter `direction = "horizontal"`.
+
+```{r vert}
+drawGrid()
+grid.uplatex(
+    "The text is rendered vertically by default.",
+    y = .8,
+    direction = "horizontal"
+)
+grid.uplatex("「JRまで 0.5 km」と聞いた。")
+```
+
+## `{ggplot2}` Example
+
+In more practical context, vertical typesetting is used with `{ggplot2}` visualisations. In the following examples, two different ways of vertical typesetting with `{ggplot2}` are shown.
+
+1. `element_uplatex` - Used to `theme` non-data elements of a `{ggplot2}` visualisation, such as axis titles, labels and other annotations. The x and y axes, the main plot title are typeset using this interface.
+1. `uplatexGrob` - Used to place text labels as annotations in the plot region. The annotations toward the top right of the plot are typeset using this interface.
+
+```{r, echo = FALSE}
+setKnitrPresets(5, 5)
+```
+```{r ggp, message = FALSE}
+library(gggrid)
+
+label <- function(data, coords) {
+    uplatexGrob(
+        "このグラフは、自動車の燃費とエンジン排気量との関係を示しています。",
+        x = coords$x, y = coords$y,
+        hjust = 1, vjust = 1, height = unit(1, "in")
+    )
+}
+
+gg <- ggplot(mtcars) +
+    geom_point(aes(x = disp, y = mpg))
+
+gg +
+    labs(
+        x = "エンジン排気量 (Engine Displacement)",
+        y = "燃費 (Miles per gallon)",
+        title = "エンジン排気量と燃費の関係",
+        subtitle = "Engine Displacement vs Fuel Economy"
+    ) +
+    theme(
+        axis.title.x = element_uplatex(direction = "horizontal"),
+        axis.title.y = element_uplatex(),
+        plot.title = element_uplatex(
+            direction = "horizontal", family = "serif", fontface = "bold"
+        )
+    ) +
+    grid_panel(
+        label,
+        data = data.frame(x = max(mtcars$disp), y = max(mtcars$mpg)),
+        aes(x, y)
+    )
+```
+
+### Wrapped Text
+
+When typesetting horizontally, multi-line paragraphs wrap using the width of the device and lines progress from top to bottom.
+When typesetting vertically, wrapping is driven by the height instead, and lines progress from left to right. An example is shown in the following plot.
+
+```{r height-ex}
+grid.uplatex(
+    "確率変数 $Z$ は、平均0、分散1の標準正規分布 $Z \\sim \\mathcal{N}(0, 1)$ に従います。",
+    gp = grid::gpar(height = grid::unit(2, "inches"))
+)
+```
+
+Height can be specified either as explict `grid::unit` objects, or a plain numeric value, interpreted between 0 - 1 as the `{grid}` NPC value.
+
+## Horizontal Typesetting
+
+This example outlines a simple example where Japanese text is typeset using the left-to-right horizontal typesetting.
+
+```{r, echo = FALSE}
+setKnitrPresets(4, 4)
+```
+
+```{r horiz}
+drawGrid()
+grid.uplatex(
+    paste(
+        "The \\texttt{direction = \"horizontal\"}",
+        "parameter typesets text horizontally."
+    ),
+    gp = gpar(width = unit(3, "in")),
+    y = .75, direction = "horizontal"
+)
+grid.uplatex("「JRまで 0.5 km」と聞いた。", direction = "horizontal")
+```
+
+## Mathematical Symbols and Operators
+
+Mathematical symbols and operators can be enclosed within `$ $` or `\[\]` and used with CJK text typeset vertically.
+
+```{r e1}
+mathText <- c(
+    "二次式 $ax^2 + bx + c$ を考えます。",
+    "分数 $\\frac{a}{b}$ を計算します（ただし、$b \\neq 0$ とします）。",
+    "確率変数 $Z$ は、平均0、分散1の標準正規分布 $Z \\sim \\mathcal{N}(0, 1)$ に従います。"
+)
+drawGrid()
+grid.uplatex(mathText, x = c(0.3, 0.5, 0.7), gp = gpar(height = .5))
+```
+
+## Annotations
+
+Annotations (_Furigana_) are used in Japanese text to provide more context, translation, or pronunciation hints to the main text. In the following example, the annotation "Japanese Language" which is a translation for the main text "日本語" is typeset to the right of the main text. In horizontal typesetting, these would be place above the main text.
+
+```{r annotations}
+drawGrid()
+grid.uplatex(
+    "\\aruby{日本語}{Japanese language}を勉強しています。",
+    y = .95, vjust = 1, gp = gpar(fontsize = 16)
+)
+
+grid.uplatex(
+    "\\aruby{日本語}{Japanese language}を勉強しています。",
+    y = .2, dir = "h", gp = gpar(fontsize = 16)
+)
+```
+
+## Font Customisation
+
+Font customisation is supported from presets offered by the `{pxchfon}` package,  such as the following:
+
+1. `ipa`
+1. `ipaex`
+1. `haranoaji`
+1. `sourcehan`
+1. `noto`
+
+A comprehensive list of font families that can be supported, subject to font installation, can be obtained by `upxdvir:::.getPtexFonts()`.
+
+Only `plain` and `bold` font faces are supported since Japanese glyphs are already monospaced.
+
+Examples for both font family and face customisation are presented in the following section.
+
+### Font Families
+
+```{r, echo = FALSE}
+setKnitrPresets(5, 5)
+```
+
+```{r families}
+drawGrid()
+fontfamilies <- c("sourcehan", "serif", "noto", "ipaex", "haranoaji")
+xs <- seq(.1, .9, by = .2)
+invisible(mapply(
+    \(x, fam, fac) {
+        grid.latex(fam, x = x, y = .75)
+        grid.uplatex(
+            "これはフォントです。",
+            x = x,
+            gp = gpar(fontfamily = fam)
+        )
+    },
+    xs, fontfamilies
+))
+```
+
+### Font Faces
+
+```{r faces}
+drawGrid()
+invisible(mapply(
+    \(x, fam, fac) {
+        grid.latex(fam, x = x, y = .75)
+        grid.uplatex(
+            "これはフォントです。",
+            x = x,
+            gp = gpar(fontfamily = fam, fontface = "bold")
+        )
+    },
+    xs, fontfamilies
+))
+```
+
