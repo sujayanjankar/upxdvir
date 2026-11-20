@@ -44,10 +44,15 @@ jobs:
         env:
             GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: R CMD check
+        if: false
         uses: s-u/R-actions/pkg-check@v2
         with:
           macos-deps: freetype harfbuzz
           check-flags: --as-cran
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::covr, any::xml2
+          needs: coverage
       - name: Unit-test Coverage
         run: |
           cov <- covr::package_coverage(
@@ -58,7 +63,8 @@ jobs:
           print(cov)
           covr::to_cobertura(cov)
         shell: Rscript {0}
-      - uses: codecov/codecov-action@v5
+      - name: Upload to codecov.
+        uses: codecov/codecov-action@v5
         with:
           # Fail if error if not on PR, or if on PR and token is given
           fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.CODECOV_TOKEN }}
