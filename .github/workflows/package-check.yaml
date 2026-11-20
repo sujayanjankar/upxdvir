@@ -5,9 +5,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} R ${{ matrix.r-version }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        os: [macos-latest, ubuntu-24.04, windows-latest]
+        os: [ubuntu-24.04]
         r-version: [release]
     steps:
       - name: Checkout
@@ -28,7 +28,7 @@ jobs:
               latexmk texlive-lang-japanese libuv1-dev \
               libfontconfig1-dev libfreetype-dev libharfbuzz-dev \
               libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev \
-              libjpeg-dev libwebp-dev texlive-latex-base
+              libjpeg-dev libwebp-dev
           else
             TLMGR=tlmgr
             [ "$RUNNER_OS" = Windows ] && TLMGR=tlmgr.bat
@@ -48,6 +48,36 @@ jobs:
         with:
           macos-deps: freetype harfbuzz
           check-flags: --as-cran
+      - name: Unit-test Coverage
+        run: |
+          cov <- covr::package_coverage(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
+          )
+          print(cov)
+          covr::to_cobertura(cov)
+        shell: Rscript {0}
+      - uses: codecov/codecov-action@7
+        with:
+          # Fail if error if not on PR, or if on PR and token is given
+          fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.CODECOV_TOKEN }}
+          files: ./cobertura.xml
+          plugins: noop
+          disable_search: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Show testthat output
+        if: always()
+        run: |
+          ## --------------------------------------------------------------------
+          find '${{ runner.temp }}/package' -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-test-failures
+          path: ${{ runner.temp }}/package
       - name: Artifact set-up
         if: always()
         run: |
