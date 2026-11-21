@@ -49,10 +49,6 @@ jobs:
         with:
           macos-deps: freetype harfbuzz
           check-flags: --as-cran
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::covr, any::xml2
-          needs: coverage
       - name: Unit-test Coverage
         run: |
           cov <- covr::package_coverage(
