@@ -39,9 +39,10 @@ jobs:
               uplatex uptex uptex-base uptex-fonts pxrubrica
           fi
       - name: Install xdvir from GitHub
-        shell: bash
+        shell: Rscript {0}
         run: |
-            Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org"); remotes::install_github("sujayanjankar/xdvir#1")'
+            install.packages("remotes", repos = "https://cloud.r-project.org")
+            remotes::install_github("sujayanjankar/xdvir#1")'
         env:
             GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: R CMD check
@@ -50,6 +51,7 @@ jobs:
           macos-deps: freetype harfbuzz
           check-flags: --as-cran
       - name: Unit-test Coverage
+        shell: Rscript {0}
         run: |
           cov <- covr::package_coverage(
             quiet = FALSE,
@@ -58,7 +60,6 @@ jobs:
           )
           print(cov)
           covr::to_cobertura(cov)
-        shell: Rscript {0}
       - name: Upload to codecov.
         uses: codecov/codecov-action@v5
         with:
