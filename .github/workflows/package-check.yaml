@@ -28,7 +28,8 @@ jobs:
               latexmk texlive-lang-japanese libuv1-dev \
               libfontconfig1-dev libfreetype-dev libharfbuzz-dev \
               libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev \
-              libjpeg-dev libwebp-dev
+              libjpeg-dev libwebp-dev \
+              libcurl4-openssl-dev libssl-dev
           else
             TLMGR=tlmgr
             [ "$RUNNER_OS" = Windows ] && TLMGR=tlmgr.bat
