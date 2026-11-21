@@ -44,7 +44,6 @@ jobs:
         env:
             GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: R CMD check
-        if: false
         uses: s-u/R-actions/pkg-check@v2
         with:
           macos-deps: freetype harfbuzz
