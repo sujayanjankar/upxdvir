@@ -42,7 +42,7 @@ jobs:
         shell: Rscript {0}
         run: |
             install.packages("remotes", repos = "https://cloud.r-project.org")
-            remotes::install_github("sujayanjankar/xdvir#1")'
+            remotes::install_github("sujayanjankar/xdvir#1")
         env:
             GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: R CMD check
