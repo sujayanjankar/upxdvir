@@ -1,5 +1,5 @@
 name: "{upxdvir} Package Check"
-on: [pull_request, push]
+on: [pull_request, workflow_dispatch]
 jobs:
   check:
     runs-on: ${{ matrix.os }}
@@ -41,7 +41,7 @@ jobs:
       - name: Install xdvir from GitHub
         shell: bash
         run: |
-            Rscript -e 'install.packages(c("remotes", "covr", "fs"), dependencies = TRUE, repos = "https://cloud.r-project.org"); remotes::install_github("sujayanjankar/xdvir#1")'
+            Rscript -e 'install.packages(c("remotes", "covr", "fs", "httr", "systemfonts"), dependencies = TRUE, repos = "https://cloud.r-project.org"); remotes::install_github("sujayanjankar/xdvir#1")'
         env:
             GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: R CMD check
