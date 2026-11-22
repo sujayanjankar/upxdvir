@@ -1,5 +1,5 @@
 name: "{upxdvir} Package Check"
-on: [pull_request, workflow_dispatch]
+on: [pull_request, push]
 jobs:
   check:
     runs-on: ${{ matrix.os }}
@@ -28,7 +28,8 @@ jobs:
               latexmk texlive-lang-japanese libuv1-dev \
               libfontconfig1-dev libfreetype-dev libharfbuzz-dev \
               libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev \
-              libjpeg-dev libwebp-dev texlive-latex-base
+              libjpeg-dev libwebp-dev \
+              libcurl4-openssl-dev libssl-dev
           else
             TLMGR=tlmgr
             [ "$RUNNER_OS" = Windows ] && TLMGR=tlmgr.bat
@@ -40,7 +41,7 @@ jobs:
       - name: Install xdvir from GitHub
         shell: bash
         run: |
-            Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org"); remotes::install_github("sujayanjankar/xdvir#1")'
+            Rscript -e 'install.packages(c("remotes", "covr", "fs"), dependencies = TRUE, repos = "https://cloud.r-project.org"); remotes::install_github("sujayanjankar/xdvir#1")'
         env:
             GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: R CMD check
@@ -48,6 +49,30 @@ jobs:
         with:
           macos-deps: freetype harfbuzz
           check-flags: --as-cran
+      - name: Run Unit Tests
+        shell: bash
+        run: |
+          Rscript -e 'cov <- covr::package_coverage(quiet = FALSE, clean = FALSE, install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")); print(cov); covr::to_cobertura(cov)'
+      - name: Upload to app.codecov.io
+        uses: codecov/codecov-action@v5
+        with:
+          # Fail if error if not on PR, or if on PR and token is given
+          fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.CODECOV_TOKEN }}
+          files: ./cobertura.xml
+          plugins: noop
+          disable_search: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Show testthat output
+        if: always()
+        run: |
+          find '${{ runner.temp }}/package' -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+      - name: Upload Test Results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-test-failures
+          path: ${{ runner.temp }}/package
       - name: Artifact set-up
         if: always()
         run: |
@@ -58,7 +83,7 @@ jobs:
           fi
           echo "TOP_DIR=$TDIR" >> $GITHUB_ENV
         shell: bash
-      - name: Upload Results
+      - name: Upload Build Results
         if: always()
         uses: actions/upload-artifact@v7
         with:
