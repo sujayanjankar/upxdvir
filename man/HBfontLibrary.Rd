@@ -30,7 +30,7 @@ types are:
 }
 }
 \seealso{
-\code{xdvir::SUPPORTED_SCRIPT_TYPES}
+\code{xdvir::SupportedScriptTypes}
 
 \code{xdvir::FontLibrary}
 

@@ -98,12 +98,12 @@ upGlyphIndex <- function(raw, fontName, fontLib, direction = 1) {
 resolveScriptType <- function(fontName) {
     # message("Resolve script type for: ", fontName)
     if (fontName %in% get(FONT_CACHE_CJK)) {
-        xdvir::SCRIPT_TYPE_CJK
+        xdvir::ScriptTypeCJK
     } else if (fontName %in% get(FONT_CACHE_LATIN)) {
-        xdvir::SCRIPT_TYPE_LATIN
+        xdvir::ScriptTypeLatin
     } else {
         # TODO: Document this fallback.
-        xdvir::SCRIPT_TYPE_LATIN
+        xdvir::ScriptTypeLatin
     }
 }
 
@@ -128,7 +128,7 @@ resolveScriptType <- function(fontName) {
 #'  This returns either \code{CJK} or \code{Latin}, depending on where the font
 #'  file was found.
 #' }
-#' @seealso \code{xdvir::SUPPORTED_SCRIPT_TYPES}
+#' @seealso \code{xdvir::SupportedScriptTypes}
 #' @seealso \code{xdvir::FontLibrary}
 #' @seealso \code{xdvir::render}
 #' @export
