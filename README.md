@@ -2,7 +2,9 @@
 
 <!-- TODO: Switch to main. -->
 
-[![{upxdvir} Package check](https://github.com/sujayanjankar/upxdvir/actions/workflows/package-check.yaml/badge.svg?branch=feature%2Ffirst-implementation)](https://github.com/sujayanjankar/upxdvir/actions/workflows/package-check.yaml)
+[![{upxdvir} Package Check](https://github.com/sujayanjankar/upxdvir/actions/workflows/package-check.yaml/badge.svg?branch=feature%2Ffirst-implementation)](https://github.com/sujayanjankar/upxdvir/actions/workflows/package-check.yaml)
+
+[![{upxdvir} Code Coverage](https://codecov.io/github/sujayanjankar/upxdvir/branch/feature%2Ffirst-implementation/graph/badge.svg?token=BBHJO1S814)](https://codecov.io/github/sujayanjankar/upxdvir)
   
 `{upxdvir}` is an extension to [`{xdvir}`](https://cran.r-project.org/package=xdvir) to enable the use of Unicode, and vertically typeset text with `{grid}` and `{ggplot2}` objects.
 
@@ -59,9 +61,9 @@
 - [x] Honour `gp = gpar(fontsize = 20)` and other `gpar`s.
 - [x] Include `documentClass` in engine options? - No, should be with `grid.??latex`.
 - [ ] Extend `{xdvir}` documentation to include the supported script types.
-- [ ] Support: `grid.uplatex("$\\frac{1}{2}$")`
+- [x] Support: `grid.uplatex("$\\frac{1}{2}$")`
 - [x] Glyph indexer should be direction aware.
-- [ ] Investigate `LuaHBTeX` failure.
+- [x] Investigate `LuaHBTeX` failure.
 - [x] Font face support in 0.2 `xdvir`?
 - [x] Independent font library specification?
 - [x] Font family changes with/without `gpar`s.
@@ -93,5 +95,5 @@ Specifying an absolute font can be done in two ways with `pxchfon`:
 - Solution: use `\mcfamily` in the fragment.
 - [x] `.pfb` file support in MacOS?
 - [x] Error handling for font family that is supported by `pxchon` (`ptex-fontmap`) presets, but the physical OTF files are not installed.
-- [ ] `gdiff` unit tests
-- [ ] Try the `ragg` / `cairo` package for png or pdf devices.
+- [x] `gdiff` unit tests
+- [x] Try the `ragg` / `cairo` package for png or pdf devices.
