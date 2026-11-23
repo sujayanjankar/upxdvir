@@ -1,3 +1,5 @@
+require(upxdvir)
+
 test_that("npc coordinates are converted to inches", {
     mp <- upxdvir::minipagePackage(0.5)
     expect_equal(class(mp), "LaTeXpackage")

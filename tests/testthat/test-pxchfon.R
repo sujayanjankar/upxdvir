@@ -1,13 +1,37 @@
+require(upxdvir)
+
 test_that("can initialise with defaults", {
+    local_mocked_bindings(
+        get = function(key) {
+            return(c("haranoaji"))
+        }, .package = "upxdvir"
+    )
     pp <- upxdvir::pxchfonPackage()
     expect_equal(class(pp), "LaTeXpackage")
     expect_equal(pp$name, "pxchfon")
+    expect_equal(pp$prefix, " \\gtfamily\\sffamily")
     expect_equal(pp$preamble, paste0(
         "\\usepackage[T1]{fontenc}\n\\usepackage{lmodern}\n",
         "\\usepackage{mathastext}\n\\usepackage[deluxe,uplatex]{otf}\n",
         "\\usepackage[dvipdfmx,unicode,noalphabet,haranoaji]{pxchfon}"
     ))
-    expect_equal(pp$prefix, " \\gtfamily\\sffamily")
+})
+
+test_that("uses noalphabet with a bad font family", {
+    local_mocked_bindings(
+        get = function(key) {
+            return(c("haranoaji"))
+        }, .package = "upxdvir"
+    )
+    expect_message(
+        pp <- upxdvir::pxchfonPackage("notharanoaji"),
+        "Unsupported font family, using default instead."
+    )
+    expect_equal(pp$preamble, paste0(
+        "\\usepackage[T1]{fontenc}\n\\usepackage{lmodern}\n",
+        "\\usepackage{mathastext}\n\\usepackage[deluxe,uplatex]{otf}\n",
+        "\\usepackage[dvipdfmx,unicode,noalphabet]{pxchfon}"
+    ))
 })
 
 

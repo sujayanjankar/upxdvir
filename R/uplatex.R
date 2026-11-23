@@ -39,12 +39,10 @@ grid.uplatex <- function(text, direction = "vertical", verbose = FALSE, ...) {
     if (!is.null(dimToLimit)) {
         pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
     }
-    message(otherArgs)
     if (length(otherArgs$packages) > 0) {
         pkgs <- c(pkgs, list(otherArgs$packages))
         otherArgs$packages <- NULL
     }
-    message(pkgs)
     args <- c(
         list(tex = suppressLigatures(text)),
         otherArgs,
@@ -102,12 +100,10 @@ element_uplatex <- function(
     if (!is.null(dimToLimit)) {
         pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
     }
-    message(otherArgs)
     if (length(otherArgs$packages) > 0) {
         pkgs <- c(pkgs, list(otherArgs$packages))
         otherArgs$packages <- NULL
     }
-    message(pkgs)
     do.call(
         xdvir::element_latex,
         c(
@@ -170,12 +166,10 @@ uplatexGrob <- function(
     if (!is.null(dimToLimit)) {
         pkgs <- c(pkgs, list(minipagePackage(dimToLimit)))
     }
-    message(otherArgs)
     if (length(otherArgs$packages) > 0) {
         pkgs <- c(pkgs, list(otherArgs$packages))
         otherArgs$packages <- NULL
     }
-    message(pkgs)
     do.call(
         xdvir::latexGrob,
         c(
