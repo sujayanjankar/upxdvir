@@ -51,3 +51,5 @@ resolveDirection <- function(method = c("horizontal", "vertical")) {
 }
 
 isEmptyString <- function(x) !isTRUE(nzchar(x, keepNA = TRUE))
+
+get_os_type <- function() .Platform$OS.type

@@ -94,3 +94,71 @@ test_that("can initialise font maps", {
     expect_equal(calledPdftex, TRUE)
     expect_equal(calledKanjix, TRUE)
 })
+
+test_that("can load ptex-fontmaps by default", {
+    local_mocked_bindings(
+        lookupKpathsea = function(key, wrapArgs) {
+            if (key == "-var-value TEXMFDIST") {
+                return("/mock/tex/home")
+            }
+            return(key)
+        }, .package = "upxdvir"
+    )
+    local_mocked_bindings(
+        system2 = function(cmd, path, stdout, stderr) {
+            if (cmd == "ls") {
+                expect_equal(
+                    as.character(path),
+                    paste0(
+                        "/mock/tex/home/",
+                        "fonts/map/dvipdfmx/ptex-fontmaps"
+                    )
+                )
+            }
+            c("mockfont1")
+        }, .package = "base",
+        .env = parent.frame()
+    )
+    expect_equal(.loadPtexFontMaps(), c("mockfont1"))
+})
+
+test_that("can load ptex-fontmaps by override", {
+    local_mocked_bindings(
+        lookupKpathsea = function(key, wrapArgs) {
+            if (key == "-var-value TEXMFDIST") {
+                return(NULL)
+            }
+            return(key)
+        }, .package = "upxdvir"
+    )
+    local_mocked_bindings(
+        options = function(...) "/mocked/ptex/path",
+        system2 = function(cmd, path, stdout, stderr) {
+            if (cmd == "ls") {
+                expect_equal(path, "/mocked/ptex/path")
+            }
+            c("mockfont2")
+        },
+        .package = "base"
+    )
+    expect_equal(.loadPtexFontMaps(), c("mockfont2"))
+})
+
+test_that("can complain if TeX home or ptex maps are not set", {
+    local_mocked_bindings(
+        lookupKpathsea = function(key, wrapArgs) {
+            if (key == "-var-value TEXMFDIST") {
+                return(NULL)
+            }
+            return(key)
+        }, .package = "upxdvir"
+    )
+    local_mocked_bindings(
+        options = function(...) NULL,
+        .package = "base"
+    )
+    expect_message(
+        .loadPtexFontMaps(),
+        "TeX home can't be resolved, ptex-fontmaps can't be validated."
+    )
+})

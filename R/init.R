@@ -39,7 +39,7 @@ initialiseEngine <- function() {
 }
 
 buildUpTeXargs <- function(signature, dir) {
-    win <- .Platform$OS.type == "windows"
+    win <- get_os_type() == "windows"
     od <- shQuote(paste0("-output-directory=", dir))
     latex <- paste0(
         "uplatex -output-comment=", shQuote(signature),

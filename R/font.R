@@ -26,20 +26,20 @@ ALLOWED_PTEX_FONT_FAMILIES <- "up-font-ptex-maps"
 .loadPtexFontMaps <- function() {
     ptexPath <- options("upxdvir.ptex.path")
     texHome <- lookupKpathsea("-var-value TEXMFDIST", wrapArgs = FALSE)
-    if (isFALSE(nchar(ptexPath) > 0) && is.na(texHome)) {
+    if (isEmptyString(ptexPath) && isEmptyString(texHome)) {
         message(
             "TeX home can't be resolved, ptex-fontmaps can't be validated.",
             "Set the TEXMFDIST environment variable or ",
             "options(upxdvir.ptex.path) to enable font validation."
         )
         set(ALLOWED_PTEX_FONT_FAMILIES, list())
-    } else if (!is.na(texHome)) {
+    } else if (!isEmptyString(texHome)) {
         ptexPath <- fs::path(texHome, "fonts/map/dvipdfmx/ptex-fontmaps/")
         fontMaps <- c(system2("ls", ptexPath, stdout = TRUE, stderr = TRUE))
         if (length(fontMaps) > 0) {
             set(ALLOWED_PTEX_FONT_FAMILIES, fontMaps)
         }
-    } else if (nchar(ptexPath) > 0) {
+    } else if (!isEmptyString(ptexPath)) {
         fontMaps <- c(system2("ls", ptexPath, stdout = TRUE, stderr = TRUE))
         if (length(fontMaps) > 0) {
             set(ALLOWED_PTEX_FONT_FAMILIES, fontMaps)
