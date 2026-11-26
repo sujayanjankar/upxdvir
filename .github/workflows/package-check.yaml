@@ -1,0 +1,91 @@
+name: "{upxdvir} Package Check"
+on: [pull_request, workflow_dispatch]
+jobs:
+  check:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} R ${{ matrix.r-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-24.04, windows-latest]
+        r-version: [release]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install R
+        uses: s-u/R-actions/install@v2
+        with:
+          r-version: ${{ matrix.r-version }}
+          tools: base
+      - name: Install TinyTeX
+        uses: s-u/R-actions/tinytex@v2
+      - name: Install upLaTeX and Friends
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = Linux ]; then
+            sudo apt-get update
+            sudo apt-get install -y \
+              latexmk texlive-lang-japanese libuv1-dev \
+              libfontconfig1-dev libfreetype-dev libharfbuzz-dev \
+              libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev \
+              libjpeg-dev libwebp-dev \
+              libcurl4-openssl-dev libssl-dev
+          else
+            TLMGR=tlmgr
+            [ "$RUNNER_OS" = Windows ] && TLMGR=tlmgr.bat
+            $TLMGR update --self
+            $TLMGR install hyperref ipaex japanese-otf \
+              latexmk lm ptex ptex-base ptex-fontmaps \
+              uplatex uptex uptex-base uptex-fonts pxrubrica
+          fi
+      - name: Install xdvir from GitHub
+        shell: bash
+        run: |
+            Rscript -e 'install.packages(c("remotes", "covr", "fs", "httr", "systemfonts"), dependencies = TRUE, repos = "https://cloud.r-project.org"); remotes::install_github("sujayanjankar/xdvir#1")'
+        env:
+            GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      - name: R CMD check
+        uses: s-u/R-actions/pkg-check@v2
+        with:
+          macos-deps: freetype harfbuzz
+          check-flags: --as-cran
+      - name: Run Unit Tests
+        shell: bash
+        run: |
+          Rscript -e 'cov <- covr::package_coverage(quiet = FALSE, clean = FALSE, install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")); print(cov); covr::to_cobertura(cov)'
+      - name: Upload to app.codecov.io
+        uses: codecov/codecov-action@v5
+        with:
+          # Fail if error if not on PR, or if on PR and token is given
+          fail_ci_if_error: ${{ github.event_name != 'pull_request' || secrets.CODECOV_TOKEN }}
+          files: ./cobertura.xml
+          plugins: noop
+          disable_search: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Show testthat output
+        if: always()
+        run: |
+          find '${{ runner.temp }}/package' -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+      - name: Upload Test Results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-test-failures
+          path: ${{ runner.temp }}/package
+      - name: Artifact set-up
+        if: always()
+        run: |
+          if [ ${{ runner.os }} = Windows ] ; then
+            TDIR=`cygpath -m $GITHUB_WORKSPACE/..`
+          else
+            TDIR=$(cd $GITHUB_WORKSPACE/.. && pwd)
+          fi
+          echo "TOP_DIR=$TDIR" >> $GITHUB_ENV
+        shell: bash
+      - name: Upload Build Results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.os }}-r-${{ matrix.r-version }}-results
+          path: ${{ env.TOP_DIR }}/upxdvir.Rcheck/

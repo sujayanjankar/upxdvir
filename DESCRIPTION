@@ -1,0 +1,36 @@
+Type: Package
+Package: upxdvir
+Version: 1.0
+Title: 'upxdvir': An 'xdvir' Extension for Vertically Typesetting LaTeX
+        Fragments
+Description: Extends the 'xdvir' package with support for vertical 
+        typesetting using the 'upLaTeX' typesetting engine.
+Date: 2026-08-01
+Authors@R: person(
+    given = "Sujay",
+    family = "Anjankar",
+    role = c("aut", "cre"),
+    email = "sanj402@aucklanduni.ac.nz")
+Author: Sujay Anjankar [aut, cre]
+Maintainer: Sujay Anjankar <sanj402@aucklanduni.ac.nz>
+License: GPL-3
+Depends:
+    R (>= 4.1.0),
+    xdvir (>= 0.3-0)
+Imports:
+    fs,
+    hexView,
+    rlang
+Suggests:
+    covr,
+    grid,
+    knitr,
+    ragg,
+    rmarkdown,
+    gggrid,
+    testthat (>= 3.0.0)
+Encoding: UTF-8
+SystemRequirements: freetype2, harfbuzz
+Config/roxygen2/version: 8.1.1
+VignetteBuilder: knitr
+Config/testthat/edition: 3

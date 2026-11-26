@@ -1,0 +1,9 @@
+.DS_Store
+
+src/Makevars
+configure.log
+src/*.o
+src/*.so
+src/*.rds
+
+upxdvir.Rcheck/
